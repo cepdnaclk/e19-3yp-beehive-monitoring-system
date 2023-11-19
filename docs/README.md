@@ -49,7 +49,7 @@ At the core of our approach is a commitment to simplicity and efficiency to supp
 
 ## Solution Architecture
 
-<img src="images/Solution Architecture.png" style="background-colour:#2e3136" alt="High Level Architecture">
+<img src="images/Solution Architecture2.png" style="background-colour:#2e3136" alt="High Level Architecture">
 
 ## Hardware and Software Designs
 
