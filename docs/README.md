@@ -9,7 +9,11 @@ title: Beehive Monitoring System
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
 
-# Beehive Monitoring System
+<div align="center">
+  <img src="/docs/images/BeeZee Logo.png" alt="PeraSwarm Modular Robot Logo" width="100">
+  <h1 style="display: inline-block; margin-left: 20px;">BeeZee | SMART BEEHIVE MONITORING SYSTEM</h1>
+  <h3>🐝 Monitoring Hives, Nurturing Lives.</h3>
+</div>
 
 ---
 
@@ -46,11 +50,21 @@ At the core of our approach is a commitment to simplicity and efficiency to supp
 
 ## Solution Architecture
 
-High level diagram + description
+<img src="images/Solution Architecture.png" alt="High Level Architecture">
 
 ## Hardware and Software Designs
 
-Detailed designs with many sub-sections
+Figma Wireframes:
+- Landing Page
+  <img src="images/Landing-Page.png" alt="Landing Page">
+
+- Login Page
+  <img src="images/Login-Page.png" alt="Login Page">
+
+- Dashboard
+  <img src="images/Dashboard.png" alt="Dashboard">
+  <img src="images/Dashboard-02.png" alt="Dashboard">
+
 
 ## Testing
 
