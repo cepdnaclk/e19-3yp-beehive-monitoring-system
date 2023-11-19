@@ -7,15 +7,14 @@ repository-name: e19-3yp-beehive-monitoring-system
 title: Beehive Monitoring System
 ---
 
-[comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
-
+---
 <div align="center">
-  <img src="/docs/images/BeeZee Logo.png" alt="PeraSwarm Modular Robot Logo" width="100">
+  <img src="images/BeeZee Logo.png" alt="PeraSwarm Modular Robot Logo" width="100">
   <h1 style="display: inline-block; margin-left: 20px;">BeeZee | SMART BEEHIVE MONITORING SYSTEM</h1>
   <h3>🐝 Monitoring Hives, Nurturing Lives.</h3>
 </div>
 
----
+
 
 ## Team
 -  E/19/008, R.A.J.C. Adhikari, [email](mailto:e19008@eng.pdn.ac.lk)
@@ -30,7 +29,7 @@ title: Beehive Monitoring System
 
 <!-- ![Sample Image](./images/sample.png) -->
 
-#### Table of Contents
+## Table of Contents
 1. [Introduction](#introduction)
 2. [Solution Architecture](#solution-architecture )
 3. [Hardware & Software Designs](#hardware-and-software-designs)
