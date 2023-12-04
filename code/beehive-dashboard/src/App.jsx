@@ -1,12 +1,12 @@
 import "./App.scss";
-import Navbar from "./Components/Navbar";
+import Landing from "./Pages/Landing";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Navbar />} />
+        <Route path="/" element={<Landing />} />
       </Routes>
     </div>
   );
