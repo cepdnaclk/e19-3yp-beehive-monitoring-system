@@ -1,7 +1,7 @@
 // Landing.jsx
 import Navbar from "../Components/Navbar";
 import Banner from "../Assets/Banner.png";
-import '../Styles/Landing.scss';
+import '../Styles/Pages/Landing.scss';
 
 function Landing() {
   console.log('Landing');

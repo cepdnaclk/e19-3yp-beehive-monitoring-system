@@ -3,7 +3,7 @@ import SignUp from '../Assets/SignUp.png';
 import { Link } from 'react-router-dom';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import { useState } from 'react';
-import '../Styles/Navbar.scss';
+import '../Styles/Components/Navbar.scss';
 
 function Navbar() {
   const [openLinks, setOpenLinks] = useState(false);
