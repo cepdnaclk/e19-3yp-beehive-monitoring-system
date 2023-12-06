@@ -368,6 +368,28 @@ body.dark-theme{
     margin-top: .15rem;
   }
 
+/* ARCHITECTURE */
+
+.archi_img{
+    position: relative;
+    width: 500px;
+    justify-self: center;
+    margin-bottom: var(--mb-0-75);
+    transition: .3s;
+  }
+  
+  .archi_title{
+    font-size: var(--small-font-size);
+    font-weight: var(--font-semi-bold);
+    color: var(--title-color);
+    margin-bottom: .25rem;
+    text-align: center;
+  }
+  
+  .archi_card:hover .archi_img{
+    transform: translateY(-.5rem);
+  }
+
   /* For small devices */
 @media screen and (max-width: 320px){
     .container{
