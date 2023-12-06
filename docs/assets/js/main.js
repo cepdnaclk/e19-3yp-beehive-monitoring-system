@@ -35,6 +35,8 @@ function scrollHeader(){
 }
 window.addEventListener('scroll', scrollHeader)
 
+
+
 /* DARK LIGHT THEME */ 
 const themeButton = document.getElementById('theme-button')
 const darkTheme = 'dark-theme'
