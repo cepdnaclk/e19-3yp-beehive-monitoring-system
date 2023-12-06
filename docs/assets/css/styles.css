@@ -390,6 +390,43 @@ body.dark-theme{
     transform: translateY(-.5rem);
   }
 
+  /* DESIGN */
+
+.design_description{
+    text-align: center;
+  }
+  .design_container{
+    padding: 3rem 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem 3rem;
+  }
+  
+  .design_card{
+    display: grid;
+    position: relative;
+    width: 500px;
+  }
+  
+  .design_img{
+    position: relative;
+    width: 500px;
+    justify-self: center;
+    margin-bottom: var(--mb-0-75);
+    transition: .3s;
+  }
+  
+  .design_title{
+    font-size: var(--small-font-size);
+    font-weight: var(--font-semi-bold);
+    color: var(--title-color);
+    margin-bottom: .25rem;
+    text-align: center;
+  }
+  
+  .design_card:hover .design_img{
+    transform: translateY(-.5rem);
+  }
+
   /* For small devices */
 @media screen and (max-width: 320px){
     .container{
