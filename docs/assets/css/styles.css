@@ -427,6 +427,15 @@ body.dark-theme{
     transform: translateY(-.5rem);
   }
 
+  /* FOOTER */
+
+.footer__copy{
+  text-align: center;
+  font-size: var(--smaller-font-size);
+  color: var(--text-color-light);
+  margin: 5rem 0 1rem;
+}
+
   /* For small devices */
 @media screen and (max-width: 320px){
     .container{
@@ -506,6 +515,14 @@ body.dark-theme{
 
     .about__img{
     width: 380px;
+    }
+
+    .design_description{
+      padding: 0 16rem;
+    }
+  
+    .footer__copy{
+      margin: 7rem 0 2rem;
     }
   }
 
