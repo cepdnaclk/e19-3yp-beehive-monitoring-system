@@ -2,7 +2,7 @@ import { User } from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 
 export const createUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -11,7 +11,7 @@ export const createUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        name,
+        username,
         email,
         password
     });
@@ -19,7 +19,7 @@ export const createUser = asyncHandler(async (req, res) => {
     if (user) {
         res.status(201).json({
             _id: user._id,
-            name: user.name,
+            username: user.username,
             email: user.email,
             isAdmin: user.isAdmin,
         });
@@ -30,7 +30,8 @@ export const createUser = asyncHandler(async (req, res) => {
 });
 
 export const getAllUsers = asyncHandler(async(req,res)=>{
-    const users = User.find()
+    const users = await User.find({});
+    res.json(users);
 })
 
 export const getUser = asyncHandler(async (req, res) => {
@@ -48,16 +49,18 @@ export const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
-        user.name = req.body.name || user.name;
+        user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
+        user.password = req.body.password || user.password;
 
         const updatedUser = await user.save();
 
         res.json({
             _id: updatedUser._id,
-            name: updatedUser.name,
+            username: updatedUser.username,
             email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin,
+            password: updatedUser.password,
+            
         });
     } else {
         res.status(404);
@@ -69,8 +72,8 @@ export const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
-        await user.remove();
-        res.json({ message: 'User removed' });
+        await user.deleteOne();
+        res.status(200).json({ message: 'User removed' });
     } else {
         res.status(404);
         throw new Error('User not found');
