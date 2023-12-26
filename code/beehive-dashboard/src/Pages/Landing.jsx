@@ -1,7 +1,7 @@
-// Landing.jsx
 import Navbar from "../Components/Navbar";
 import Banner from "../Assets/Banner.png";
 import Hexagon from "../Assets/Hexagon-Design.png";
+import { Link } from 'react-router-dom';
 import '../Styles/Pages/Landing.scss';
 
 function Landing() {
@@ -19,6 +19,7 @@ function Landing() {
       <div className="content-container">
         <h3>Monitoring Hives, Nurturing Lives.</h3>
         <p>Harvesting insights from the heartbeat of nature, our beehive monitoring system buzzes with intelligence, ensuring the sweet success of both bees and beekeepers alike.</p>
+        <Link to="/learn-more" className="learn-more">LEARN MORE</Link>
       </div>
     </div>
   );

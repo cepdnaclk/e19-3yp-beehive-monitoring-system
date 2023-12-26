@@ -64,13 +64,15 @@ body {
   
   .content-container p {
     font-family: 'Raleway', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     max-width: 600px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
   .content-container h3 {
     font-family: 'Raleway', sans-serif;
     font-size: 40px;
     margin: 0 0 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   .hexagon-design {
@@ -88,4 +90,22 @@ body {
     padding: none;
     object-fit: cover;
     z-index: -1;
+  }
+
+  .learn-more {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 10px 30px;
+    background: #FCB43A;
+    color: black;
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  
+  .learn-more:hover {
+    background: #FFD655;
   }
