@@ -13,7 +13,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 0;
   }
   
   .banner-container {
@@ -23,23 +23,32 @@ body {
   }
   
   .banner-image {
+    height: 100%;
     width: 100%;
-    height: auto;
-    position: absolute;
+    float: left;
+    padding: none;
+    position: fixed;
+    top: 0;
     bottom: 0;
     left: 0;
+    right: 0;
     object-fit: cover;
-    z-index: 1;
+    z-index: -1;
   }
   
   .color-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.189);
-    z-index: 0;
+    width: 100%;
+    float: left;
+    padding: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    object-fit: cover;
+    background-color: rgba(66, 65, 65, 0.527);
+    z-index: -1;
   }
   
   .content-container {

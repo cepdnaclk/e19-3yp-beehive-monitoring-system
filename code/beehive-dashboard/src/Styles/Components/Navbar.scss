@@ -1,139 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
 
-.navbar {
-    width: 100%;
-    height: 100px;
-    background-color: transparent;
-    border: none;
-    display: flex;
-    flex-direction: row;
-  }
-  .navbar::before {
-    content: "";
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 0;
-    height: 0.5px;
-    background-color: rgb(255, 255, 255);
-  }
-  
-  .navbar .leftSide {
-    flex: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 150px;
-  }
-  
-  .navbar .leftSide img {
-    width: 150px;
-  }
-  
-  .navbar .rightSide {
-    flex: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .navbar a {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    margin: 20px;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 600;
-  }
-  
-  .navbar .rightSide button {
-    background-color: transparent;
-    border: none;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 600;
-    padding-bottom: 5px;
-  }
-  
-  .navbar .rightSide svg {
-    font-size: 40px;
-  }
-  
-  .navbar #open {
-    padding-left: 0px;
-  }
-  .navbar #open img {
-    display: none;
-  }
-  
-  .navbar #close img {
-    display: inherit;
-  }
-  
-  .navbar #open .hiddenLinks {
-    display: inherit;
-    margin-left: 30px;
-  }
-  
-  .navbar #close .hiddenLinks {
-    display: none;
-  }
-  
-  .navbar #open a {
-    width: 70px;
-    margin: 5px;
-  }
-    .navbar .rightSide button.signUpButton {
-    background-color: rgba(255, 255, 255, 0.674);
-    border: none;
-    border-radius: 20px;
-    height: 40px;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    }
-    .navbar .rightSide button.signUpButton img {
-    width: 15px;
-    height: 15px;
-    padding-left: 3px;
-    margin-top: 3px;
-    }
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 30px;
+  padding: 0 60px;
+  color: white;
+  border-bottom: 1px solid #fff;
+}
 
-  @media only screen and (max-width: 900px) {
-    .navbar .rightSide a {
-      width: 70px;
-    }
-    .navbar .leftSide {
-      padding-left: 50px;
-    }
-  }
-  
-  @media only screen and (max-width: 600px) {
-    .navbar .rightSide a {
-      display: none;
-    }
-    .navbar .rightSide button.signUpButton {
-        display: none;
-      }
-  
-    .navbar .rightSide {
-      justify-content: flex-end;
-      padding-right: 50px;
-    }
-  
-    .navbar .rightSide button {
-      display: inherit;
-    }
-  }
-  
-  @media only screen and (min-width: 600px) {
-    .navbar .rightSide button {
-      display: none;
-    }
-  
-    .hiddenLinks {
-      display: none;
-    }
-  }
+.nav-logo img {
+  width: 150px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Raleway', sans-serif;
+  gap: 70px;
+  text-decoration: none;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-signup {
+  border-radius: 50px;
+  padding: 10px 30px;
+  background: #fff;
+}
+
+.nav-signup a{
+  color: black;
+}
