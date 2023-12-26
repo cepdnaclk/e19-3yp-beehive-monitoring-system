@@ -1,7 +1,5 @@
 import Logo from '../Assets/Logo.png';
-import SignUp from '../Assets/SignUp.png';
 import { Link } from 'react-router-dom';
-import ReorderIcon from '@mui/icons-material/Reorder';
 import { useState } from 'react';
 import '../Styles/Components/Navbar.scss';
 
@@ -13,24 +11,14 @@ function Navbar() {
   };
 
   return (
-    <div className='navbar'>
-      <div className='leftSide' id={openLinks ? "open" : "close"}>
+    <div className='nav'>
+      <div className="nav-logo">
         <Link to="/"><img src={Logo} alt='Logo' /></Link>
-        <div className="hiddenLinks">
-          <Link to="/contactUs">Contact Us</Link>
-        </div>
       </div>
-      <div className='rightSide'>
-        <Link to="/contactUs">Contact Us</Link>
-        <button className="signUpButton">
-          <Link to="/signUp">
-            Sign Up <img src={SignUp} alt="" />
-          </Link>
-        </button>
-        <button onClick={toggleNavbar}>
-          <ReorderIcon />
-        </button>
-      </div>
+      <ul className="nav-menu">
+        <li><Link to="/contact">CONTACT US</Link></li>
+        <li className='nav-signup'><Link to="/signup">SIGN UP</Link></li>
+      </ul>
     </div>
   );
 }
