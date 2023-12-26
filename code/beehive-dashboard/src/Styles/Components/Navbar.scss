@@ -34,8 +34,13 @@
   border-radius: 50px;
   padding: 10px 30px;
   background: #fff;
+  transition: background 0.3s ease;
 }
 
 .nav-signup a{
   color: black;
+}
+
+.nav-signup:hover {
+  background: #d9d9d9;
 }
