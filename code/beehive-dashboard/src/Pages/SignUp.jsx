@@ -4,22 +4,18 @@ import Polygon from "../Assets/Sign up Polygon.png";
 import UserIcon from "../Assets/username.png";
 import LockIcon from "../Assets/password.png";
 import Logo from "../Assets/Logo.png";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import '../Styles/Pages/SignUp.scss';
 
 function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const signIn = async (e) => {
         e.preventDefault();
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-    
-          navigate("/n");
-        } catch (err) {
-          console.log(err);
-        }
+        navigate("/dashboard");
       };
 
   console.log('SignUp');
