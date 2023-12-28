@@ -1,29 +1,35 @@
 {
     "team": [
         {
-            "name": "Team Member Name 1",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "R.A.J.C. Adhikari",
+            "email": "e19008@eng.pdn.ac.lk",
+            "eNumber": "E/19/008"
         },
         {
-            "name": "Team Member Name 2",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "A.M.K.M. Adikari",
+            "email": "e19009@eng.pdn.ac.lk",
+            "eNumber": "E/19/009"
         },
         {
-            "name": "Team Member Name 3",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "D.M.G.S. Dassanayake",
+            "email": "e19063@eng.pdn.ac.lk",
+            "eNumber": "E/19/063"
+        },
+        {
+            "name": "B.A.M.I.E Dharamarathne",
+            "email": "e19074@eng.pdn.ac.lk",
+            "eNumber": "E/19/074"
+        },
+        {
+            "name": "R.M.B.D.K Rathnayake",
+            "email": "e19324@eng.pdn.ac.lk",
+            "eNumber": "E/19/324"
         }
     ],
     "supervisors": [
         {
-            "name": "Dr. Supervisor 1",
-            "email": "email@eng.pdn.ac.lk"
-        },
-        {
-            "name": "Supervisor 2",
-            "email": "email@eng.pdn.ac.lk"
+            "name": "Dr. Isuru Nawinne",
+            "email": "isurunawinne@eng.pdn.ac.lk"
         }
     ],
     "tags": ["Web", "Embedded Systems"]
