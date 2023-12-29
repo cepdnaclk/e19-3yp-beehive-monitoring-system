@@ -4,6 +4,7 @@ import Polygon from "../Assets/Sign up Polygon.png";
 import UserIcon from "../Assets/username.png";
 import LockIcon from "../Assets/password.png";
 import Logo from "../Assets/Logo.png";
+import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import '../Styles/Pages/SignUp.scss';
@@ -15,8 +16,19 @@ function SignUp() {
 
     const signIn = async (e) => {
         e.preventDefault();
-        navigate("/dashboard");
-      };
+        
+        if (!email || !password) {
+            console.error("Please fill in both email and password.");
+            return;
+        }
+        
+        try {
+            navigate("/dashboard");
+        } catch (err) {
+            console.log(err);
+        }
+    };
+      
 
   console.log('SignUp');
   return (
@@ -31,7 +43,7 @@ function SignUp() {
                 <img src={Polygon} alt="" className="polygon-image" />
                 <div className="signup-form">
                     <form className='login_right' onSubmit={signIn}>
-                        <img src={Logo} alt="" className="signup-logo" />
+                        <Link to="/"><img src={Logo} alt="" className="signup-logo" /></Link>
                         <h3>Login to your account</h3>
                         <div className='inputs'>
                             <div className="input">
