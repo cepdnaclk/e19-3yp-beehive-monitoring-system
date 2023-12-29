@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const beehiveSchema = mongoose.Schema(
   {
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     name: {
       type: String,
       required: [true, "Please add the beehive name"],
