@@ -3,16 +3,16 @@ const Beehive = require("../models/beehiveModel");
 
 //@desc Get all data
 //@route GET /api/data
-//@access public
+//@access private
 
 const getBeehives = asyncHandler(async (req, res) => {
-  const beehives = await Beehive.find();
+  const beehives = await Beehive.find({ user_id: req.user.id });
   res.status(200).json({ beehives });
 });
 
 //@desc create new data
 //@route POST /api/data
-//@access public
+//@access private
 
 const createBeehive = asyncHandler(async (req, res) => {
   console.log("The request body is :", req.body);
@@ -27,13 +27,14 @@ const createBeehive = asyncHandler(async (req, res) => {
     Temperature,
     Humidity,
     Weight,
+    uder_id: req.user.id,
   });
   res.status(201).json(beehive);
 });
 
 //@desc get data
 //@route GET /api/data/:id
-//@access public
+//@access private
 
 const getBeehive = asyncHandler(async (req, res) => {
   const beehive = await Beehive.findById(req.params.id);
@@ -46,7 +47,7 @@ const getBeehive = asyncHandler(async (req, res) => {
 
 //@desc update data
 //@route PUT /api/data/:id
-//@access public
+//@access private
 
 const updateBeehive = asyncHandler(async (req, res) => {
   const beehive = await Beehive.findById(req.params.id);
@@ -65,7 +66,7 @@ const updateBeehive = asyncHandler(async (req, res) => {
 
 //@desc delete data
 //@route DELETE /api/data/:id
-//@access public
+//@access private
 
 const deleteBeehive = asyncHandler(async (req, res) => {
   const beehive = await Beehive.findById(req.params.id);
