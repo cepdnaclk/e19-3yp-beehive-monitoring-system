@@ -14,3 +14,18 @@ body {
 //     width: 100%;
 //     z-index: 0;
 // }
+
+.beehive-cards-container {
+    padding: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  .beehive-card {
+    height: 300px;
+    width: 300px;
+    margin: 20px;
+    box-sizing: border-box;
+  }
