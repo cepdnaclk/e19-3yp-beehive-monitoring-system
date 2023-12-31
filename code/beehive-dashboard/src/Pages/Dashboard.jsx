@@ -1,5 +1,6 @@
 import Navbar from "../Components/NavbarBlack";
 import BeehiveCard from "../Components/BeehiveCard";
+import AddCard from "../Components/AddCard";
 import '../Styles/Pages/Dashboard.scss';
 
 function Dashboard() {
@@ -22,6 +23,7 @@ function Dashboard() {
         {beehiveDataList.map((data, index) => (
           <BeehiveCard key={index} beehiveData={data} />
         ))}
+        <AddCard />
       </div>
     </div>
   );
