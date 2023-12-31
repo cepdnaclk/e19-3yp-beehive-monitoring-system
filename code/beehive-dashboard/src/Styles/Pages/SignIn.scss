@@ -15,13 +15,13 @@
   background-color: #E8E3CD;
 }
 
-.signup-banner-container {
+.signin-banner-container {
   position: relative;
   overflow: hidden;
   height: 100vh;
 }
 
-.signup-banner-image {
+.signin-banner-image {
   height: 100%;
   width: auto;
   float: left;
@@ -53,7 +53,7 @@
   height: 100%;
 }
 
-.signup-form {
+.signin-form {
   position: absolute;
   top: 46%;
   left: 54%;
@@ -61,12 +61,12 @@
   text-align: center;
 }
 
-.signup-form img{
+.signin-form img{
   width: 60%;
   height: auto;
 }
 
-.signup-form h3 {
+.signin-form h3 {
   color: #000000;
   font-size: 23px;
   font-weight: 600;
@@ -109,11 +109,11 @@
   font-family: 'Raleway', sans-serif;
 }
 
-.signup-button {
+.signin-button {
   margin-top: 20px;
 }
 
-.signup-button button {
+.signin-button button {
   background-color: #253F65;
   color: white;
   font-size: 18px;

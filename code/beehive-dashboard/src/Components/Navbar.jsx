@@ -17,7 +17,7 @@ function Navbar() {
       </div>
       <ul className="nav-menu">
         <li><Link to="/contact">CONTACT US</Link></li>
-        <li className='nav-signup'><Link to="/signup">SIGN UP</Link></li>
+        <li className='nav-signin'><Link to="/signin">SIGN IN</Link></li>
       </ul>
     </div>
   );

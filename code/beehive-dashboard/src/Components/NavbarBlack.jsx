@@ -17,7 +17,7 @@ function NavbarBlack() {
       </div>
       <ul className="navb-menu">
         <li><Link to="/contact">CONTACT US</Link></li>
-        <li className='navb-signup'><Link to="/">SIGN OUT</Link></li>
+        <li className='navb-signout'><Link to="/">SIGN OUT</Link></li>
       </ul>
     </div>
   );
