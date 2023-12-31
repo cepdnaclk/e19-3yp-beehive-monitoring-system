@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
 
-body {
+  body {
     margin: 0;
     padding: 0;
   }
@@ -8,13 +8,13 @@ body {
     position: relative;
   }
   
-  .navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 0;
-  }
+  // .navbar {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   z-index: 0;
+  // }
   
   .banner-container {
     position: relative;

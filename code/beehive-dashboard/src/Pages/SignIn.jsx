@@ -4,34 +4,65 @@ import Polygon from "../Assets/Sign up Polygon.png";
 import UserIcon from "../Assets/username.png";
 import LockIcon from "../Assets/password.png";
 import Logo from "../Assets/Logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
-import '../Styles/Pages/SignUp.scss';
+import '../Styles/Pages/SignIn.scss';
 
-function SignUp() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+function SignIn() {
+    const [formData, setFormData] = useState({});
     const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value,
+        });
+    };
 
     const signIn = async (e) => {
         e.preventDefault();
-        navigate("/dashboard");
-      };
+        
+        if (!formData.username || !formData.password) {
+            console.error("Please fill in both username and password.");
+            return;
+        }
+        
+        try {
+            const res = await fetch('http://localhost:3000/api/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data.success === false) {
+              console.error(data.message);
+              return;
+            }
+            navigate('/dashboard');
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+    
+      
 
-  console.log('SignUp');
+  console.log('SignIn');
   return (
     <div>
         <div className="split left">
-            <div className="signup-banner-container">
-                <img src={Banner} alt="" className="signup-banner-image" />
+            <div className="signin-banner-container">
+                <img src={Banner} alt="" className="signin-banner-image" />
             </div>
          </div>
         <div className="split right">
             <div className="centered">
                 <img src={Polygon} alt="" className="polygon-image" />
-                <div className="signup-form">
+                <div className="signin-form">
                     <form className='login_right' onSubmit={signIn}>
-                        <img src={Logo} alt="" className="signup-logo" />
+                        <Link to="/"><img src={Logo} alt="" className="signin-logo" /></Link>
                         <h3>Login to your account</h3>
                         <div className='inputs'>
                             <div className="input">
@@ -40,9 +71,7 @@ function SignUp() {
                                 type="text"
                                 id="username"
                                 placeholder="Username"
-                                onChange={(input) => {
-                                    setEmail(input.target.value);
-                                }}
+                                onChange={handleChange}
                                 />
                             </div>
                             <div className='input'>
@@ -51,15 +80,13 @@ function SignUp() {
                                 type="password"
                                 id="password"
                                 placeholder="Password"
-                                onChange={(input) => {
-                                    setPassword(input.target.value);
-                                }}
+                                onChange={handleChange}
                                 />
                             </div>
                         </div>
                         
-                        <div className='signup-button'>
-                            <button type="submit">SIGN UP</button>
+                        <div className='signin-button'>
+                            <button type="submit">SIGN IN</button>
                         </div>
                     </form>
                 </div>
@@ -69,4 +96,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignIn;
