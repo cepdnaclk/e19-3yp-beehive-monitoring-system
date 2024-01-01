@@ -75,8 +75,6 @@ export const deleteBeehive = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Beehive not found");
   }
-  await beehive.remove();
-  res.status(201).json(beehive);
+  await beehive.deleteOne();
+  res.status(201).json({ beehive, message: "Beehive deleted successfully" });
 });
-
-

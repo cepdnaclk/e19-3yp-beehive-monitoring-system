@@ -20,6 +20,11 @@ export const validateToken = asyncHandler(async (req, res, next) => {
       throw new Error("User is not authorized or token is missing");
     }
   }
+  //send a 403
+  else {
+    res.status(403).json({ message: "No token, authorization denied" });
+    throw new Error("No token, authorization denied");
+  };
 });
 
 
