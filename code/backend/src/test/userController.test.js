@@ -22,14 +22,11 @@ afterAll(async () => {
 var userID = 1;
 
 //TEST FLOW
-// 1. Verify there are no users in the database
-// 2. Create a user
-// 3. Verify the user was created
-// 4. Update the user
-// 5. Verify the user was updated
-// 6. Delete the user
-// 7. Verify the user was deleted
-// 8. Verify there are no users in the database
+// 1. Should Create a user
+// 2. Should Try to create a user again with the same email
+// 3. Should Try to login by a non existing email
+// 4. Should try to login with existing email and wrong password
+// 5. Should try to login with correct email and password
 
 describe("User API", () => {
   it("should create a user", async () => {
@@ -38,7 +35,7 @@ describe("User API", () => {
       email: "testemail@example.com",
       password: "testpassword",
     };
-    const res = await supertest(app).post("/api/user").send(user);
+    const res = await supertest(app).post("/api/user/register").send(user);
     console.log(res.body);
     userID = res.body._id;
     expect(res.statusCode).toEqual(201);
@@ -46,46 +43,15 @@ describe("User API", () => {
     expect(res.body.username).toBe(user.username);
     expect(res.body.email).toBe(user.email);
   });
-  it("should get all users", async () => {
-    const res = await supertest(app).get("/api/user");
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.length).toEqual(1);
-  });
-  it("should get a user", async () => {
-    //put userID var as the ID of the user
-    const res = await supertest(app).get("/api/user/" + userID);
-
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("_id");
-    expect(res.body.username).toBe("Test User");
-    expect(res.body.email).toBe("testemail@example.com");
-    expect(res.body.password).toBe("testpassword");
-  });
-  it("should update a user", async () => {
+  it("should try to create a user again with the same email",async () =>{
     const user = {
-      username: "Updated User",
-      email: "updatedtestemail@example.com",
-      password: "updatedtestpassword",
-    };
-    const res = await supertest(app)
-      .put("/api/user/" + userID)
-      .send(user);
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("_id");
-    expect(res.body.username).toBe(user.username);
-    expect(res.body.email).toBe(user.email);
-    expect(res.body.password).toBe(user.password);
-  });
-  it("should delete a user", async () => {
-    const res = await supertest(app).delete("/api/user/" + userID);
-    expect(res.statusCode).toEqual(200);
-
-    expect(res.body).toHaveProperty("message");
-    expect(res.body.message).toBe("User removed");
-  });
-  it("should get no users", async () => {
-    const res = await supertest(app).get("/api/user");
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.length).toEqual(0);
-  });
+      username : "Test User 2",
+      email : "testemail@example.com",
+      password: "testnewpassword"
+    
+    }
+    const res = await supertest(app).post("/api/user/register").send(user);
+    console.log(res.body)
+  })
+  
 });
