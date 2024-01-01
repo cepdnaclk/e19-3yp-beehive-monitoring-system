@@ -19,7 +19,7 @@ const userSchema = new Schema(
       required: [true, 'Email is required'],
       minlength: 3,
       maxlength: 30,
-      unique: true,
+      unique: [true, "Email address already taken"],
     },
   },
   {

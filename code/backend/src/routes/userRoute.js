@@ -1,18 +1,15 @@
 import express from "express";
 import {
-  createUser,
-  getAllUsers,
-  getUser,
-  updateUser,
-  deleteUser,
+  registerUser,
+  loginUser,
+  currentUser
 } from "../controllers/userController.js";
+import { validateToken } from "../middleware/validateTokenHandler.js";
 
 export const router = express.Router();
 
-router.get("/user", getAllUsers);
-router.get("/user/:id", getUser);
+router.post("/register", registerUser);
 
-router.post("/user", createUser);
+router.post("/login", loginUser);
 
-router.put("/user/:id", updateUser);
-router.delete("/user/:id", deleteUser);
+router.get("/current", validateToken, currentUser);

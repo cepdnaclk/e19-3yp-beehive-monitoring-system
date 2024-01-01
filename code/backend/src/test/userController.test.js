@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import { mongoURL } from "../config/dbconfig.js";
 import { User } from "../models/userModel.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import dotenv from "dotenv/config.js";
+import jwt from "jsonwebtoken";
 
 const app = createServer();
 beforeAll(async () => {
@@ -22,70 +24,141 @@ afterAll(async () => {
 var userID = 1;
 
 //TEST FLOW
-// 1. Verify there are no users in the database
-// 2. Create a user
-// 3. Verify the user was created
-// 4. Update the user
-// 5. Verify the user was updated
-// 6. Delete the user
-// 7. Verify the user was deleted
-// 8. Verify there are no users in the database
+// 0. Should get an error when trying to create a user with wrong body
+// 1. Should not create a user with invalid email
+// 2. Should not create a user with invalid username
+// 3. Should not create a user with invalid password
+// 4. Should Create a user
+// 5. Should Try to create a user again with the same email
+// 6. Should Try to login by a non existing email
+// 7. Should try to login with existing email and wrong password
+// 8. Should try to login with correct email and password
 
 describe("User API", () => {
-  it("should create a user", async () => {
+
+  it("should get an error when trying to create a user with wrong body", async () => {
     const user = {
       username: "Test User",
       email: "testemail@example.com",
+    };
+    const res = await supertest(app).post("/api/user/register").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("All fields are mandatory!");
+
+  });
+  it("should not create a user with invalid email", async () => {
+    const user = {
+      username: "Test User",
+      email: "testemail",
       password: "testpassword",
     };
-    const res = await supertest(app).post("/api/user").send(user);
-    console.log(res.body);
+    const res = await supertest(app).post("/api/user/register").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("Email is not valid");
+  });
+  it("should not create a user with invalid username", async () => {
+    const user = {
+      username: "TestUser2!",
+      email: "testuser@example.com",
+      password: "testpassword",
+    };
+    const res = await supertest(app).post("/api/user/register").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("Username is not valid");
+  });
+  it("should not create a user with invalid password", async () => {
+    const user = {
+      username: "TestUser2",
+      email: "testuser@example.com",
+      password: "testpassword",
+    };
+    const res = await supertest(app).post("/api/user/register").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("Password is not valid");
+  });
+
+
+  it("should create a user", async () => {
+    const user = {
+      username: "TestUser",
+      email: "testemail@example.com",
+      password: "Testpassword1@",
+    };
+    const res = await supertest(app).post("/api/user/register").send(user);
+    //console.log(res.body);
     userID = res.body._id;
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("_id");
     expect(res.body.username).toBe(user.username);
     expect(res.body.email).toBe(user.email);
   });
-  it("should get all users", async () => {
-    const res = await supertest(app).get("/api/user");
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.length).toEqual(1);
-  });
-  it("should get a user", async () => {
-    //put userID var as the ID of the user
-    const res = await supertest(app).get("/api/user/" + userID);
-
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("_id");
-    expect(res.body.username).toBe("Test User");
-    expect(res.body.email).toBe("testemail@example.com");
-    expect(res.body.password).toBe("testpassword");
-  });
-  it("should update a user", async () => {
+  it("should try to create a user again with the same email", async () => {
     const user = {
-      username: "Updated User",
-      email: "updatedtestemail@example.com",
-      password: "updatedtestpassword",
+      username: "TestUser2",
+      email: "testemail@example.com",
+      password: "Testnewpassword1@",
     };
-    const res = await supertest(app)
-      .put("/api/user/" + userID)
-      .send(user);
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("_id");
-    expect(res.body.username).toBe(user.username);
-    expect(res.body.email).toBe(user.email);
-    expect(res.body.password).toBe(user.password);
-  });
-  it("should delete a user", async () => {
-    const res = await supertest(app).delete("/api/user/" + userID);
-    expect(res.statusCode).toEqual(200);
-
+    const res = await supertest(app).post("/api/user/register").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty("message");
-    expect(res.body.message).toBe("User removed");
+    expect(res.body.message).toBe("User already exists");
   });
-  it("should get no users", async () => {
-    const res = await supertest(app).get("/api/user");
+  it("should try to login by a non existing email", async () => {
+    const user = {
+      email: "testemail2@example.com",
+      password: "testpassword",
+    };
+    const res = await supertest(app).post("/api/user/login").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(404);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("User not found");
+  });
+  it("should try to login with existing email and wrong password", async () => {
+    const user = {
+      email: "testemail@example.com",
+      password: "testnewpassword",
+    };
+    const res = await supertest(app).post("/api/user/login").send(user);
+    //console.log(res.body);
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("Incorrect password");
+  });
+  it("should try to login with correct email and password", async () => {
+    const user = {
+      email: "testemail@example.com",
+      password: "Testpassword1@",
+    };
+    const res = await supertest(app).post("/api/user/login").send(user);
+    console.log(res.body);
     expect(res.statusCode).toEqual(200);
-    expect(res.body.length).toEqual(0);
+    expect(res.body).toHaveProperty("accessToken");
+    //check if the token is valid
+    const token = res.body.accessToken;
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    //check that the token expires in 15 mins
+    expect(decoded.exp - decoded.iat).toBe(900);
+    //check that the token contains the user
+    expect(decoded.user).toHaveProperty("username");
+    expect(decoded.user).toHaveProperty("email");
+    expect(decoded.user).toHaveProperty("id");
+    expect(decoded.user.username).toBe("TestUser");
+    expect(decoded.user.email).toBe("testemail@example.com");
+    expect(decoded.user.id).toBe(userID);
+    console.log(decoded);
+
+
   });
+
+
 });
