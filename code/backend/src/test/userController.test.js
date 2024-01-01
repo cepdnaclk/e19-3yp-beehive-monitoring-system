@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import {createServer} from "../utils/server.js";
+import { createServer } from "../utils/server.js";
 import mongoose from "mongoose";
 import { mongoURL } from "../config/dbconfig.js";
 import { User } from "../models/userModel.js";
@@ -54,7 +54,7 @@ describe("User API", () => {
   it("should get a user", async () => {
     //put userID var as the ID of the user
     const res = await supertest(app).get("/api/user/" + userID);
-    
+
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("_id");
     expect(res.body.username).toBe("Test User");
@@ -67,7 +67,9 @@ describe("User API", () => {
       email: "updatedtestemail@example.com",
       password: "updatedtestpassword",
     };
-    const res = await supertest(app).put("/api/user/" + userID).send(user);
+    const res = await supertest(app)
+      .put("/api/user/" + userID)
+      .send(user);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("_id");
     expect(res.body.username).toBe(user.username);
@@ -77,10 +79,9 @@ describe("User API", () => {
   it("should delete a user", async () => {
     const res = await supertest(app).delete("/api/user/" + userID);
     expect(res.statusCode).toEqual(200);
-    
+
     expect(res.body).toHaveProperty("message");
     expect(res.body.message).toBe("User removed");
-
   });
   it("should get no users", async () => {
     const res = await supertest(app).get("/api/user");
