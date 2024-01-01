@@ -12,9 +12,9 @@ const PORT = 3000;
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-console.log(process.env.CONNECTION_STRING2)
+console.log(process.env.CONNECTION_STRING)
 // Connect to MongoDB
-mongoose.connect(process.env.CONNECTION_STRING2).then(() => {
+mongoose.connect(process.env.CONNECTION_STRING).then(() => {
   console.log('Connected to MongoDB');
 });
 
