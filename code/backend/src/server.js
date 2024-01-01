@@ -6,7 +6,7 @@ import dotenv from 'dotenv/config';
 import {buildConnection} from './mqtt/mqttConnection.js';
 
 const app = createServer();
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
 
 // Start the HTTP server
 const server = app.listen(PORT, () => {
