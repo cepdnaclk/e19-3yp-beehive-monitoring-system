@@ -21,13 +21,14 @@ export const createBeehive = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
+
   const beehive = await Beehive.create({
     name,
     CO2,
     Temperature,
     Humidity,
     Weight,
-    uder_id: req.user.id,
+    user_id: req.user.id,
   });
   res.status(201).json(beehive);
 });
