@@ -1,7 +1,8 @@
 // mainServer.js
 import { createServer } from './utils/server.js';
 import mongoose from 'mongoose';
-import { mongoURL } from './config/dbconfig.js';
+import dotenv from 'dotenv/config';
+
 import {buildConnection} from './mqtt/mqttConnection.js';
 
 const app = createServer();
@@ -11,41 +12,41 @@ const PORT = 3000;
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
+console.log(process.env.CONNECTION_STRING2)
 // Connect to MongoDB
-mongoose.connect(mongoURL).then(() => {
+mongoose.connect(process.env.CONNECTION_STRING2).then(() => {
   console.log('Connected to MongoDB');
 });
 
 // MQTT Configuration
-const mqttDeviceConfig = {
-  keyPath: './iotconfig/core-client.public.key',
-  certPath: './iotconfig/core-client.cert.pem',
-  caPath: './iotconfig/root-CA.crt',
-  clientId: 'core-client',
-  region: 'us-west-2', // e.g., us-east-1
-  endpoint: 'a3tvvh7s5x7lnc-ats.iot.us-west-2.amazonaws.com',
-  baseReconnectTimeMs: 4000,
-  maxReconnectTimeMs: 6000,
+// const mqttDeviceConfig = {
+//   keyPath: './iotconfig/core-client.public.key',
+//   certPath: './iotconfig/core-client.cert.pem',
+//   caPath: './iotconfig/root-CA.crt',
+//   clientId: 'core-client',
+//   region: 'us-west-2', // e.g., us-east-1
+//   endpoint: 'a3tvvh7s5x7lnc-ats.iot.us-west-2.amazonaws.com',
+//   baseReconnectTimeMs: 4000,
+//   maxReconnectTimeMs: 6000,
   
-};
+// };
 
-// Build MQTT connection
-const mqttConnection = buildConnection(mqttDeviceConfig);
+// // Build MQTT connection
+// const mqttConnection = buildConnection(mqttDeviceConfig);
 
-// Start the MQTT connection
-console.log("Connecting to MQTT...");
-await mqttConnection.connect();
-console.log("Connected to MQTT");
+// // Start the MQTT connection
+// console.log("Connecting to MQTT...");
+// await mqttConnection.connect();
+// console.log("Connected to MQTT");
 
 
 
-// Handle Ctrl+C gracefully
-process.on('SIGINT', async () => {
-  console.log('Disconnecting from MQTT and shutting down...');
-  await mqttConnection.disconnect(); // Disconnect MQTT
-  server.close(); // Close HTTP server
-  process.exit(0);
-});
+// // Handle Ctrl+C gracefully
+// process.on('SIGINT', async () => {
+//   console.log('Disconnecting from MQTT and shutting down...');
+//   await mqttConnection.disconnect(); // Disconnect MQTT
+//   server.close(); // Close HTTP server
+//   process.exit(0);
+// });
 
 
