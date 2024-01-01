@@ -1,0 +1,40 @@
+.add-card {
+    position: relative;
+    width: 30%;
+    box-sizing: border-box;
+    margin: 20px;
+}
+
+.add-ellipse {
+    height: 60%;
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.add-sign {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.add-logo {
+    width: 70%;
+    height: auto;
+}
+
+.add-text {
+    text-align: center;
+    color: #000000;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 550;
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translateX(-50%);
+}
