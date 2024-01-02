@@ -17,12 +17,10 @@ const beehiveSchema = new Schema(
       type: String,
       required: [true, "Please add the beehive location"],
     },
-    
-
   },
   {
     timestamps: true,
   }
 );
 
-export const Beehive =  mongoose.model("Beehive", beehiveSchema);
+export const Beehive = mongoose.model("Beehive", beehiveSchema);

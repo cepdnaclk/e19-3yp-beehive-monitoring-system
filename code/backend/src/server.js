@@ -1,52 +1,86 @@
-// mainServer.js
-import { createServer } from './utils/server.js';
+import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv/config';
+import dotenv from 'dotenv';
+import { mqtt, io, iot } from 'aws-iot-device-sdk-v2';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createServer } from './utils/server.js';
 
-import {buildConnection} from './mqtt/mqttConnection.js';
+// Load environment variables
+dotenv.config();
 
+// Create express server
 const app = createServer();
 const PORT = process.env.PORT || 5000;
 
+// Get the directory name of the current module
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 // Start the HTTP server
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-console.log(process.env.CONNECTION_STRING)
+
 // Connect to MongoDB
-mongoose.connect(process.env.CONNECTION_STRING).then(() => {
-  console.log('Connected to MongoDB');
-});
+mongoose.connect(process.env.CONNECTION_STRING)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('Could not connect to MongoDB:', err));
 
-// MQTT Configuration
-// const mqttDeviceConfig = {
-//   keyPath: './iotconfig/core-client.public.key',
-//   certPath: './iotconfig/core-client.cert.pem',
-//   caPath: './iotconfig/root-CA.crt',
-//   clientId: 'core-client',
-//   region: 'us-west-2', // e.g., us-east-1
-//   endpoint: 'a3tvvh7s5x7lnc-ats.iot.us-west-2.amazonaws.com',
-//   baseReconnectTimeMs: 4000,
-//   maxReconnectTimeMs: 6000,
-  
-// };
-
-// // Build MQTT connection
-// const mqttConnection = buildConnection(mqttDeviceConfig);
-
-// // Start the MQTT connection
-// console.log("Connecting to MQTT...");
-// await mqttConnection.connect();
-// console.log("Connected to MQTT");
+/*
+MQTT Config
+Uncomment the below part only if you have config files for AWS IoT Core
+*/
 
 
+// // Function to create MQTT connection
+// async function createConnection() {
+//   const clientBootstrap = new io.ClientBootstrap();
+//   const rootCAPath = path.resolve(__dirname, process.env.AWS_ROOT_CA_PATH);
+//   const deviceCertPath = path.resolve(__dirname, process.env.AWS_DEVICE_CERT_PATH);
+//   const privateKeyPath = path.resolve(__dirname, process.env.AWS_DEVICE_PRIVATE_KEY_PATH);
 
-// // Handle Ctrl+C gracefully
-// process.on('SIGINT', async () => {
-//   console.log('Disconnecting from MQTT and shutting down...');
-//   await mqttConnection.disconnect(); // Disconnect MQTT
-//   server.close(); // Close HTTP server
-//   process.exit(0);
+//   const config = iot.AwsIotMqttConnectionConfigBuilder.new_mtls_builder_from_path(
+//       deviceCertPath,
+//       privateKeyPath
+//   ).with_certificate_authority_from_path(undefined, rootCAPath)
+//     .with_client_id(process.env.CLIENT_ID)
+//     .with_endpoint(process.env.AWS_IOT_ENDPOINT)
+//     .build();
+
+//   const client = new mqtt.MqttClient(clientBootstrap);
+//   const connection = client.new_connection(config);
+
+//   return connection;
+// }
+
+// // Main function for MQTT
+// async function main() {
+//     console.log(process.env.AWS_DEVICE_CERT_PATH);
+//     const connection = await createConnection();
+    
+//     console.log('Connection created');
+
+//     // Connect to AWS IoT Core
+//     await connection.connect();
+
+//     console.log('Connected to AWS IoT Core');
+
+//     const topic = 'sdk/test/js';
+
+//     // Subscribe to topic
+//     await connection.subscribe(
+//       topic,
+//       mqtt.QoS.AtLeastOnce,
+//       (topic, payload, dup, qos, retain) => {
+//           const message = new TextDecoder("utf-8").decode(payload);
+//           console.log(`Received message: ${message} from topic: ${topic}`);
+//       }
+//   );
+
+//   console.log(`Subscribed to topic ${topic}`);
+// }
+
+// // Run the MQTT main function
+// main().catch((error) => {
+//     console.error('Error:', error);
 // });
-
-
