@@ -1,10 +1,9 @@
-
-
+// This is the auth service, it is used to make HTTP requests to the backend for auth.
 // src/services/AuthService.jsx
 
 import axios from 'axios';
 
-const API_URL = 'https://your-api-url.com/auth/';
+const API_URL = 'http://localhost:5001/api/user/';
 
 const register = async (email, password) => {
     const response = await axios.post(API_URL + 'register', { email, password });

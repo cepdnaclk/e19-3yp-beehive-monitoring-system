@@ -5,11 +5,14 @@ import UserIcon from "../Assets/username.png";
 import LockIcon from "../Assets/password.png";
 import Logo from "../Assets/Logo.png";
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useState,useContext } from "react";
+import {AuthContext} from '../Context/AuthContext';
 import '../Styles/Pages/SignIn.scss';
+
 
 function SignIn() {
     const [formData, setFormData] = useState({});
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -18,35 +21,44 @@ function SignIn() {
             [e.target.id]: e.target.value,
         });
     };
+    
+    //Add Some Error handling
 
-    const signIn = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        
-        if (!formData.username || !formData.password) {
-            console.error("Please fill in both username and password.");
-            return;
-        }
-        
-        try {
-            console.log(formData);
-            const res = await fetch('http://localhost:5001/api/user/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(formData),
-            });
-            const data = await res.json();
-            console.log(data);
-            if (data.success === false) {
-              console.error(data.message);
-              return;
-            }
-            navigate('/dashboard');
-        } catch (error) {
-            console.error(error);
-        }
+        login(formData.username, formData.password);
     };
+    
+    //Old Method
+
+    // const signIn = async (e) => {
+    //     e.preventDefault();
+        
+    //     if (!formData.username || !formData.password) {
+    //         console.error("Please fill in both username and password.");
+    //         return;
+    //     }
+        
+    //     try {
+    //         console.log(formData);
+    //         const res = await fetch('http://localhost:5001/api/user/login', {
+    //           method: 'POST',
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //           },
+    //           body: JSON.stringify(formData),
+    //         });
+    //         const data = await res.json();
+    //         console.log(data);
+    //         if (data.success === false) {
+    //           console.error(data.message);
+    //           return;
+    //         }
+    //         navigate('/dashboard');
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
     
       
 
@@ -62,7 +74,7 @@ function SignIn() {
             <div className="centered">
                 <img src={Polygon} alt="" className="polygon-image" />
                 <div className="signin-form">
-                    <form className='login_right' onSubmit={signIn}>
+                    <form className='login_right' onSubmit={handleLogin}>
                         <Link to="/"><img src={Logo} alt="" className="signin-logo" /></Link>
                         <h3>Login to your account</h3>
                         <div className='inputs'>
