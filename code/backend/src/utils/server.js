@@ -1,14 +1,22 @@
 import express from "express";
 import { router as userRouter } from "../routes/userRoute.js";
 import {router as beehiveRouter} from "../routes/beehiveRoute.js";
+import cors from "cors";
 
 export function createServer() {
   const app = express();
 
   app.use(express.json());
 
+  app.use(cors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
+  
+
   app.use("/api/user", userRouter);
   app.use ("/api/beehive", beehiveRouter);
+  
 
   return app;
 }

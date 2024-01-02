@@ -28,7 +28,8 @@ function SignIn() {
         }
         
         try {
-            const res = await fetch('http://localhost:3000/api/users/login', {
+            console.log(formData);
+            const res = await fetch('http://localhost:5001/api/user/login', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ function SignIn() {
             }
             navigate('/dashboard');
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
     };
     
