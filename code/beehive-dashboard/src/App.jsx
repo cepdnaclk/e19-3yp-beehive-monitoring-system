@@ -10,6 +10,7 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
+        
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
