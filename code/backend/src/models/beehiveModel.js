@@ -17,6 +17,25 @@ const beehiveSchema = new Schema(
       type: String,
       required: [true, "Please add the beehive location"],
     },
+
+    
+    CO2: {
+      type: String,
+    },
+    Temperature: {
+      type: String,
+    },
+    Humidity: {
+      type: String,
+    },
+    Weight: {
+      type: String,
+    },
+
+    Battery_level: {
+      type: String,
+    },
+
   },
   {
     timestamps: true,
