@@ -13,21 +13,9 @@ const beehiveSchema = new Schema(
       type: String,
       required: [true, "Please add the beehive name"],
     },
-    CO2: {
+    location: {
       type: String,
-      required: [true, "Please add the CO2 level"],
-    },
-    Temperature: {
-      type: String,
-      required: [true, "Please add the Temperature"],
-    },
-    Humidity: {
-      type: String,
-      required: [true, "Please add the Humidity"],
-    },
-    Weight: {
-      type: String,
-      required: [true, "Please add the weight"],
+      required: [true, "Please add the beehive location"],
     },
   },
   {
@@ -35,4 +23,4 @@ const beehiveSchema = new Schema(
   }
 );
 
-export const Beehive =  mongoose.model("Beehive", beehiveSchema);
+export const Beehive = mongoose.model("Beehive", beehiveSchema);
