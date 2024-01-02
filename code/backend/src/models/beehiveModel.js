@@ -15,7 +15,24 @@ const beehiveSchema = new Schema(
     },
     location: {
       type: String,
-      required: [true, "Please add the beehive location"],
+    },
+
+    // These Metrics represent the value of each metric at the time when the user last interacted
+    CO2: {
+      type: String,
+    },
+    Temperature: {
+      type: String,
+    },
+    Humidity: {
+      type: String,
+    },
+    Weight: {
+      type: String,
+    },
+
+    Battery_level: {
+      type: String,
     },
   },
   {

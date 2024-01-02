@@ -7,6 +7,8 @@ import { Beehive } from "../models/beehiveModel.js";
 
 export const getBeehives = asyncHandler(async (req, res) => {
   const beehives = await Beehive.find({ user_id: req.user.id });
+  //Add method to call the beehive metrics collection ans update the beehive object with latest metrics
+  
   res.status(200).json({ beehives });
 });
 
