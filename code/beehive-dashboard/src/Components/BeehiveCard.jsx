@@ -1,10 +1,19 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "../Assets/Beehive_box.png";
 import Ellipse from "../Assets/Card_Ellipse.png";
-import '../Styles/Components/BeehiveCard.scss';
+import "../Styles/Components/BeehiveCard.scss";
 
 function BeehiveCard({ beehiveData }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    // Navigate to the hive dashboard page for the clicked beehive
+    navigate(`/hive-dashboard/${beehiveData.name}`);
+  };
+
   return (
-    <div className='beehive-card'>
+    <div className="beehive-card" onClick={handleClick}>
       <p className="name">{beehiveData.name}</p>
       <div className="box-container">
         <img src={Box} alt="" className="box" />
