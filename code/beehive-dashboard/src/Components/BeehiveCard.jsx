@@ -8,7 +8,6 @@ function BeehiveCard({ beehiveData }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // Navigate to the hive dashboard page for the clicked beehive
     navigate(`/hive-dashboard/${beehiveData.name}`);
   };
 
