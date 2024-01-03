@@ -1,6 +1,7 @@
 import express from "express";
 import { router as userRouter } from "../routes/userRoute.js";
 import {router as beehiveRouter} from "../routes/beehiveRoute.js";
+import {router as cameraRecordRouter} from "../routes/cameraRecordRoute.js";
 import cors from "cors";
 
 export function createServer() {
@@ -16,6 +17,7 @@ export function createServer() {
 
   app.use("/api/user", userRouter);
   app.use ("/api/beehive", beehiveRouter);
+  app.use ("/api/camera", cameraRecordRouter);
   
 
   return app;
