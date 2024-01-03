@@ -1,12 +1,14 @@
-const asyncHandler = require("express-async-handler");
-const Beehive = require("../models/beehiveModel");
+import asyncHandler from "express-async-handler";
+import { Beehive } from "../models/beehiveModel.js";
 
 //@desc Get all data
 //@route GET /api/data
 //@access private
 
-const getBeehives = asyncHandler(async (req, res) => {
+export const getBeehives = asyncHandler(async (req, res) => {
   const beehives = await Beehive.find({ user_id: req.user.id });
+  //Add method to call the beehive metrics collection ans update the beehive object with latest metrics
+  
   res.status(200).json({ beehives });
 });
 
@@ -14,20 +16,21 @@ const getBeehives = asyncHandler(async (req, res) => {
 //@route POST /api/data
 //@access private
 
-const createBeehive = asyncHandler(async (req, res) => {
+export const createBeehive = asyncHandler(async (req, res) => {
   console.log("The request body is :", req.body);
   const { name, CO2, Temperature, Humidity, Weight } = req.body;
   if (!name || !CO2 || !Temperature || !Humidity || !Weight) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
+
   const beehive = await Beehive.create({
     name,
     CO2,
     Temperature,
     Humidity,
     Weight,
-    uder_id: req.user.id,
+    user_id: req.user.id,
   });
   res.status(201).json(beehive);
 });
@@ -36,7 +39,7 @@ const createBeehive = asyncHandler(async (req, res) => {
 //@route GET /api/data/:id
 //@access private
 
-const getBeehive = asyncHandler(async (req, res) => {
+export const getBeehive = asyncHandler(async (req, res) => {
   const beehive = await Beehive.findById(req.params.id);
   if (!beehive) {
     res.status(404);
@@ -49,7 +52,7 @@ const getBeehive = asyncHandler(async (req, res) => {
 //@route PUT /api/data/:id
 //@access private
 
-const updateBeehive = asyncHandler(async (req, res) => {
+export const updateBeehive = asyncHandler(async (req, res) => {
   const beehive = await Beehive.findById(req.params.id);
   if (!beehive) {
     res.status(404);
@@ -68,20 +71,12 @@ const updateBeehive = asyncHandler(async (req, res) => {
 //@route DELETE /api/data/:id
 //@access private
 
-const deleteBeehive = asyncHandler(async (req, res) => {
+export const deleteBeehive = asyncHandler(async (req, res) => {
   const beehive = await Beehive.findById(req.params.id);
   if (!beehive) {
     res.status(404);
     throw new Error("Beehive not found");
   }
-  await beehive.remove();
-  res.status(201).json(beehive);
+  await beehive.deleteOne();
+  res.status(201).json({ beehive, message: "Beehive deleted successfully" });
 });
-
-module.exports = {
-  getBeehives,
-  createBeehive,
-  getBeehive,
-  updateBeehive,
-  deleteBeehive,
-};

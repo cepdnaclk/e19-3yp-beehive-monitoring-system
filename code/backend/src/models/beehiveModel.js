@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const beehiveSchema = mongoose.Schema(
+const { Schema } = mongoose;
+
+const beehiveSchema = new Schema(
   {
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -11,21 +13,26 @@ const beehiveSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add the beehive name"],
     },
+    location: {
+      type: String,
+    },
+
+    // These Metrics represent the value of each metric at the time when the user last interacted
     CO2: {
       type: String,
-      required: [true, "Please add the CO2 level"],
     },
     Temperature: {
       type: String,
-      required: [true, "Please add the Temperature"],
     },
     Humidity: {
       type: String,
-      required: [true, "Please add the Humidity"],
     },
     Weight: {
       type: String,
-      required: [true, "Please add the weight"],
+    },
+
+    Battery_level: {
+      type: String,
     },
   },
   {
@@ -33,4 +40,4 @@ const beehiveSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Beehive", beehiveSchema);
+export const Beehive = mongoose.model("Beehive", beehiveSchema);

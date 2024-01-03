@@ -1,0 +1,55 @@
+.graph-container {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  // .graph{
+  //     width: 20rem;
+  //     height: 10rem;
+  //     background-color: aliceblue;
+  //     padding: 0.5rem 0.5rem;
+  // }
+  // gap: 5rem;
+  // margin: 5rem 5rem;
+}
+
+.close_button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgb(235, 169, 169);
+  border-color: transparent;
+  height: 30px;
+  width: 30px;
+  align-content: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+  padding-top: 2px;
+  text-align: center;
+  font-weight: bolder;
+  cursor: pointer;
+  color: #4e4e4e;
+  &:hover {
+    color: #f00;
+    background-color: rgb(247, 239, 239);
+  }
+}
+
+.table_container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  border-radius: 1.75rem;
+  overflow:auto;
+}
+
+.table_containe{
+    overflow-y: auto;
+    padding: 20px;
+    max-height: 85%;
+}
