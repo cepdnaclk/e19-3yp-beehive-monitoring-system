@@ -1,7 +1,29 @@
 import MyLineChart from "../Components/MyLineChart";
+import MyAreaChart from "../Components/MyAreaChart";
+import Table from "../Components/Table";
 import Navbar from "../Components/NavbarBlack";
+import React, { useState, useEffect, useRef } from "react";
 import "../Styles/Pages/Graphs.scss";
-function Graphs() {
+
+const Graphs = () => {
+  const [showTable, setShowTable] = useState(false);
+  const [tableData, setTableData] = useState([]);
+  const backgroundClick = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener("click", handleBackgroundClick);
+
+    return () => {
+      document.removeEventListener("click", handleBackgroundClick);
+    };
+  }, []);
+
+  const handleBackgroundClick = (e) => {
+    if (e.target === backgroundClick.current) {
+      setShowTable(false);
+    }
+  };
+
   const data = [
     {
       timestamp: "2024-01-01T10:00:00.000Z",
@@ -75,33 +97,96 @@ function Graphs() {
       humidity: 55.44195549343026,
       CO2: 350,
     },
+    {
+      timestamp: "2024-01-01T20:00:00Z",
+      temperature: 12.827280451977341,
+      humidity: 63.294163336436114,
+      CO2: 358,
+    },
+    {
+      timestamp: "2024-01-01T21:00:00Z",
+      temperature: 13.284715345942043,
+      humidity: 55.44195549343026,
+      CO2: 350,
+    },
   ];
   return (
     <div className="dashboard-container">
       <Navbar />
+      {showTable && (
+        <div className="table_container"><button
+          className="close_button"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowTable(false);
+          }}
+        >
+          X
+        </button>
+        <div className="table_containe" ref={backgroundClick}>
+           
+          <Table data={data} dataKeys={tableData} />
+        </div></div>
+        
+      )}
       <div className="graph-container">
-        <MyLineChart
-          data={data}
-          dataKeys={["temperature", "humidity", "CO2"]}
-        />
-        <MyLineChart
-          data={data}
-          dataKeys={["temperature"]}
-          colors = {['#82ca9d']}
-        />
-        <MyLineChart
-          data={data}
-          dataKeys={[ "humidity"]}
-          colors = {['#ffc658']}
-        />
-        <MyLineChart
-          data={data}
-          dataKeys={["CO2"]}
-          colors = {['#ff8042']}
-        />
+        <div
+          className="graph"
+          id="graph1"
+          onClick={() => {
+            setShowTable(true);
+            setTableData(["temperature", "humidity", "CO2"]);
+          }}
+        >
+          <MyLineChart
+            data={data}
+            dataKeys={["temperature", "humidity", "CO2"]}
+          />
+        </div>
+
+        <div
+          className="graph"
+          id="graph2"
+          onClick={() => {
+            setShowTable(true);
+            setTableData(["temperature"]);
+          }}
+        >
+          <MyAreaChart
+            data={data}
+            dataKeys={["temperature"]}
+            colors={["#82ca9d"]}
+          />
+        </div>
+
+        <div
+          className="graph"
+          id="graph1"
+          onClick={() => {
+            setShowTable(true);
+            setTableData(["humidity"]);
+          }}
+        >
+          <MyAreaChart
+            data={data}
+            dataKeys={["humidity"]}
+            colors={["#8884d8"]}
+          />
+        </div>
+
+        <div
+          className="graph"
+          id="graph1"
+          onClick={() => {
+            setShowTable(true);
+            setTableData(["CO2"]);
+          }}
+        >
+          <MyAreaChart data={data} dataKeys={["CO2"]} colors={["#ff8042"]} />
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Graphs;
