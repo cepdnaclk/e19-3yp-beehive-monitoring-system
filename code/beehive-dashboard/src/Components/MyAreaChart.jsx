@@ -9,14 +9,14 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
+  ResponsiveContainer
 } from "recharts";
 import { format } from "date-fns";
 
-const MyLineChart = ({
+const MyAreaChart = ({
   data,
   dataKeys,
-  colors = ["#82ca9d", "#8884d8", "#ff8042", "#ffc658"],
+  colors = [ "#82ca9d","#ffc658","#8884d8", "#ff8042"],
 }) => {
   const formattedData = data.map((item) => ({
     ...item,
@@ -24,7 +24,8 @@ const MyLineChart = ({
   }));
 
   return (
-    <LineChart
+    // <ResponsiveContainer width="100%" height="100%">
+    <AreaChart
       width={600}
       height={300}
       data={formattedData}
@@ -42,18 +43,26 @@ const MyLineChart = ({
       <Legend />
       {dataKeys.map((key, index) => (
         <>
+          <Area
+            key={key}
+            type="monotone"
+            dataKey={key}
+            stroke={colors[index % colors.length]}
+            fill={colors[index % colors.length]} // Use provided colors or default ones
+          />
           <Line
             key={key}
             type="monotone"
             dataKey={key}
             stroke={colors[index % colors.length]} // Use provided colors or default ones
             fill={colors[index % colors.length]}
-            strokeWidth={2}
+            strokeWidth={3}
           />{" "}
         </> // Use provided colors or default ones
       ))}
-    </LineChart>
+    </AreaChart>
+    // </ResponsiveContainer>
   );
 };
 
-export default MyLineChart;
+export default MyAreaChart;
