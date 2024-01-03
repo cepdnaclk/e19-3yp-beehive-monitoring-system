@@ -35,10 +35,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const register = async (email, password) => {
+    const register = async (username, email, password) => {
         setIsLoading(true);
         try {
-            const user = await AuthService.register(email, password);
+            const user = await AuthService.register(username, email, password);
             setCurrentUser(user);
         } catch (error) {
             console.error("Registration failed:", error);
