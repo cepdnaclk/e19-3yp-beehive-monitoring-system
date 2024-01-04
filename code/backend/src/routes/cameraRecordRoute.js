@@ -7,6 +7,6 @@ import { validateToken } from "../middleware/validateTokenHandler.js";
 
 export const router = express.Router();
 
-//router.use(validateToken);
+router.use(validateToken);
 
 router.route("/").get(getCameraRecords).post(createCameraRecord);
