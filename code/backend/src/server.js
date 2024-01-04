@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { mqtt, io, iot } from 'aws-iot-device-sdk-v2';
+//import { mqtt, io, iot } from 'aws-iot-device-sdk-v2';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer } from './utils/server.js';
