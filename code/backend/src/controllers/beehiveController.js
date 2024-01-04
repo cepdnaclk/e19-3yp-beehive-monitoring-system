@@ -7,8 +7,20 @@ import { Beehive } from "../models/beehiveModel.js";
 
 export const getBeehives = asyncHandler(async (req, res) => {
   const beehives = await Beehive.find({ user_id: req.user.id });
-  //Add method to call the beehive metrics collection ans update the beehive object with latest metrics
-  
+
+  // Loop through each beehive and update with latest metrics
+  for (let i = 0; i < beehives.length; i++) {
+    const beehive = beehives[i];
+    const latestMetrics = await BeehiveMetrics.findOne({ beehive_id: beehive._id }).sort({ createdAt: -1 });
+
+    if (latestMetrics) {
+      beehive.CO2 = latestMetrics.CO2;
+      beehive.Temperature = latestMetrics.Temperature;
+      beehive.Humidity = latestMetrics.Humidity;
+      beehive.Weight = latestMetrics.Weight;
+    }
+  }
+
   res.status(200).json({ beehives });
 });
 
