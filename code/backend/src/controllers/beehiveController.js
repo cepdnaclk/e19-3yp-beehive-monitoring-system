@@ -21,6 +21,7 @@ export const getBeehives = asyncHandler(async (req, res) => {
       beehive.Temperature = latestMetrics.Temperature;
       beehive.Humidity = latestMetrics.Humidity;
       beehive.Weight = latestMetrics.Weight;
+      beehive.Battery_level = latestMetrics.Battery_level;
 
       // Save the updated Beehive model with the latest metrics
       await beehive.save(); // Save the changes to the database
@@ -36,18 +37,20 @@ export const getBeehives = asyncHandler(async (req, res) => {
 
 export const createBeehive = asyncHandler(async (req, res) => {
   console.log("The request body is :", req.body);
-  const { name, CO2, Temperature, Humidity, Weight } = req.body;
-  if (!name || !CO2 || !Temperature || !Humidity || !Weight) {
+  const { name,location, CO2, Temperature, Humidity, Weight ,Battery_level} = req.body;
+  if (!name || !location||!CO2 || !Temperature || !Humidity || !Weight || !Battery_level) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
 
   const beehive = await Beehive.create({
     name,
+    location,
     CO2,
     Temperature,
     Humidity,
     Weight,
+    Battery_level,
     user_id: req.user.id,
   });
   res.status(201).json(beehive);

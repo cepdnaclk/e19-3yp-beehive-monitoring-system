@@ -19,4 +19,4 @@ router
   .put(updateBeehiveMetrics)
   .delete(deleteBeehiveMetrics);
 
-export default router;
+
