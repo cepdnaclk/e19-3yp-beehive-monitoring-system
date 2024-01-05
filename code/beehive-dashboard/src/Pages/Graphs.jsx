@@ -114,20 +114,40 @@ const Graphs = () => {
     <div className="dashboard-container">
       <Navbar />
       {showTable && (
-        <div className="table_container"><button
-          className="close_button"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowTable(false);
-          }}
-        >
-          X
-        </button>
-        <div className="table_containe" ref={backgroundClick}>
-           
-          <Table data={data} dataKeys={tableData} />
-        </div></div>
-        
+        <div className="table">
+          <div className="table_container">
+            <button
+              className="close_button"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowTable(false);
+              }}
+            >
+              X
+            </button>
+            <button
+              className="sync_button"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowTable(false);
+              }}
+            >
+              Sync
+            </button>
+            <button
+              className="export_button"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowTable(false);
+              }}
+            >
+              Export
+            </button>
+            <div className="table_background" ref={backgroundClick}>
+              <Table data={data} dataKeys={tableData} />
+            </div>
+          </div>
+        </div>
       )}
       <div className="graph-container">
         <div
