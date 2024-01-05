@@ -124,3 +124,25 @@
   cursor: pointer;
   box-shadow: 0px 6px 23px -6px #253f6575;
 }
+.change-button {
+  margin-top: 20px;
+}
+
+.change-button button {
+  background-color: #164e13;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0px 6px 23px -6px #253f6575;
+}
+
+.email-icon{
+  padding: 2px;
+  margin-top: 4px;
+  margin-right: 20px;
+  margin-left: 10px;
+}

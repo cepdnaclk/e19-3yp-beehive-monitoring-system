@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { createServer } from "../utils/server.js";
 import mongoose from "mongoose";
-import { mongoURL } from "../config/dbconfig.js";
+
 import { User } from "../models/userModel.js";
 import { Beehive } from "../models/beehiveModel.js";
 import { MongoMemoryServer } from "mongodb-memory-server";

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beehive Monitoring System API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        header, section, footer {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        header{
+            background-color: #98d6c3;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h3 {
+            color: #555;
+        }
+        p {
+            color: #666;
+        }
+        code {
+            background-color: #e7e7e7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Beehive Monitoring System API</h1>
+        <p>This API allows interaction with beehive data, camera records, and user information for the Beehive Monitoring System.</p>
+    </header>
+
+    <section>
+        <h2>User Endpoints</h2>
+        <div>
+            <h3>POST /api/user/register</h3>
+            <p>Register a new user. Send user details in the request body.</p>
+            <code>curl -X POST http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/user/register -d '{"email":"example@beezee.com", "username": "user", "password": "Pass123!"}'</code>
+        </div>
+
+        <div>
+            <h3>POST /api/user/login</h3>
+            <p>Login for existing users. Returns a token on successful authentication.</p>
+            <code>curl -X POST http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/user/login -d '{"email":"example@beezee.com", "password": "Pass123!"}'</code>
+        </div>
+
+        <div>
+            <h3>GET /api/user/current</h3>
+            <p>Get current user details. Requires a valid token.</p>
+            <code>curl -X GET http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/user/current -H "Authorization: Bearer YourToken"</code>
+        </div>
+    </section>
+
+    <section>
+        <h2>Beehive Endpoints(Incomplete)</h2>
+        <div>
+            <h3>GET /api/beehive</h3>
+            <p>Retrieve all beehives. Requires a valid token.</p>
+            <code>curl -X GET http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/beehive -H "Authorization: Bearer YourToken"</code>
+        </div>
+
+        <div>
+            <h3>POST /api/beehive</h3>
+            <p>Create a new beehive record. Requires a valid token.</p>
+            <code>curl -X POST http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/beehive -d '{"location": "location1", "type": "type1"}' -H "Authorization: Bearer YourToken"</code>
+        </div>
+
+        <!-- Additional Beehive endpoints here -->
+    </section>
+
+    <section>
+        <h2>Camera Record Endpoints(Incomplete and Incorrect)</h2>
+        <div>
+            <h3>GET /api/camera</h3>
+            <p>Retrieve all camera records. Requires a valid token.</p>
+            <code>curl -X GET http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/camera -H "Authorization: Bearer YourToken"</code>
+        </div>
+
+        <div>
+            <h3>POST /api/camera</h3>
+            <p>Create a new camera record. Requires a valid token.</p>
+            <code>curl -X POST http://beehive-backend.eba-xkm8nww8.us-west-2.elasticbeanstalk.com/api/camera -d '{"record": "recordData"}' -H "Authorization: Bearer YourToken"</code>
+        </div>
+    </section>
+
+    <footer>
+        <p>For more details or support, please visit the <a href="https://cepdnaclk.github.io/e19-3yp-beehive-monitoring-system/">Beehive Monitoring System Project Page</a>.</p>
+    </footer>
+</body>
+</html>

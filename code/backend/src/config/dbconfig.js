@@ -1,1 +1,0 @@
-export const mongoURL = "mongodb+srv://e19063:zukNVi4shbs4kxIF@cluster0.oo9gi1o.mongodb.net/beehiveDB?retryWrites=true&w=majority";

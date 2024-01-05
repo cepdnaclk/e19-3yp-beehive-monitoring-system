@@ -5,6 +5,7 @@
   "type": "module",
   "main": "./src/server.js",
   "scripts": {
+    "start" :"node ./src/server.js",
     "dev": "nodemon ./src/server.js",
     "test": "jest --config jest.config.js"
   },
