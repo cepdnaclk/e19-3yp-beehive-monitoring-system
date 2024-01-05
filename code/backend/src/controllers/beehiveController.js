@@ -9,7 +9,6 @@ import { BeehiveMetrics } from "../models/beehiveMetricsModel.js";
 export const getBeehives = asyncHandler(async (req, res) => {
   const beehives = await Beehive.find({ user_id: req.user.id });
 
-  // Loop through each beehive and update with latest metrics
   for (let i = 0; i < beehives.length; i++) {
     const beehive = beehives[i];
     const latestMetrics = await BeehiveMetrics.findOne({
@@ -17,14 +16,11 @@ export const getBeehives = asyncHandler(async (req, res) => {
     }).sort({ createdAt: -1 });
 
     if (latestMetrics) {
-      beehive.CO2 = latestMetrics.CO2;
-      beehive.Temperature = latestMetrics.Temperature;
-      beehive.Humidity = latestMetrics.Humidity;
-      beehive.Weight = latestMetrics.Weight;
-      beehive.Battery_level = latestMetrics.Battery_level;
-
-      // Save the updated Beehive model with the latest metrics
-      await beehive.save(); // Save the changes to the database
+      beehives[i].CO2 = latestMetrics.CO2;
+      beehives[i].Temperature = latestMetrics.Temperature;
+      beehives[i].Humidity = latestMetrics.Humidity;
+      beehives[i].Weight = latestMetrics.Weight;
+      beehives[i].Battery_level = latestMetrics.Battery_level;
     }
   }
 
@@ -37,25 +33,18 @@ export const getBeehives = asyncHandler(async (req, res) => {
 
 export const createBeehive = asyncHandler(async (req, res) => {
   console.log("The request body is :", req.body);
-  const { name,location, CO2, Temperature, Humidity, Weight ,Battery_level} = req.body;
-  if (!name || !location||!CO2 || !Temperature || !Humidity || !Weight || !Battery_level) {
+  const { name, location, CO2, Temperature, Humidity, Weight, Battery_level } = req.body;
+  if (!name || !location || !CO2 || !Temperature || !Humidity || !Weight || !Battery_level) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
 
-  // Create a new beehive entry
   const beehive = await Beehive.create({
     name,
     location,
-    CO2,
-    Temperature,
-    Humidity,
-    Weight,
-    Battery_level,
     user_id: req.user.id,
   });
 
-  // Create corresponding entry in BeehiveMetrics collection
   const beehiveMetrics = await BeehiveMetrics.create({
     beehive_id: beehive._id,
     CO2,
@@ -78,6 +67,19 @@ export const getBeehive = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Beehive not found");
   }
+
+  const latestMetrics = await BeehiveMetrics.findOne({
+    beehive_id: beehive._id,
+  }).sort({ createdAt: -1 });
+
+  if (latestMetrics) {
+    beehive.CO2 = latestMetrics.CO2;
+    beehive.Temperature = latestMetrics.Temperature;
+    beehive.Humidity = latestMetrics.Humidity;
+    beehive.Weight = latestMetrics.Weight;
+    beehive.Battery_level = latestMetrics.Battery_level;
+  }
+
   res.status(200).json(beehive);
 });
 
@@ -92,13 +94,18 @@ export const updateBeehive = asyncHandler(async (req, res) => {
     throw new Error("Beehive not found");
   }
 
-  const updatedBeehive = await Beehive.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
+  // Update specific fields of the beehive
+  const { CO2, Temperature, Humidity, Weight, Battery_level } = req.body;
+  beehive.CO2 = CO2 || beehive.CO2;
+  beehive.Temperature = Temperature || beehive.Temperature;
+  beehive.Humidity = Humidity || beehive.Humidity;
+  beehive.Weight = Weight || beehive.Weight;
+  beehive.Battery_level = Battery_level || beehive.Battery_level;
+
+  const updatedBeehive = await beehive.save();
   res.status(200).json(updatedBeehive);
 });
+
 
 //@desc delete data
 //@route DELETE /api/data/:id
