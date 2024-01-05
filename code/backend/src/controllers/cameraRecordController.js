@@ -3,6 +3,11 @@ import {CameraRecord} from '../models/cameraRecordModel.js';
 import { Beehive } from '../models/beehiveModel.js';
 import asyncHandler from 'express-async-handler';
 
+import { S3Client } from '@aws-sdk/client-s3';
+import dotenv from dotenv;
+
+dotenv.config();
+
 //@desc Get all camera records
 //@route GET /api/camera
 //@access private
@@ -35,7 +40,8 @@ export const getCameraRecords = asyncHandler(async (req, res) => {
 //@access private
 
 export const createCameraRecord = asyncHandler(async (req, res) => {
-    console.log("The request body is :", req.body);
+    console.log(req.body);
+    console.log(req.file);
     const { beehive_id, folder_name, folder_size, sample_image } = req.body;
     
 
