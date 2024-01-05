@@ -35,7 +35,6 @@ var userID = 1;
 // 8. Should try to login with correct email and password
 
 describe("User API", () => {
-
   it("should get an error when trying to create a user with wrong body", async () => {
     const user = {
       username: "Test User",
@@ -46,7 +45,6 @@ describe("User API", () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty("message");
     expect(res.body.message).toBe("All fields are mandatory!");
-
   });
   it("should not create a user with invalid email", async () => {
     const user = {
@@ -84,7 +82,6 @@ describe("User API", () => {
     expect(res.body).toHaveProperty("message");
     expect(res.body.message).toBe("Password is not valid");
   });
-
 
   it("should create a user", async () => {
     const user = {
@@ -156,9 +153,5 @@ describe("User API", () => {
     expect(decoded.user.email).toBe("testemail@example.com");
     expect(decoded.user.id).toBe(userID);
     console.log(decoded);
-
-
   });
-
-
 });
