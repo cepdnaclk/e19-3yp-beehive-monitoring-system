@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { BeehiveMetrics } from "../models/beehiveMatricsModel.js";
+import { BeehiveMetrics } from "../models/beehiveMetricsModel.js";
 
 //@desc Get all beehive metrics
 //@route GET /api/beehive-metrics
@@ -15,7 +15,9 @@ export const getAllBeehiveMetrics = asyncHandler(async (req, res) => {
 //@access private
 
 export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
-  const beehiveMetrics = await BeehiveMetrics.findById(req.params.id).populate("beehive_id");
+  const beehiveMetrics = await BeehiveMetrics.findById(req.params.id).populate(
+    "beehive_id"
+  );
   if (!beehiveMetrics) {
     res.status(404);
     throw new Error("Beehive metrics not found");
@@ -28,8 +30,16 @@ export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
 //@access private
 
 export const addBeehiveMetrics = asyncHandler(async (req, res) => {
-  const { beehive_id, CO2, Temperature, Humidity, Weight, Battery_level } = req.body;
-  if (!beehive_id || !CO2 || !Temperature || !Humidity || !Weight || !Battery_level) {
+  const { beehive_id, CO2, Temperature, Humidity, Weight, Battery_level } =
+    req.body;
+  if (
+    !beehive_id ||
+    !CO2 ||
+    !Temperature ||
+    !Humidity ||
+    !Weight ||
+    !Battery_level
+  ) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
@@ -56,7 +66,11 @@ export const updateBeehiveMetrics = asyncHandler(async (req, res) => {
     throw new Error("Beehive metrics not found");
   }
 
-  const updatedMetrics = await BeehiveMetrics.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  const updatedMetrics = await BeehiveMetrics.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
   res.status(200).json(updatedMetrics);
 });
 
@@ -71,5 +85,7 @@ export const deleteBeehiveMetrics = asyncHandler(async (req, res) => {
     throw new Error("Beehive metrics not found");
   }
   await beehiveMetrics.deleteOne();
-  res.status(201).json({ beehiveMetrics, message: "Beehive metrics deleted successfully" });
+  res
+    .status(201)
+    .json({ beehiveMetrics, message: "Beehive metrics deleted successfully" });
 });
