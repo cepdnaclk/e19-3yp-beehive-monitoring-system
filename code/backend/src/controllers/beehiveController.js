@@ -43,6 +43,7 @@ export const createBeehive = asyncHandler(async (req, res) => {
     throw new Error("All fields are mandatory");
   }
 
+  // Create a new beehive entry
   const beehive = await Beehive.create({
     name,
     location,
@@ -53,7 +54,18 @@ export const createBeehive = asyncHandler(async (req, res) => {
     Battery_level,
     user_id: req.user.id,
   });
-  res.status(201).json(beehive);
+
+  // Create corresponding entry in BeehiveMetrics collection
+  const beehiveMetrics = await BeehiveMetrics.create({
+    beehive_id: beehive._id,
+    CO2,
+    Temperature,
+    Humidity,
+    Weight,
+    Battery_level,
+  });
+
+  res.status(201).json({ beehive, beehiveMetrics });
 });
 
 //@desc get data
