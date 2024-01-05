@@ -32,7 +32,4 @@ const beehiveMetricsSchema = new Schema(
   }
 );
 
-export const Beehive = mongoose.model("Beehive", beehiveMetricsSchema);
-
-
-
+export const BeehiveMetrics = mongoose.model("BeehiveMetrics", beehiveMetricsSchema);

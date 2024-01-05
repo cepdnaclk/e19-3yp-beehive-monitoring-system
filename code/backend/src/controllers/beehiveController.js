@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { Beehive } from "../models/beehiveModel.js";
+import { BeehiveMetrics } from "../models/beehiveMetricsModel.js";
 
 //@desc Get all data
 //@route GET /api/data
@@ -11,13 +12,18 @@ export const getBeehives = asyncHandler(async (req, res) => {
   // Loop through each beehive and update with latest metrics
   for (let i = 0; i < beehives.length; i++) {
     const beehive = beehives[i];
-    const latestMetrics = await BeehiveMetrics.findOne({ beehive_id: beehive._id }).sort({ createdAt: -1 });
+    const latestMetrics = await BeehiveMetrics.findOne({
+      beehive_id: beehive._id,
+    }).sort({ createdAt: -1 });
 
     if (latestMetrics) {
       beehive.CO2 = latestMetrics.CO2;
       beehive.Temperature = latestMetrics.Temperature;
       beehive.Humidity = latestMetrics.Humidity;
       beehive.Weight = latestMetrics.Weight;
+
+      // Save the updated Beehive model with the latest metrics
+      await beehive.save(); // Save the changes to the database
     }
   }
 
