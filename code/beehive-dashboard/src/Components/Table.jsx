@@ -5,9 +5,9 @@ import "../Styles/Components/Table.scss";
 const Table = ({ data, dataKeys }) => {
   const formatTimestamp = (timestamp) => {
     const dateObject = new Date(timestamp);
-    const formattedDate = dateObject.toLocaleDateString("en-US", { month: 'long', day: '2-digit' });;
+    const formattedDate = dateObject.toLocaleDateString("en-US", { month: 'short', day: '2-digit' });;
     const formattedTime = timeTo12Hour(dateObject);
-    return `${formattedDate} ${formattedTime}`;
+    return `${formattedTime}, ${formattedDate}`;
   };
   return (
     

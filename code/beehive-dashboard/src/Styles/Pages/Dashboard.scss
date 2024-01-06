@@ -19,7 +19,7 @@ body {
     padding: 2px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-around;
     gap: 20px;
   }
 
@@ -28,6 +28,10 @@ body {
     width: 300px;
     margin: 20px;
     box-sizing: border-box;
+    &:hover {
+      transform: translateY(-0.3rem);
+      transition: transform 0.3s ease;
+    }
   }
 
   .add-card {
@@ -35,4 +39,8 @@ body {
     width: 300px;
     margin: 20px;
     box-sizing: border-box;
+    &:hover {
+      transform: translateY(-0.5rem);
+      transition: transform 0.3s ease;
+    }
   }

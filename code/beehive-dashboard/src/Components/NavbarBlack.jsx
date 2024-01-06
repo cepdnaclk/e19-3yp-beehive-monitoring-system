@@ -16,7 +16,7 @@ function NavbarBlack() {
         <Link to="/"><img src={Logo} alt='Logo' /></Link>
       </div>
       <ul className="navb-menu">
-        <li><Link to="/contact">CONTACT US</Link></li>
+        <li className='contact'><Link to="/contact">CONTACT US</Link></li>
         <li className='navb-signout'><Link to="/">SIGN OUT</Link></li>
       </ul>
     </div>

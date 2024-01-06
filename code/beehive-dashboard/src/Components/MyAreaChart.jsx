@@ -2,21 +2,21 @@ import React from "react";
 import {
   AreaChart,
   Area,
-  LineChart,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  Label,
 } from "recharts";
 import { format } from "date-fns";
+import { Scale } from "@mui/icons-material";
 
 const MyAreaChart = ({
   data,
   dataKeys,
-  colors = [ "#82ca9d","#ffc658","#8884d8", "#ff8042"],
+  colors = ["#82ca9d", "#ffc658", "#8884d8", "#ff8042"],
 }) => {
   const formattedData = data.map((item) => ({
     ...item,
@@ -24,44 +24,82 @@ const MyAreaChart = ({
   }));
 
   return (
-    // <ResponsiveContainer width="100%" height="100%">
-    <AreaChart
-      width={600}
-      height={300}
-      data={formattedData}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 30,
-        bottom: 5,
+    <div
+      style={{
+        scale: "0.5",
+        padding: "5px",
+        marginLeft: "-6rem",
+        marginBottom: "-4rem",
+        marginTop: "-5rem",
+        cursor: "pointer",
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="timestamp" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      {dataKeys.map((key, index) => (
-        <>
-          <Area
-            key={key}
-            type="monotone"
-            dataKey={key}
-            stroke={colors[index % colors.length]}
-            fill={colors[index % colors.length]} // Use provided colors or default ones
+      <AreaChart
+        width={520}
+        height={350}
+        data={formattedData}
+        margin={{
+          top: 25,
+          right: 30,
+          left: 35,
+          bottom: 20,
+        }}
+      >
+        <defs>
+        {dataKeys.map((key, index) => (
+          <linearGradient id={colors[index % colors.length]} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="25%" stopColor={colors[index % colors.length]} stopOpacity={1} />
+            <stop offset="100%" stopColor={colors[index % colors.length]} stopOpacity={0} />
+          </linearGradient>))}
+          
+        </defs>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="timestamp">
+          <Label
+            value="Time"
+            offset={-20}
+            position="insideBottom"
+            style={{ fontWeight: "bold", fontSize: "1.15rem" }}
           />
-          <Line
-            key={key}
-            type="monotone"
-            dataKey={key}
-            stroke={colors[index % colors.length]} // Use provided colors or default ones
-            fill={colors[index % colors.length]}
-            strokeWidth={3}
-          />{" "}
-        </> // Use provided colors or default ones
-      ))}
-    </AreaChart>
-    // </ResponsiveContainer>
+        </XAxis>
+        <YAxis>
+          <Label
+            value={
+              dataKeys[0] === "temperature"
+                ? "Temperature (°C)"
+                : dataKeys[0] === "humidity"
+                ? "Humidity (%)"
+                : `CO2 level (ppm)`
+            }
+            offset={0}
+            position="insideLeft"
+            angle={270}
+            style={{ fontWeight: "bold", fontSize: "1.15rem" }}
+          />
+        </YAxis>
+        <Tooltip />
+        {/* <Legend /> */}
+        {dataKeys.map((key, index) => (
+          <>
+            <Area
+              key={key}
+              type="monotone"
+              dataKey={key}
+              stroke={colors[index % colors.length]}
+              fill={`url(#${colors[index % colors.length]})`} // Use provided colors or default ones
+            />
+            <Line
+              key={key}
+              type="monotone"
+              dataKey={key}
+              stroke={colors[index % colors.length]} // Use provided colors or default ones
+              fill={colors[index % colors.length]}
+              strokeWidth={3}
+            />{" "}
+          </> // Use provided colors or default ones
+        ))}
+      </AreaChart>
+    </div>
   );
 };
 
