@@ -5,6 +5,9 @@ import Navbar from "../Components/NavbarBlack";
 import React, { useState, useEffect, useRef } from "react";
 import ImageCarousel from "../Components/Carousel";
 import "../Styles/Pages/Graphs.scss";
+import { IoCloseCircleOutline } from "react-icons/io5";
+import { FcSynchronize, FcExport } from "react-icons/fc";
+import { TiExportOutline } from "react-icons/ti";
 
 const Graphs = () => {
   const [showTable, setShowTable] = useState(false);
@@ -105,7 +108,7 @@ const Graphs = () => {
     },
   ];
   return (
-    <div className="dashboard-container">
+    <div className="dashboard_container">
       <Navbar />
       {showTable && (
         <div className="table">
@@ -117,7 +120,7 @@ const Graphs = () => {
                 setShowTable(false);
               }}
             >
-              X
+              <IoCloseCircleOutline />
             </button>
             <button
               className="sync_button"
@@ -126,7 +129,7 @@ const Graphs = () => {
                 setShowTable(false);
               }}
             >
-              Sync
+              <FcSynchronize /> {" "}Sync
             </button>
             <button
               className="export_button"
@@ -135,7 +138,7 @@ const Graphs = () => {
                 setShowTable(false);
               }}
             >
-              Export
+              <TiExportOutline /> Export
             </button>
 
             <select className="sort_button" name="sort" id="sort">
@@ -153,6 +156,7 @@ const Graphs = () => {
       )}
       <div className="graph_container">
         <p className="topic">Beehive 01</p>
+        
         <div className="graph_card">
           <div className="graph" id="graph1">
             <div className="graph_details">

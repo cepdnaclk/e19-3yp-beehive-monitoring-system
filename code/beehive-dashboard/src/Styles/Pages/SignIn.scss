@@ -129,15 +129,15 @@
 }
 
 .change-button button {
-  background-color: #164e13;
-  color: white;
-  font-size: 18px;
+  background-color: transparent;
+  color: rgb(9, 89, 155);
+  font-size: 14px;
   font-weight: 500;
   padding: 10px 50px;
   border: none;
   border-radius: 24px;
   cursor: pointer;
-  box-shadow: 0px 6px 23px -6px #253f6575;
+  text-decoration: underline;
 }
 
 .email-icon{
