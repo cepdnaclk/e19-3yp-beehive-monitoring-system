@@ -23,7 +23,7 @@ const ImageCarousel = ({ imageUrls }) => {
       >
         {imageUrls.map((imageUrl, index) => (
           <div key={index}>
-            <img src={imageUrl} alt={`Image ${index}`} />
+            <img style={{borderRadius:"1rem"}} src={imageUrl} alt={`Image ${index}`} />
           </div>
         ))}
       </Carousel>
