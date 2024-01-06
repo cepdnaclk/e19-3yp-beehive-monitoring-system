@@ -156,7 +156,7 @@ const Graphs = () => {
       )}
       <div className="graph_container">
         <p className="topic">Beehive 01</p>
-        
+        <div className="graph_card_container">
         <div className="graph_card">
           <div className="graph" id="graph1">
             <div className="graph_details">
@@ -317,6 +317,7 @@ const Graphs = () => {
             </div>
           </div>
         </div>
+
         <div className="general_info_card">
           <div className="general_info">
             <p>General Informations:</p>
@@ -332,6 +333,7 @@ const Graphs = () => {
             </div>
           </div>
         </div>
+
         <div className="video_card">
           <div className="video_container">
           <button
@@ -355,6 +357,7 @@ const Graphs = () => {
               <p className="value">10 min</p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
