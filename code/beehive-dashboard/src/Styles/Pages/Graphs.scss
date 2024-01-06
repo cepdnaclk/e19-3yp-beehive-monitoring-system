@@ -1,36 +1,131 @@
-.graph-container {
+.graph_container {
+  position: fixed;
+  top: 13%;
+  left: 50%;
+  transform: translate(-50%);
   display: flex;
-  width: 100%;
+  width: 90%;
+  height: 75%;
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  background-color: rgb(241, 240, 238);
+  border-radius: 1.75rem;
+  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  padding: 2rem;
+
+  @media screen and (min-width: 1600px){
+    .graph_card {
+      width: 18rem;
+    }
+  }
+
+  @media screen and (min-width: 1600px){
+    .graph_card {
+      width: 18rem;
+    }
+  }
+
+  @media screen and (min-width: 1600px){
+    .graph_card {
+      width: 18rem;
+    }
+  }
+
+
+  
 
   .graph_card {
     position: relative;
-    width: 15rem;
-    height: 100%;
+    width: 17rem;
+    height: 21rem;
     background-color: rgb(255, 255, 255);
     border-radius: 1.75rem;
     box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
     padding: 1rem 1rem;
     margin: 2rem 0;
     overflow: hidden;
-    
+
     .graph {
       position: relative;
       width: 100%;
-      height: 30%;
+      height: 100%;
       // padding: 1rem 1rem;
       // margin: 1rem 1rem;
       overflow: hidden;
     }
 
-    .graph_details{
+    .graph_details {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
       align-items: start;
       margin-left: 1rem;
+
+      .value {
+        font-size: 1.7rem;
+        font-weight: bolder;
+        margin-top: -1rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .info_button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+
+      border-color: transparent;
+      height: 30px;
+      width: 30px;
+      align-content: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 20px;
+      padding-top: 2px;
+      text-align: center;
+      font-weight: bolder;
+      cursor: pointer;
+      box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
+      background-color: #bac0c1;
+      color: #ffffff;
+      &:hover {
+        color: #ffffff;
+        background-color: #396594;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    .sort {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border-color: transparent;
+      align-content: center;
+      justify-content: flex-start;
+      border-radius: 2rem;
+      font-size: 0.6rem;
+      padding-top: 2px;
+      text-align: left;
+      margin-left: 1rem;
+      font-weight: bolder;
+      color: #6c6a6a;
+
+      .dropdown {
+        font-size: 0.65rem;
+        border-color: transparent;
+        border-bottom: 1px solid rgb(2, 46, 87);
+
+        &:hover {
+          color: #0f355e;
+          font-size: 0.64rem;
+          font-weight: bold;
+          border-color: transparent;
+          border-bottom: 1px solid rgb(7, 77, 143);
+        }
+      }
     }
   }
 
