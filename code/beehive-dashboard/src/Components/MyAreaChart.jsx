@@ -2,16 +2,16 @@ import React from "react";
 import {
   AreaChart,
   Area,
-  LineChart,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  Label,
 } from "recharts";
 import { format } from "date-fns";
+import { Scale } from "@mui/icons-material";
 
 const MyAreaChart = ({
   data,
@@ -24,23 +24,27 @@ const MyAreaChart = ({
   }));
 
   return (
-    // <ResponsiveContainer width="100%" height="100%">
+    <div style={{ scale:"0.5", padding: "5px", marginLeft:"-6rem",  marginBottom:"-4rem", marginTop:"-4rem"  }}>
     <AreaChart
-      width={600}
-      height={300}
+      width={500}
+      height={350}
       data={formattedData}
       margin={{
         top: 5,
         right: 30,
-        left: 30,
-        bottom: 5,
+        left: 35,
+        bottom: 20,
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="timestamp" />
-      <YAxis />
+      <XAxis dataKey="timestamp" >
+        <Label value="Time" offset={-20} position="insideBottom" style={{fontWeight:"bold", fontSize:"1.15rem"}}/>
+      </XAxis>
+      <YAxis>
+        <Label value={dataKeys[0] === "temperature" ? "Temperature (°C)" : dataKeys[0] === "humidity" ? "Humidity (%)" : `CO2 level (ppm)`} offset={0} position="insideLeft" angle={270} style={{fontWeight:"bold", fontSize:"1.15rem"}}/>
+      </YAxis>
       <Tooltip />
-      <Legend />
+      {/* <Legend /> */}
       {dataKeys.map((key, index) => (
         <>
           <Area
@@ -61,7 +65,7 @@ const MyAreaChart = ({
         </> // Use provided colors or default ones
       ))}
     </AreaChart>
-    // </ResponsiveContainer>
+    </div>
   );
 };
 
