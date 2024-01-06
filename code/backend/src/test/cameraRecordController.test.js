@@ -3,6 +3,8 @@ import { createServer } from "../utils/server.js";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import dotenv from "dotenv/config.js";
+import path from "path";
+import fs from "fs";
 
 const app = createServer();
 beforeAll(async () => {
@@ -60,6 +62,8 @@ describe("Test camera records", () => {
         accessToken = response.body.accessToken;
     });
 
+    
+
     it("Should create a beehive", async () => {
         const response = await supertest(app).post("/api/beehive").send({
             name: "Test Beehive 1",
@@ -96,33 +100,53 @@ describe("Test camera records", () => {
         beehiveId2 = response.body._id;
     });
 
-    it("Should add camera records to the beehives", async () => {
-        const response = await supertest(app).post("/api/camera").send({
-            beehive_id: beehiveId1,
-            folder_name: "Test Folder Name 1",
-            folder_size: "Test Folder Size 1",
-            sample_image: "Test Sample Image 1",
-        }).set("Authorization", `Bearer ${accessToken}`);
-        expect(response.status).toBe(201);
+    it("Should add camera records to the beehives with image upload", async () => {
+        const imagePath = path.join(__dirname, 'test.png'); 
+        console.log(imagePath);
+    
+        const response = await supertest(app)
+            .post("/api/camera")
+            .set("Authorization", `Bearer ${accessToken}`)
+            .field("beehive_id", beehiveId1)
+            .field("folder_name", "Test Folder Name 1")
+            .field("folder_size", "Test Folder Size 1")
+            .attach("sample_image", imagePath) // Attaching the image
+            .expect(201);
+    
         expect(response.body).toHaveProperty("beehive_id");
         expect(response.body).toHaveProperty("folder_name");
         expect(response.body).toHaveProperty("folder_size");
-        //expect(response.body).toHaveProperty("sample_image");
+        // Uncomment if your response includes sample_image information
+        // expect(response.body).toHaveProperty("sample_image");
     });
 
-    it("Should add camera records to the beehives", async () => {
-        const response = await supertest(app).post("/api/camera").send({
-            beehive_id: beehiveId2,
-            folder_name: "Test Folder Name 2",
-            folder_size: "Test Folder Size 2",
-            sample_image: "Test Sample Image 2",
-        }).set("Authorization", `Bearer ${accessToken}`);
-        expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty("beehive_id");
-        expect(response.body).toHaveProperty("folder_name");
-        expect(response.body).toHaveProperty("folder_size");
-        //expect(response.body).toHaveProperty("sample_image");
-    });
+    // it("Should add camera records to the beehives", async () => {
+    //     const response = await supertest(app).post("/api/camera").send({
+    //         beehive_id: beehiveId1,
+    //         folder_name: "Test Folder Name 1",
+    //         folder_size: "Test Folder Size 1",
+    //         sample_image: "Test Sample Image 1",
+    //     }).set("Authorization", `Bearer ${accessToken}`);
+    //     expect(response.status).toBe(201);
+    //     expect(response.body).toHaveProperty("beehive_id");
+    //     expect(response.body).toHaveProperty("folder_name");
+    //     expect(response.body).toHaveProperty("folder_size");
+    //     //expect(response.body).toHaveProperty("sample_image");
+    // });
+
+    // it("Should add camera records to the beehives", async () => {
+    //     const response = await supertest(app).post("/api/camera").send({
+    //         beehive_id: beehiveId2,
+    //         folder_name: "Test Folder Name 2",
+    //         folder_size: "Test Folder Size 2",
+    //         sample_image: "Test Sample Image 2",
+    //     }).set("Authorization", `Bearer ${accessToken}`);
+    //     expect(response.status).toBe(201);
+    //     expect(response.body).toHaveProperty("beehive_id");
+    //     expect(response.body).toHaveProperty("folder_name");
+    //     expect(response.body).toHaveProperty("folder_size");
+    //     //expect(response.body).toHaveProperty("sample_image");
+    // });
 
     it("Should get all camera records", async () => {
         const response = await supertest(app).get("/api/camera").set("Authorization", `Bearer ${accessToken}`);
