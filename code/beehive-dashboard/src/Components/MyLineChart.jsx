@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Label,
 } from "recharts";
 import { format } from "date-fns";
 
@@ -24,22 +25,27 @@ const MyLineChart = ({
   }));
 
   return (
+    <div style={{ scale:"0.5", padding: "5px", marginLeft:"-6rem", marginBottom:"-4rem", marginTop:"-4rem" }}>
     <LineChart
-      width={600}
-      height={300}
+      width={520}
+      height={350}
       data={formattedData}
       margin={{
         top: 5,
         right: 30,
         left: 30,
-        bottom: 5,
+        bottom: 15,
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="timestamp" />
-      <YAxis />
+      <XAxis dataKey="timestamp" >
+        <Label value="Time" offset={-15} position="insideBottom" />
+      </XAxis>
+      <YAxis>
+        <Label value="Values" offset={5} position="insideLeft" angle={270} />
+      </YAxis>
       <Tooltip />
-      <Legend />
+      
       {dataKeys.map((key, index) => (
         <>
           <Line
@@ -52,7 +58,7 @@ const MyLineChart = ({
           />{" "}
         </> // Use provided colors or default ones
       ))}
-    </LineChart>
+    </LineChart></div>
   );
 };
 

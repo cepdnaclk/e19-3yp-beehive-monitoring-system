@@ -97,18 +97,6 @@ const Graphs = () => {
       humidity: 55.44195549343026,
       CO2: 350,
     },
-    {
-      timestamp: "2024-01-01T20:00:00Z",
-      temperature: 12.827280451977341,
-      humidity: 63.294163336436114,
-      CO2: 358,
-    },
-    {
-      timestamp: "2024-01-01T21:00:00Z",
-      temperature: 13.284715345942043,
-      humidity: 55.44195549343026,
-      CO2: 350,
-    },
   ];
   return (
     <div className="dashboard-container">
@@ -149,60 +137,154 @@ const Graphs = () => {
           </div>
         </div>
       )}
-      <div className="graph-container">
-        <div
-          className="graph"
-          id="graph1"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["temperature", "humidity", "CO2"]);
-          }}
-        >
-          <MyLineChart
-            data={data}
-            dataKeys={["temperature", "humidity", "CO2"]}
-          />
+      <div className="graph_container">
+        <div className="graph_card">
+          <div className="graph" id="graph1">
+            <div className="graph_details">
+              <p>All Data</p>
+            </div>
+            <hr />
+            <button
+              className="info_button"
+              onClick={() => {
+                setShowTable(true);
+                setTableData(["temperature", "humidity", "CO2"]);
+              }}
+            >
+              i
+            </button>
+            <MyLineChart
+              data={data}
+              dataKeys={["temperature", "humidity", "CO2"]}
+            />
+          </div>
         </div>
 
-        <div
-          className="graph"
-          id="graph2"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["temperature"]);
-          }}
-        >
-          <MyAreaChart
-            data={data}
-            dataKeys={["temperature"]}
-            colors={["#82ca9d"]}
-          />
+        <div className="graph_card">
+          <div className="graph" id="graph2">
+            <div className="graph_details">
+              <p>Tempreture</p>
+              <p className="value">
+                {data[data.length - 1].temperature.toFixed(1)} °C
+              </p>
+            </div>
+            <hr />
+            <div className="sort">
+              <p>Variation Through :</p>
+              <select className="dropdown" name="sort" id="sort">
+                <option value="hour">Last hour</option>
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+              </select>
+            </div>
+            <button
+              className="info_button"
+              onClick={() => {
+                setShowTable(true);
+                setTableData(["temperature", "humidity", "CO2"]);
+              }}
+            >
+              i
+            </button>
+            <div
+              onClick={() => {
+                setShowTable(true);
+                setTableData(["temperature", "humidity", "CO2"]);
+              }}
+            >
+              <MyAreaChart
+                data={data}
+                dataKeys={["temperature"]}
+                colors={["#82ca9d"]}
+                onClick={() => {
+                  setShowTable(true);
+                  setTableData(["temperature", "humidity", "CO2"]);
+                }}
+              />
+            </div>
+          </div>
         </div>
 
-        <div
-          className="graph"
-          id="graph1"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["humidity"]);
-          }}
-        >
-          <MyAreaChart
-            data={data}
-            dataKeys={["humidity"]}
-            colors={["#8884d8"]}
-          />
+        <div className="graph_card">
+          <div
+            className="graph"
+            id="graph1"
+            onClick={() => {
+              setShowTable(true);
+              setTableData(["humidity"]);
+            }}
+          >
+            <div className="graph_details">
+              <p>Humidity</p>
+              <p className="value">
+                {data[data.length - 1].humidity.toFixed(1)} %
+              </p>
+            </div>
+            <hr />
+            <div className="sort">
+              <p>Variation Through :</p>
+              <select className="dropdown" name="sort" id="sort">
+                <option value="hour">Last hour</option>
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+              </select>
+            </div>
+            <button
+              className="info_button"
+              onClick={() => {
+                setShowTable(true);
+                setTableData(["temperature", "humidity", "CO2"]);
+              }}
+            >
+              i
+            </button>
+            <MyAreaChart
+              data={data}
+              dataKeys={["humidity"]}
+              colors={["#8884d8"]}
+            />
+          </div>
         </div>
 
-        <div
-          className="graph"
-          id="graph1"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["CO2"]);
-          }}
-        >
-          <MyAreaChart data={data} dataKeys={["CO2"]} colors={["#ff8042"]} />
+        <div className="graph_card">
+          {" "}
+          <div
+            className="graph"
+            id="graph1"
+            onClick={() => {
+              setShowTable(true);
+              setTableData(["CO2"]);
+            }}
+          >
+            <div className="graph_details">
+              <p className="topic">CO&#8322; Level</p>
+              <p className="value">
+                {data[data.length - 1].CO2.toFixed(2)} ppm
+              </p>
+            </div>
+            <hr />
+            <div className="sort">
+              <p>Variation Through :</p>
+              <select className="dropdown" name="sort" id="sort">
+                <option value="hour">Last hour</option>
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+              </select>
+            </div>
+            <button
+              className="info_button"
+              onClick={() => {
+                setShowTable(true);
+                setTableData(["temperature", "humidity", "CO2"]);
+              }}
+            >
+              i
+            </button>
+            <MyAreaChart data={data} dataKeys={["CO2"]} colors={["#ff8042"]} />
+          </div>
         </div>
       </div>
     </div>
