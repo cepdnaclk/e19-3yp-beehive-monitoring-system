@@ -12,6 +12,10 @@
 
 .navb-logo img {
   width: 150px;
+  &:hover {
+    transform: translateY(-0.3rem);
+    transition: transform 0.3s ease;
+  }
 }
 
 .navb-menu {
@@ -30,11 +34,22 @@
   text-decoration: none;
 }
 
+.contact{
+  &:hover {
+    text-decoration: underline;
+    color: rgb(0, 0, 0);
+    transition: transform 0.3s ease;
+  }
+}
+    
+ 
+
 .navb-signout {
   border-radius: 50px;
   padding: 10px 30px;
   background: #000000;
   transition: background 0.3s ease;
+  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
 }
 
 .navb-signout a{
@@ -43,4 +58,6 @@
 
 .navb-signout:hover {
   background: #4f4f4f;
+  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.4);
+
 }

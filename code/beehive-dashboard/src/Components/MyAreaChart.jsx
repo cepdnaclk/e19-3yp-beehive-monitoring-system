@@ -31,6 +31,7 @@ const MyAreaChart = ({
         marginLeft: "-6rem",
         marginBottom: "-4rem",
         marginTop: "-5rem",
+        cursor: "pointer",
       }}
     >
       <AreaChart
