@@ -1,0 +1,76 @@
+body.active-modal {
+    overflow-y: hidden;
+}
+
+.modal, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.overlay {
+    background: rgba(49,49,49,0.8);
+}
+.modal-content {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #ffffff;
+    padding: 14px 28px;
+    border-radius: 20px;
+    max-width: 600px;
+    min-width: 300px;
+}
+
+.hive-inputs {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+  }
+  
+  .hive-input{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 300px;
+    height: 40px;
+    background: #f1f1f1;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
+    border-radius: 50px;
+  }
+  
+  .hive-input input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 14px;
+    color: #000000;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+  }
+
+  .submit-button {
+    margin-top: 20px;
+  }
+  
+  .submit-button button {
+    background-color: #253F65;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 50px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    box-shadow: 0px 6px 23px -6px #253f6575;
+  }
