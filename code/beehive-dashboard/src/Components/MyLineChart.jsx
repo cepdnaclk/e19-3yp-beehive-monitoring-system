@@ -27,7 +27,7 @@ const MyLineChart = ({
   return (
     <div style={{ scale:"0.5", padding: "5px", marginLeft:"-6rem", marginBottom:"-4rem", marginTop:"-4rem" }}>
     <LineChart
-      width={500}
+      width={520}
       height={350}
       data={formattedData}
       margin={{
