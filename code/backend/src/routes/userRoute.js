@@ -2,7 +2,7 @@ import express from "express";
 import {
   registerUser,
   loginUser,
-  currentUser
+  currentUser,
 } from "../controllers/userController.js";
 import { validateToken } from "../middleware/validateTokenHandler.js";
 
