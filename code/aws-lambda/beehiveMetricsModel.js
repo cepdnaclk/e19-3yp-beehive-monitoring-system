@@ -2,26 +2,29 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const cameraRecordSchema = new Schema(
+const beehiveMetricsSchema = new Schema(
   {
     beehive_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Beehive",
     },
-    folder_name: {
-      type: String,
-      required: [true, "Please add the folder name"],
-    },
-    folder_size: {
+
+    CO2: {
       type: String,
     },
-    sample_image_name: {
-      
+    Temperature: {
       type: String,
     },
-    isRetrieved: {
-      type: Boolean,
+    Humidity: {
+      type: String,
+    },
+    Weight: {
+      type: String,
+    },
+
+    Battery_level: {
+      type: String,
     },
   },
   {
@@ -29,4 +32,5 @@ const cameraRecordSchema = new Schema(
   }
 );
 
-export const CameraRecord = mongoose.model("CameraRecord", cameraRecordSchema);
+const BeehiveMetrics = mongoose.model('BeehiveMetrics', beehiveMetricsSchema);
+module.exports = { BeehiveMetrics };
