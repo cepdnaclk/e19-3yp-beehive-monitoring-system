@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import {
   getCameraRecords,
+  getCameraRecord,
   createCameraRecord,
 } from "../controllers/cameraRecordController.js";
 import { validateToken } from "../middleware/validateTokenHandler.js";
@@ -20,3 +21,4 @@ router.route("/")
   .post(upload.single('sample_image'), createCameraRecord); // assuming 'sample_image' is the field name for the image
 
 
+router.get("/beehive/:id",getCameraRecord);
