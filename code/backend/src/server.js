@@ -22,7 +22,7 @@ app.listen(PORT, () => {
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.CONNECTION_STRING2)
+mongoose.connect(process.env.CONNECTION_STRING)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB:', err));
 
