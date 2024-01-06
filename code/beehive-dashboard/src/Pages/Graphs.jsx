@@ -97,18 +97,6 @@ const Graphs = () => {
       humidity: 55.44195549343026,
       CO2: 350,
     },
-    {
-      timestamp: "2024-01-01T20:00:00Z",
-      temperature: 12.827280451977341,
-      humidity: 63.294163336436114,
-      CO2: 358,
-    },
-    {
-      timestamp: "2024-01-01T21:00:00Z",
-      temperature: 13.284715345942043,
-      humidity: 55.44195549343026,
-      CO2: 350,
-    },
   ];
   return (
     <div className="dashboard-container">
@@ -150,59 +138,72 @@ const Graphs = () => {
         </div>
       )}
       <div className="graph-container">
-        <div
-          className="graph"
-          id="graph1"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["temperature", "humidity", "CO2"]);
-          }}
-        >
-          <MyLineChart
-            data={data}
-            dataKeys={["temperature", "humidity", "CO2"]}
-          />
+        <div className="graph_card">
+          <div
+            className="graph"
+            id="graph1"
+            onClick={() => {
+              setShowTable(true);
+              setTableData(["temperature", "humidity", "CO2"]);
+            }}
+          >
+            <div className="graph_details"><p>All Data</p></div>
+            <MyLineChart
+              data={data}
+              dataKeys={["temperature", "humidity", "CO2"]}
+            />
+          </div>
         </div>
 
-        <div
-          className="graph"
-          id="graph2"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["temperature"]);
-          }}
-        >
-          <MyAreaChart
-            data={data}
-            dataKeys={["temperature"]}
-            colors={["#82ca9d"]}
-          />
+        <div className="graph_card">
+          <div
+            className="graph"
+            id="graph2"
+            onClick={() => {
+              setShowTable(true);
+              setTableData(["temperature"]);
+            }}
+          >
+            <div className="graph_details"><p>Tempreture</p></div>
+            <MyAreaChart
+              data={data}
+              dataKeys={["temperature"]}
+              colors={["#82ca9d"]}
+            />
+          </div>
         </div>
 
-        <div
-          className="graph"
-          id="graph1"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["humidity"]);
-          }}
-        >
-          <MyAreaChart
-            data={data}
-            dataKeys={["humidity"]}
-            colors={["#8884d8"]}
-          />
+        <div className="graph_card">
+          <div
+            className="graph"
+            id="graph1"
+            onClick={() => {
+              setShowTable(true);
+              setTableData(["humidity"]);
+            }}
+          >
+            <div className="graph_details"><p>Humidity</p></div>
+            <MyAreaChart
+              data={data}
+              dataKeys={["humidity"]}
+              colors={["#8884d8"]}
+            />
+          </div>
         </div>
 
-        <div
-          className="graph"
-          id="graph1"
-          onClick={() => {
-            setShowTable(true);
-            setTableData(["CO2"]);
-          }}
-        >
-          <MyAreaChart data={data} dataKeys={["CO2"]} colors={["#ff8042"]} />
+        <div className="graph_card">
+          {" "}
+          <div
+            className="graph"
+            id="graph1"
+            onClick={() => {
+              setShowTable(true);
+              setTableData(["CO2"]);
+            }}
+          >
+            <div className="graph_details"><p>CO&#8322; Level</p></div>
+            <MyAreaChart data={data} dataKeys={["CO2"]} colors={["#ff8042"]} />
+          </div>
         </div>
       </div>
     </div>

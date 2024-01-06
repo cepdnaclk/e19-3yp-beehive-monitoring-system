@@ -8,7 +8,8 @@ function BeehiveCard({ beehiveData }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/hive-dashboard/${beehiveData.name}`);
+    // navigate(`/hive-dashboard/${beehiveData.name}`);
+    navigate(`/graph`);
   };
 
   return (
@@ -23,7 +24,8 @@ function BeehiveCard({ beehiveData }) {
           <span className="feature">Humidity</span>: {beehiveData.humidity}
         </li>
         <li>
-          <span className="feature">Temperature</span>: {beehiveData.temperature}
+          <span className="feature">Temperature</span>:{" "}
+          {beehiveData.temperature}
         </li>
         <li>
           <span className="feature">CO2 Level</span>: {beehiveData.co2Level}
