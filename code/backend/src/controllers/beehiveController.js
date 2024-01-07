@@ -21,6 +21,7 @@ export const getBeehives = asyncHandler(async (req, res) => {
       beehives[i].Humidity = latestMetrics.Humidity;
       beehives[i].Weight = latestMetrics.Weight;
       beehives[i].Battery_level = latestMetrics.Battery_level;
+      await beehives[i].save();
     }
   }
 

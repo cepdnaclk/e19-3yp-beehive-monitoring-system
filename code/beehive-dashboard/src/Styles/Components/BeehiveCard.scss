@@ -1,57 +1,86 @@
 .name {
-    width: 30%;
-    border-radius: 50px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
-    padding: 7px 10px;
-    background: #fff;
-    color: black;
-    font-family: 'Raleway', sans-serif;
-    position: relative;
-    z-index: -1;
+  width: 30%;
+  border-radius: 50px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
+  padding: 7px 10px;
+  background: #fff;
+  color: black;
+  font-family: "Raleway", sans-serif;
+  position: relative;
+  z-index: -1;
 }
 
 .box-container {
-    position:relative;
-    top: 10%;
-    left: 54%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
+  position: relative;
+  top: 10%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
 }
 
 .box {
-    width: 60%;
-    height: auto;
+  width: 60%;
+  height: auto;
 }
 
 .ellipse {
-    height: 60%;
-    z-index: 0;
-    position: relative;
-    top: -15%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
+  height: 80%;
+  z-index: 0;
+  position: relative;
+  top: -15%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
 }
-
 .card-features {
-    position: relative;
-    top: -75%;
-    left: 33%;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
+  position: relative;
+  top: -99%;
+  left: 25%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left; // Changed to left to align with the flex layout
+  width: 100%; // Ensure full width is used for the layout
 }
 
 .card-features li {
-    margin-bottom: 1px;
-    color: #000000;
-    font-family: 'Raleway', sans-serif;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
+  margin-bottom: 10px; // Adjust as needed
+  color: #000000;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // Align items to the start of the flex container
 }
 
 .card-features li .feature {
-    font-weight: 600;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.card-features li .feature-battery {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: -1rem;
+}
+
+.icon-temperature,
+.icon-humidity,
+.icon-co2 {
+  margin-right: 5px; // Uniform margin for all icons
+}
+
+// Specific icon colors
+.icon-temperature {
+  color: rgb(199, 25, 25);
+}
+
+.icon-humidity {
+  color: rgb(1, 1, 44);
+}
+
+.icon-co2 {
+  color: rgb(57, 78, 57);
 }

@@ -6,15 +6,17 @@ import {
   addBeehiveMetrics,
   updateBeehiveMetrics,
   deleteBeehiveMetrics,
+  exportBeehiveMetricsCsv,
 } from "../controllers/beehiveMetricsController.js";
 
 export const router = express.Router();
 
 router.use(validateToken);
 router.route("/").get(getAllBeehiveMetrics).post(addBeehiveMetrics);
+router.get('/export/:beehive_id', exportBeehiveMetricsCsv);
 
 router
-  .route("/:id")
+  .route("/:beehive_id")
   .get(getBeehiveMetricsById)
   .put(updateBeehiveMetrics)
   .delete(deleteBeehiveMetrics);

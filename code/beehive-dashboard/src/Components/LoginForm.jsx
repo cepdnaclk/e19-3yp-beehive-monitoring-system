@@ -9,6 +9,7 @@ import "../Styles/Pages/SignIn.scss";
 function LoginForm() {
   const [formData, setFormData] = useState({});
   const { login } = useContext(AuthContext);
+  const [showInvalidCredentialsWarning, setShowInvalidCredentialsWarning] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,8 +23,13 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (login(formData.email, formData.password)) {
+    const success = await login(formData.email, formData.password);
+    console.log("Success: "+success);
+    if (success) {
       navigate("/dashboard");
+    }
+    else {
+      setShowInvalidCredentialsWarning(true);
     }
   };
 
@@ -52,6 +58,9 @@ function LoginForm() {
               placeholder="Password"
               onChange={handleChange}
             />
+          </div>
+          <div>
+            {showInvalidCredentialsWarning && <p>Invalid Credentials</p>}
           </div>
         </div>
 

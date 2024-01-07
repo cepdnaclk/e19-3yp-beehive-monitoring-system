@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { BeehiveMetrics } from "../models/beehiveMetricsModel.js";
+import { createObjectCsvStringifier } from 'csv-writer';
 
 //@desc Get all beehive metrics
 //@route GET /api/beehive-metrics
@@ -16,66 +17,29 @@ export const getAllBeehiveMetrics = asyncHandler(async (req, res) => {
 
 export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
   const { beehive_id } = req.params;
+  console.log("The beehive_id is:", beehive_id);
+
   try {
     const beehiveMetrics = await BeehiveMetrics.find({ beehive_id });
-    if (!beehiveMetrics) {
+    if (!beehiveMetrics || beehiveMetrics.length === 0) {
       res.status(404);
       throw new Error("Beehive metrics not found");
     }
-    // Filter the metrics for the specific beehive_id
-    const filteredMetrics = beehiveMetrics.filter(
-      (metric) => metric.beehive_id.toString() === beehive_id
-    );
 
-    // Extracting individual metric arrays and createdAt
-    const CO2 = [];
-    const Temperature = [];
-    const Humidity = [];
-    const createdAt = [];
-
-    filteredMetrics.forEach((metric) => {
-      CO2.push(metric.CO2);
-      Temperature.push(metric.Temperature);
-      Humidity.push(metric.Humidity);
-      createdAt.push(metric.createdAt);
-    });
-
-    // Prepare individual data for each graph
-    const temperatureData = Temperature.map((values, index) => ({
-      x: createdAt[index],
-      y: values,
+    // Transforming the data into the desired format
+    const transformedData = beehiveMetrics.map(metric => ({
+      createdAt: metric.createdAt,
+      temperature: metric.Temperature,
+      humidity: metric.Humidity,
+      CO2: metric.CO2,
     }));
 
-    const humidityData = Humidity.map((values, index) => ({
-      x: createdAt[index],
-      y: values,
-    }));
-
-    const co2Data = CO2.map((values, index) => ({
-      x: createdAt[index],
-      y: values,
-    }));
-
-    // Prepare the combined graph data
-    const combinedGraphData = {
-      CO2: CO2.flat(),
-      Temperature: Temperature.flat(),
-      Humidity: Humidity.flat(),
-      createdAt: createdAt.flat(),
-    };
-
-    const graphsData = {
-      temperature: temperatureData,
-      humidity: humidityData,
-      co2: co2Data,
-      combined: combinedGraphData,
-    };
-
-    res.status(200).json(graphsData);
+    res.status(200).json(transformedData);
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 //@desc Add new beehive metrics
 //@route POST /api/beehive-metrics
@@ -140,4 +104,48 @@ export const deleteBeehiveMetrics = asyncHandler(async (req, res) => {
   res
     .status(201)
     .json({ beehiveMetrics, message: "Beehive metrics deleted successfully" });
+});
+
+
+
+export const exportBeehiveMetricsCsv = asyncHandler(async (req, res) => {
+    const { beehive_id } = req.params;
+
+    try {
+        const beehiveMetrics = await BeehiveMetrics.find({ beehive_id });
+        if (!beehiveMetrics || beehiveMetrics.length === 0) {
+            res.status(404);
+            throw new Error("Beehive metrics not found");
+        }
+        console.log('Beehive metrics found', beehiveMetrics.length);
+        const csvStringifier = createObjectCsvStringifier({
+            header: [
+                { id: 'createdAt', title: 'Created At' },
+                { id: 'temperature', title: 'Temperature' },
+                { id: 'humidity', title: 'Humidity' },
+                { id: 'CO2', title: 'CO2' },
+                // Add other headers as needed
+            ],
+        });
+
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename="beehive-metrics-${beehive_id}.csv"`);
+
+        const transformedData = beehiveMetrics.map(metric => ({
+            createdAt: metric.createdAt,
+            temperature: metric.Temperature,
+            humidity: metric.Humidity,
+            CO2: metric.CO2,
+            // Include other fields if needed
+        }));
+
+        res.write(csvStringifier.getHeaderString());
+        res.write(csvStringifier.stringifyRecords(transformedData));
+        console.log('CSV file generated successfully');
+        res.end();
+
+    } catch (error) {
+        console.error('Error generating CSV file', error);
+        res.status(500).send('Error generating CSV file');
+    }
 });

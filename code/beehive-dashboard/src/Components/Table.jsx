@@ -26,7 +26,7 @@ const Table = ({ data, dataKeys }) => {
                 {dataKeys.map((key, index) => (
                   <td key={index}>{row[key]}</td>
                 ))}
-                <td>{formatTimestamp(row.timestamp)}</td>
+                <td>{formatTimestamp(row.createdAt)}</td>
               </tr>
             ))}
           </tbody>

@@ -16,9 +16,9 @@ const cameraRecordSchema = new Schema(
     folder_size: {
       type: String,
     },
-    sample_image_name: {
+    sample_image_names: {
       
-      type: String,
+      type: Array,
     },
     isRetrieved: {
       type: Boolean,
