@@ -10,6 +10,7 @@
   --first-color-alt: #fcbe27;
   --first-color-light: #fdc668;
   --first-color-lighten: #efd29f;
+  --first-color-dark: #d59629;
   --title-color: #000000;
   --text-color: #5b5b5b;
   --text-color-light: #88918d;
@@ -395,7 +396,7 @@ body.dark-theme {
 
 .archi_img {
   position: relative;
-  width: 520px;
+  width: 400px;
   justify-self: center;
   margin-bottom: var(--mb-0-75);
   transition: 0.3s;
@@ -417,6 +418,7 @@ body.dark-theme {
 
 .design_description {
   text-align: center;
+  font-size: var(--h2-font-size);
 }
 .design_container {
   padding: 3rem 0;
@@ -436,7 +438,7 @@ body.dark-theme {
 
 .design_img {
   position: relative;
-  width: 500px;
+  width: 600px;
   justify-self: center;
   margin-bottom: var(--mb-0-75);
   transition: 0.3s;
@@ -453,6 +455,94 @@ body.dark-theme {
 .design_card:hover .design_img {
   transform: translateY(-0.5rem);
 }
+
+/* .design_img_sensors {
+  position: relative;
+  width: 600px;
+  justify-self: center;
+  margin-bottom: var(--mb-0-75);
+  transition: 0.3s;
+} */
+
+.design_img_rasph {
+  position: relative;
+  width: 450px;
+  justify-self: center;
+  margin-bottom: var(--mb-0-75);
+  transition: 0.3s;
+}
+
+.design_img_box {
+  position: relative;
+  width: 500px;
+  justify-self: center;
+  margin-bottom: var(--mb-0-75);
+  transition: 0.3s;
+}
+
+/* Budget Table */
+
+.budget{
+	margin: auto;
+	padding: 50px;
+}
+
+.table{
+	width: 80%;
+	border-collapse: collapse;
+}
+
+.table td,.table th{
+  padding:12px 15px;
+  border:1px solid #ddd;
+  text-align: center;
+  font-size:12px;
+}
+
+.table th{
+	background-color: var(--first-color);
+	color:#ffffff;
+}
+
+/* Testing Table */
+
+.testing{
+	margin: auto;
+	padding: 50px;
+	/* font-family: sans-serif; */
+}
+
+.table{
+	width: 80%;
+	border-collapse: collapse;
+}
+
+.table td,.table th{
+  padding:12px 15px;
+  border:1px solid #ddd;
+  text-align: center;
+  font-size:12px;
+}
+
+.table th{
+	background-color: var(--first-color);
+	color:#ffffff;
+}
+
+.responsive-cell-block {
+  min-height: 75px;
+}
+
+.text-blk {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  line-height: 25px;
+}
+
+/* Team */
+
 
 /* FOOTER */
 
@@ -633,4 +723,38 @@ body.dark-theme {
   .archi_img {
     width: 920px;
   }
+}
+
+
+
+/*responsive*/
+
+@media(max-width: 500px){
+	.table thead{
+		display: none;
+	}
+
+	.table, .table tbody, .table tr, .table td{
+		display: block;
+		width: 100%;
+	}
+	.table tr{
+		margin-bottom:15px;
+	}
+	.table td{
+		text-align: right;
+		padding-left: 50%;
+		text-align: right;
+		position: relative;
+	}
+	.table td::before{
+		content: attr(data-label);
+		position: absolute;
+		left:0;
+		width: 50%;
+		padding-left:15px;
+		font-size:15px;
+		font-weight: bold;
+		text-align: left;
+	}
 }
