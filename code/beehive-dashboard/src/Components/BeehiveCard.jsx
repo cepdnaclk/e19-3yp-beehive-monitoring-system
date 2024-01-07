@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Box from "../Assets/Beehive_box.png";
 import Ellipse from "../Assets/Card_Ellipse.png";
 import "../Styles/Components/BeehiveCard.scss";
+import BatteryIndicator from "./BatteryIndicator";
 
 function BeehiveCard({ beehiveData }) {
   const navigate = useNavigate();
@@ -21,14 +22,19 @@ function BeehiveCard({ beehiveData }) {
       <img src={Ellipse} alt="" className="ellipse" />
       <ul className="card-features">
         <li>
-          <span className="feature">Humidity</span>: {beehiveData.Humidity}
+          <span className="feature-battery"><BatteryIndicator level={beehiveData.Battery_level} /></span> 
+          
+          
+        </li>
+        <li>
+          <span className="feature">Humidity</span>: {beehiveData.Humidity}%
         </li>
         <li>
           <span className="feature">Temperature</span>:{" "}
-          {beehiveData.Temperature}
+          {beehiveData.Temperature} {'\u00b0'}C
         </li>
         <li>
-          <span className="feature">CO2 Level</span>: {beehiveData.CO2}
+          <span className="feature">CO2 Level</span>: {beehiveData.CO2} ppm
         </li>
       </ul>
     </div>

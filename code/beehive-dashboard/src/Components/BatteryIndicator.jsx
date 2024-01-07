@@ -1,33 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import './BatteryIndicator.scss';
+import React from 'react';
+import '../Styles/Components/BatteryIndicator.scss'
 
-const BatteryIndicator = () => {
-  const [batteryLevel, setBatteryLevel] = useState(100);
-
-  useEffect(() => {
-    // Simulate battery level change
-    const interval = setInterval(() => {
-      setBatteryLevel(prevLevel => prevLevel > 0 ? prevLevel - 10 : 100);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
-
+const BatteryIndicator = ({ level }) => {
   const getBatteryLevelColor = () => {
-    if (batteryLevel < 20) return 'red';
-    if (batteryLevel < 60) return 'yellow';
+    if (level < 20) return 'red';
+    if (level < 60) return 'yellow';
     return 'green';
   };
 
-  const isLowBattery = batteryLevel < 20;
+  const isLowBattery = level < 20;
 
   return (
     <div className="battery-indicator">
       <div
         className={`battery-level ${isLowBattery ? 'blink' : ''}`}
-        style={{ width: `${batteryLevel}%`, backgroundColor: getBatteryLevelColor() }}
+        style={{ width: `${level}%`, backgroundColor: getBatteryLevelColor() }}
       >
-        {batteryLevel}%
+        {level}%
       </div>
     </div>
   );
