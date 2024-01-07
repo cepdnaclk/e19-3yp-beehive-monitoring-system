@@ -12,6 +12,8 @@ function Dashboard() {
   
   const navigate = useNavigate();
 
+  const [fetching, setFetching] = useState(false);
+
   
 
 
@@ -66,14 +68,17 @@ function Dashboard() {
       console.log(data);
     });
   }
-  , []);
+  , [fetching]);
 
 
   return (
     <div className="dashboard-container">
       <Navbar />
+        <button className="fetch-button" onClick={() => setFetching(!fetching)}>
+          Sync</button>
       <div className="beehive-cards-container">
-        {}
+      {/* Fetch Sync button */}
+        
 
 
         {beehiveDataList.beehives.map((data, index) => (

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/api/beehive";
+import { PARENT_API_URL } from './config';
+
+const API_URL = `${PARENT_API_URL}/beehive/`;
 //Protected routes
 
 //retreive accessToken from localStorage
