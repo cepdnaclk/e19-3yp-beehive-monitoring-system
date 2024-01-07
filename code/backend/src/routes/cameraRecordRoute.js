@@ -9,16 +9,19 @@ import { validateToken } from "../middleware/validateTokenHandler.js";
 
 export const router = express.Router();
 
-// Multer configuration
+// Multer configuration for multiple files
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.use(validateToken);
 
-// Apply multer only to the POST route for file upload
+// Configure multer for multiple file uploads
 router.route("/")
   .get(getCameraRecords)
-  .post(upload.single('sample_image'), createCameraRecord); // assuming 'sample_image' is the field name for the image
+  .post(upload.fields([
+      { name: 'file1', maxCount: 1 },
+      { name: 'file2', maxCount: 1 },
+      { name: 'file3', maxCount: 1 }
+    ]), createCameraRecord);
 
-
-router.get("/beehive/:id",getCameraRecord);
+router.get("/beehive/:id", getCameraRecord);
