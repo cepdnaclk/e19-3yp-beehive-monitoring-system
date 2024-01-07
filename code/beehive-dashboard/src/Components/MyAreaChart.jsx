@@ -20,7 +20,7 @@ const MyAreaChart = ({
 }) => {
   const formattedData = data.map((item) => ({
     ...item,
-    timestamp: format(new Date(item.timestamp), "HH:mm"),
+    timestamp: format(new Date(item.createdAt), "HH:mm"),
   }));
 
   return (
