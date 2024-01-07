@@ -201,7 +201,7 @@ const Graphs = () => {
         </div>
       )}
       <div className="graph_container">
-        <p className="topic">Beehive 01</p>
+        <p className="topic">{beehiveData.name}</p>
         <div className="graph_card_container">
           <div className="graph_card">
             <div className="graph" id="graph1">
