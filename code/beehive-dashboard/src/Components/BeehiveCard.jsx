@@ -9,7 +9,7 @@ function BeehiveCard({ beehiveData }) {
 
   const handleClick = () => {
     // navigate(`/hive-dashboard/${beehiveData.name}`);
-    navigate(`/graph`);
+    navigate(`/graph`,{state: {beehiveData: beehiveData}});
   };
 
   return (
