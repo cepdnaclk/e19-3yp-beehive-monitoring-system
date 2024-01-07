@@ -59,7 +59,7 @@ function LoginForm() {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="invalid-warning">
             {showInvalidCredentialsWarning && <p>Invalid Credentials</p>}
           </div>
         </div>
