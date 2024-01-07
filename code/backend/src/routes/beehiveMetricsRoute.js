@@ -6,6 +6,7 @@ import {
   addBeehiveMetrics,
   updateBeehiveMetrics,
   deleteBeehiveMetrics,
+  exportBeehiveMetricsCsv,
 } from "../controllers/beehiveMetricsController.js";
 
 export const router = express.Router();

@@ -33,3 +33,14 @@ export const getBeehiveMetricsByBeehiveId = async (id) => {
     console.log(response.data);
     return response.data;
 }
+
+export const downloadBeehiveMetricsCsv = async (beehive_id) => {
+    const accessToken = getAccessToken();
+    const response = await axios.get(`${API_URL}export/${beehive_id}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
+    console.log(response.data);
+    return response;
+}

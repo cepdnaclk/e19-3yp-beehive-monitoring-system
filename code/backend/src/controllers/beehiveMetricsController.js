@@ -117,7 +117,7 @@ export const exportBeehiveMetricsCsv = asyncHandler(async (req, res) => {
             res.status(404);
             throw new Error("Beehive metrics not found");
         }
-
+        console.log('Beehive metrics found', beehiveMetrics.length);
         const csvStringifier = createObjectCsvStringifier({
             header: [
                 { id: 'createdAt', title: 'Created At' },
@@ -141,6 +141,7 @@ export const exportBeehiveMetricsCsv = asyncHandler(async (req, res) => {
 
         res.write(csvStringifier.getHeaderString());
         res.write(csvStringifier.stringifyRecords(transformedData));
+        console.log('CSV file generated successfully');
         res.end();
 
     } catch (error) {

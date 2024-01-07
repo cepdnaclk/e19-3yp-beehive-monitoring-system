@@ -11,6 +11,7 @@ import { TiExportOutline } from "react-icons/ti";
 import { useLocation } from "react-router-dom";
 import { getCameraRecordByBeehiveId } from "../Services/cameraRecordService";
 import { getBeehiveMetricsByBeehiveId } from "../Services/beehiveMetricsService";
+import { downloadBeehiveMetricsCsv } from "../Services/beehiveMetricsService";
 
 const Graphs = () => {
   const location = useLocation();
@@ -24,8 +25,6 @@ const Graphs = () => {
       setTableData(beehiveData);
     }
   }, [beehiveData]);
-
-  
 
   const [showTable, setShowTable] = useState(false);
   const [tableData, setTableData] = useState([]);
@@ -64,6 +63,32 @@ const Graphs = () => {
     fetchCameraRecords();
     console.log(cameraRecords);
   }, []);
+  // const handleDownloadCsv = (beehiveId) => {
+  //   downloadBeehiveMetricsCsv(beehiveId)
+  //     .then((response) => {
+  //       console.log(response);
+  //       const url = window.URL.createObjectURL(new Blob([response.data]));
+  //       const link = document.createElement("a");
+  //       link.href = url;
+  //       link.setAttribute("download", `beehive-metrics-${beehiveId}.csv`); // or any other filename
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       link.parentNode.removeChild(link);
+  //     })
+  //     .catch((error) => console.error("Error downloading CSV file:", error));
+  // };
+
+  const handleDownloadCsv = async (beehiveId) => {
+    const response = await downloadBeehiveMetricsCsv(beehiveId);
+    console.log(response);
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `beehive-metrics-${beehiveId}.csv`); // or any other filename
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  }
 
   const [data, setData] = useState([
     {
@@ -147,9 +172,7 @@ const Graphs = () => {
       setData(data);
     };
     fetchBeehiveMetrics();
-  }
-  , []);
-
+  }, []);
 
   const [showingData, setShowingData] = useState(data);
 
@@ -181,7 +204,7 @@ const Graphs = () => {
               className="export_button"
               onClick={(e) => {
                 e.preventDefault();
-                setShowTable(false);
+                handleDownloadCsv(beehiveData._id)
               }}
             >
               <TiExportOutline /> Export
@@ -392,7 +415,7 @@ const Graphs = () => {
                 onClick={() => {
                   setShowTable(true);
                   setShowingData(cameraRecords);
-                  setTableData(["folder_size","folder_name","isRetrieved"]);
+                  setTableData(["folder_size", "folder_name", "isRetrieved"]);
                 }}
               >
                 i
