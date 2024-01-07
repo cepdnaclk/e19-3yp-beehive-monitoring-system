@@ -21,14 +21,14 @@ function BeehiveCard({ beehiveData }) {
       <img src={Ellipse} alt="" className="ellipse" />
       <ul className="card-features">
         <li>
-          <span className="feature">Humidity</span>: {beehiveData.humidity}
+          <span className="feature">Humidity</span>: {beehiveData.Humidity}
         </li>
         <li>
           <span className="feature">Temperature</span>:{" "}
-          {beehiveData.temperature}
+          {beehiveData.Temperature}
         </li>
         <li>
-          <span className="feature">CO2 Level</span>: {beehiveData.co2Level}
+          <span className="feature">CO2 Level</span>: {beehiveData.CO2}
         </li>
       </ul>
     </div>

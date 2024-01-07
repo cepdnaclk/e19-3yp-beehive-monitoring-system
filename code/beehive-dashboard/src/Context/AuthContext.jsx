@@ -8,7 +8,7 @@ import AuthService from '../Services/authService';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     // useEffect(() => {
@@ -27,7 +27,12 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(true);
         try {
             const user = await AuthService.login(email, password);
+            //save access token in storage
+            console.log(user);
+            localStorage.setItem("user", JSON.stringify(user.accessToken));
+
             setCurrentUser(user);
+            
         } catch (error) {
             console.error("Login failed:", error);
         } finally {
