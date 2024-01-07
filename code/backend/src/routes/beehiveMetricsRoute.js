@@ -12,6 +12,7 @@ export const router = express.Router();
 
 router.use(validateToken);
 router.route("/").get(getAllBeehiveMetrics).post(addBeehiveMetrics);
+router.get('/export/:beehive_id', exportBeehiveMetricsCsv);
 
 router
   .route("/:beehive_id")
