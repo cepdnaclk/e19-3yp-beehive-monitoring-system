@@ -24,6 +24,7 @@ function LoginForm() {
   const handleLogin = async (e) => {
     e.preventDefault();
     const success = await login(formData.email, formData.password);
+    console.log("Success: "+success);
     if (success) {
       navigate("/dashboard");
     }

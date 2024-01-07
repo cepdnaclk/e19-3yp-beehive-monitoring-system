@@ -37,6 +37,13 @@ export const AuthProvider = ({ children }) => {
             console.error("Login failed:", error);
         } finally {
             setIsLoading(false);
+            
+        }
+        if (currentUser) {
+            return true;
+        }
+        else {
+            return false;
         }
     };
 
