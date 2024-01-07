@@ -11,20 +11,30 @@ const beehiveMetricsSchema = new Schema(
     },
 
     CO2: {
-      type: String,
+      type: Number,
+      min: 0,
     },
     Temperature: {
-      type: String,
+      type: Number,
+      
+
     },
     Humidity: {
-      type: String,
+      type: Number,
+      min : 0,
+      max : 100,
     },
     Weight: {
-      type: String,
+      type: Number,
+      min: 0,
     },
 
     Battery_level: {
-      type: String,
+      type: Number,
+      //range
+      min: 0,
+      max: 100,
+
     },
   },
   {

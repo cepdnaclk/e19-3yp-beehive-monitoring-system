@@ -14,7 +14,7 @@ router.use(validateToken);
 router.route("/").get(getAllBeehiveMetrics).post(addBeehiveMetrics);
 
 router
-  .route("/:id")
+  .route("/:beehive_id")
   .get(getBeehiveMetricsById)
   .put(updateBeehiveMetrics)
   .delete(deleteBeehiveMetrics);

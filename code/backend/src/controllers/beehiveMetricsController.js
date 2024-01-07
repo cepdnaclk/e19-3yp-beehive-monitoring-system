@@ -16,66 +16,29 @@ export const getAllBeehiveMetrics = asyncHandler(async (req, res) => {
 
 export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
   const { beehive_id } = req.params;
+  console.log("The beehive_id is:", beehive_id);
+
   try {
     const beehiveMetrics = await BeehiveMetrics.find({ beehive_id });
-    if (!beehiveMetrics) {
+    if (!beehiveMetrics || beehiveMetrics.length === 0) {
       res.status(404);
       throw new Error("Beehive metrics not found");
     }
-    // Filter the metrics for the specific beehive_id
-    const filteredMetrics = beehiveMetrics.filter(
-      (metric) => metric.beehive_id.toString() === beehive_id
-    );
 
-    // Extracting individual metric arrays and createdAt
-    const CO2 = [];
-    const Temperature = [];
-    const Humidity = [];
-    const createdAt = [];
-
-    filteredMetrics.forEach((metric) => {
-      CO2.push(metric.CO2);
-      Temperature.push(metric.Temperature);
-      Humidity.push(metric.Humidity);
-      createdAt.push(metric.createdAt);
-    });
-
-    // Prepare individual data for each graph
-    const temperatureData = Temperature.map((values, index) => ({
-      x: createdAt[index],
-      y: values,
+    // Transforming the data into the desired format
+    const transformedData = beehiveMetrics.map(metric => ({
+      createdAt: metric.createdAt,
+      temperature: metric.Temperature,
+      humidity: metric.Humidity,
+      CO2: metric.CO2,
     }));
 
-    const humidityData = Humidity.map((values, index) => ({
-      x: createdAt[index],
-      y: values,
-    }));
-
-    const co2Data = CO2.map((values, index) => ({
-      x: createdAt[index],
-      y: values,
-    }));
-
-    // Prepare the combined graph data
-    const combinedGraphData = {
-      CO2: CO2.flat(),
-      Temperature: Temperature.flat(),
-      Humidity: Humidity.flat(),
-      createdAt: createdAt.flat(),
-    };
-
-    const graphsData = {
-      temperature: temperatureData,
-      humidity: humidityData,
-      co2: co2Data,
-      combined: combinedGraphData,
-    };
-
-    res.status(200).json(graphsData);
+    res.status(200).json(transformedData);
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 //@desc Add new beehive metrics
 //@route POST /api/beehive-metrics
