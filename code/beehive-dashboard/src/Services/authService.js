@@ -15,10 +15,13 @@ const register = async (email, password) => {
 
 const login = async (email, password) => {
     const response = await axios.post(API_URL + 'login', { email, password });
+    console.log(response.data);
     if (response.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(response.data));
+        return response.data;
+    } else {
+        return false;
     }
-    return response.data;
 };
 
 const logout = () => {
