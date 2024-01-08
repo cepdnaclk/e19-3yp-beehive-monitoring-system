@@ -5,9 +5,13 @@ import "../Styles/Pages/Dashboard.scss";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllBeehives } from "../Services/beehiveService";
+import { set } from "date-fns";
 
 function Dashboard() {
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const [fetching, setFetching] = useState(false);
 
@@ -61,6 +65,8 @@ function Dashboard() {
   useEffect(() => {
     getAllBeehives().then((data) => {
       setBeehiveDataList(data);
+      setIsLoading(false);
+      setIsSyncing(false);
       console.log(data);
     });
   }, [fetching]);
@@ -68,17 +74,37 @@ function Dashboard() {
   return (
     <div className="dashboard-container">
       <Navbar />
-      <button className="fetch-button" onClick={() => setFetching(!fetching)}>
-        Sync
-      </button>
-      <div className="beehive-cards-container">
-        {/* Fetch Sync button */}
-
-        {beehiveDataList.beehives.map((data, index) => (
-          <BeehiveCard key={index} beehiveData={data} />
-        ))}
-        {/* <AddCard /> */}
-      </div>
+      {isLoading ? (
+        <div className="loading-container">
+          <h1>Loading...</h1>
+        </div>
+      ) : (
+        <>
+          {!isSyncing ? (
+            <>
+              <button
+                className="fetch-button"
+                onClick={() => {
+                  setFetching(!fetching);
+                  setIsSyncing(true);
+                }}
+              >
+                Sync
+              </button>
+            </>
+          ) : (
+            <>
+              <h1>Syncing ...</h1>
+            </>
+          )}
+          <div className="beehive-cards-container">
+            {beehiveDataList.beehives.map((data, index) => (
+              <BeehiveCard key={index} beehiveData={data} />
+            ))}
+            {/* <AddCard /> */}
+          </div>
+        </>
+      )}
     </div>
   );
 }
