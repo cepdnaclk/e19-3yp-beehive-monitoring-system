@@ -44,3 +44,24 @@ body {
       transition: transform 0.3s ease;
     }
   }
+  .sync-button{
+    width: 5rem;
+    height: 2.2rem;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    &:hover {
+      transform: translateY(-0.3rem);
+      transition: transform 0.3s ease;
+    }
+    border: none;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
+    background-color: #ffffff;
+
+  }
+  .syncing-text{
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+    color: #000000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.256);
+  }

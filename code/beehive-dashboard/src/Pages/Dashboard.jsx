@@ -83,7 +83,7 @@ function Dashboard() {
           {!isSyncing ? (
             <>
               <button
-                className="fetch-button"
+                className="sync-button"
                 onClick={() => {
                   setFetching(!fetching);
                   setIsSyncing(true);
@@ -94,7 +94,7 @@ function Dashboard() {
             </>
           ) : (
             <>
-              <h1>Syncing ...</h1>
+              <p className="syncing-text">Syncing ...</p>
             </>
           )}
           <div className="beehive-cards-container">
