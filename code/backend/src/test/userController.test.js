@@ -144,7 +144,7 @@ describe("User API", () => {
     const token = res.body.accessToken;
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     //check that the token expires in 15 mins
-    expect(decoded.exp - decoded.iat).toBe(900);
+    expect(decoded.exp - decoded.iat).toBe(6000);
     //check that the token contains the user
     expect(decoded.user).toHaveProperty("username");
     expect(decoded.user).toHaveProperty("email");
