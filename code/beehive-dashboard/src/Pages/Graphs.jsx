@@ -204,24 +204,7 @@ const Graphs = () => {
             >
               <IoCloseCircleOutline />
             </button>
-            <button
-              className="sync_button"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowTable(false);
-              }}
-            >
-              <FcSynchronize /> Sync
-            </button>
-            <button
-              className="export_button"
-              onClick={(e) => {
-                e.preventDefault();
-                handleDownloadCsv(beehiveData._id);
-              }}
-            >
-              <TiExportOutline /> Export
-            </button>
+            
 
             <select className="sort_button" name="sort" id="sort">
               <option value="hour">Last hour</option>
