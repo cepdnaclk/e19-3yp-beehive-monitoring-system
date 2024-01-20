@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer } from './utils/server.js';
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+import {options} from "./utils/swagger.js";
 
 // Load environment variables
 dotenv.config();
@@ -25,6 +28,9 @@ app.listen(PORT, () => {
 mongoose.connect(process.env.CONNECTION_STRING2)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB:', err));
+
+    const specs = swaggerJsdoc(options);
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 /*
 MQTT Config
