@@ -5,11 +5,16 @@ import { router as beehiveMetricsRouter } from "../routes/beehiveMetricsRoute.js
 import { router as cameraRecordRouter } from "../routes/cameraRecordRoute.js";
 import { router as landingPageRoute } from "../routes/landingPageRoute.js";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+import {options} from "../utils/swagger.js";
+
 
 export function createServer() {
   const app = express();
 
   app.use(express.json());
+  
 
   app.use(
     cors({
@@ -25,5 +30,7 @@ export function createServer() {
   app.use("/", landingPageRoute);
   app.use("*", (req, res) => res.status(404).json({ error: "not found" }));
 
+  const specs = swaggerJsdoc(options);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
   return app;
 }
