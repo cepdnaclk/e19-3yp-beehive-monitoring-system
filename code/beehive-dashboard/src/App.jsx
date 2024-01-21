@@ -6,11 +6,13 @@ import Graphs from "./Pages/Graphs";
 import HiveDashboard from "./Pages/HiveDashboard";
 import { AuthProvider } from "./Context/AuthContext";
 import { Routes, Route } from "react-router-dom";
+import { BeehiveProvider } from "./Context/BeehiveContext";
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
+        <BeehiveProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
@@ -18,6 +20,7 @@ function App() {
           <Route path="/graph" element={<Graphs />} />
           <Route path="/hive-dashboard/:hiveName" element={<HiveDashboard />} />
         </Routes>
+        </BeehiveProvider>
       </AuthProvider>
     </div>
   );

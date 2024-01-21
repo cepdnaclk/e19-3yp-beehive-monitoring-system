@@ -25,13 +25,16 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         setIsLoading(true);
+        var result = false;
         try {
             const user = await AuthService.login(email, password);
             //save access token in storage
             console.log(user);
             localStorage.setItem("user", JSON.stringify(user.accessToken));
-
+            result = true;
             setCurrentUser(user);
+
+
             
         } catch (error) {
             console.error("Login failed:", error);
@@ -39,7 +42,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
             
         }
-        if (currentUser) {
+        if (result) {
             return true;
         }
         else {

@@ -4,15 +4,18 @@ import Box from "../Assets/Beehive_box.png";
 import Ellipse from "../Assets/Card_Ellipse.png";
 import "../Styles/Components/BeehiveCard.scss";
 import BatteryIndicator from "./BatteryIndicator";
-import { faThermometerHalf, faTint, faCloud } from "@fortawesome/free-solid-svg-icons";
+import {
+  faThermometerHalf,
+  faTint,
+  faCloud,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 
 function BeehiveCard({ beehiveData }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/graph`, {state: {beehiveData: beehiveData}});
+    navigate(`/graph`, { state: { beehiveData: beehiveData } });
   };
 
   return (
@@ -25,26 +28,36 @@ function BeehiveCard({ beehiveData }) {
       <ul className="card-features">
         <li>
           <span className="feature-battery">
-            <BatteryIndicator level={beehiveData.Battery_level} />
-            <span>Battery: {beehiveData.Battery_level}%</span>
+            <BatteryIndicator level={parseFloat(beehiveData.Battery_level)} />
+            <span>
+              Battery: {parseFloat(beehiveData.Battery_level).toFixed(2)}%
+            </span>
           </span>
         </li>
         <li>
           <span className="feature">
             <FontAwesomeIcon icon={faTint} className="icon-humidity" />
-            <span>Humidity: {beehiveData.Humidity}%</span>
+            <span>
+              Humidity: {parseFloat(beehiveData.Humidity).toFixed(2)}%
+            </span>
           </span>
         </li>
         <li>
           <span className="feature">
-            <FontAwesomeIcon icon={faThermometerHalf} className="icon-temperature"/>
-            <span>Temperature: {beehiveData.Temperature}{'\u00b0'}C</span>
+            <FontAwesomeIcon
+              icon={faThermometerHalf}
+              className="icon-temperature"
+            />
+            <span>
+              Temperature: {parseFloat(beehiveData.Temperature).toFixed(2)}
+              {"\u00b0"}C
+            </span>
           </span>
         </li>
         <li>
           <span className="feature">
-            <FontAwesomeIcon icon={faCloud} className="icon-co2"/>
-            <span>CO2: {beehiveData.CO2} ppm</span>
+            <FontAwesomeIcon icon={faCloud} className="icon-co2" />
+            <span>CO2: {parseFloat(beehiveData.CO2).toFixed(2)} ppm</span>
           </span>
         </li>
       </ul>
@@ -53,5 +66,3 @@ function BeehiveCard({ beehiveData }) {
 }
 
 export default BeehiveCard;
-
-
