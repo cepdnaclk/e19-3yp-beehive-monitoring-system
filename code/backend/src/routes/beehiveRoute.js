@@ -14,7 +14,7 @@ import swaggerJsDoc from "swagger-jsdoc";
 /**
  * @swagger
  * /api/beehive/get:
- *   post:
+ *   get:
  *     summary: Get beehive information
  *     description: This endpoint is for retrieving information about a beehive.
  *     tags: [Beehives]

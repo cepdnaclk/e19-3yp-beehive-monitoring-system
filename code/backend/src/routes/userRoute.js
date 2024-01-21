@@ -82,7 +82,7 @@ import swaggerJsDoc from "swagger-jsdoc";
 /**
  * @swagger
  * /api/user/current:
- *   post:
+ *   get:
  *     summary: Get current user information
  *     description: This endpoint is for retrieve information about the current user.
  *     tags: [Users]
