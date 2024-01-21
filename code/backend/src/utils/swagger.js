@@ -5,7 +5,7 @@ export const options = {
       title: "Beehive Monitoring System API",
       version: "1.0.0",
       description:
-        "This is a simple CRUD API application made with Express and documented with Swagger",
+        "Swagger Documentation for the Beehive Monitoring System",
       license: {
         name: "MIT",
         url: "https://github.com/cepdnaclk/e19-3yp-beehive-monitoring-system/blob/main/LICENSE",
@@ -55,11 +55,10 @@ export const options = {
             email: {
               type: "string",
               description: "Email of the user",
-              example: "bimbara@gmail.com",
+              example: "beehive@gmail.com",
             },
           },
         },
-        
       },
       responses: {
         400: {
