@@ -34,8 +34,17 @@ export const getBeehives = asyncHandler(async (req, res) => {
 
 export const createBeehive = asyncHandler(async (req, res) => {
   console.log("The request body is :", req.body);
-  const { name, location, CO2, Temperature, Humidity, Weight, Battery_level } = req.body;
-  if (!name || !location || !CO2 || !Temperature || !Humidity || !Weight || !Battery_level) {
+  const { name, location, CO2, Temperature, Humidity, Weight, Battery_level } =
+    req.body;
+  if (
+    !name ||
+    !location ||
+    !CO2 ||
+    !Temperature ||
+    !Humidity ||
+    !Weight ||
+    !Battery_level
+  ) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
@@ -106,7 +115,6 @@ export const updateBeehive = asyncHandler(async (req, res) => {
   const updatedBeehive = await beehive.save();
   res.status(200).json(updatedBeehive);
 });
-
 
 //@desc delete data
 //@route DELETE /api/data/:id

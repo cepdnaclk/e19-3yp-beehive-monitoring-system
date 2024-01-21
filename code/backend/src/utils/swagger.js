@@ -4,8 +4,7 @@ export const options = {
     info: {
       title: "Beehive Monitoring System API",
       version: "1.0.0",
-      description:
-        "Swagger Documentation for the Beehive Monitoring System",
+      description: "Swagger Documentation for the Beehive Monitoring System",
       license: {
         name: "MIT",
         url: "https://github.com/cepdnaclk/e19-3yp-beehive-monitoring-system/blob/main/LICENSE",
@@ -59,7 +58,49 @@ export const options = {
             },
           },
         },
+        Beehive: {
+          type: "object",
+          required: ["name", "location" ],
+          properties: {
+            name: {
+              type: "string",
+              description: "Name of the beehive",
+              example: "beehive1",
+            },
+            location: {
+              type: "string",
+              description: "Location of the beehive",
+              example: "location1",
+            },
+            CO2: {
+              type: "string",
+              description: "CO2 level of the beehive",
+              example: "CO2",
+            },
+            Temperature: {
+              type: "string",
+              description: "Temperature of the beehive",
+              example: "Temperature",
+            },
+            Humidity: {
+              type: "string",
+              description: "Humidity of the beehive",
+              example: "Humidity",
+            },
+            Weight: {
+              type: "string",
+              description: "Weight of the beehive",
+              example: "Weight",
+            },
+            Battery_level: {  
+              type: "string",
+              description: "Battery level of the beehive",
+              example: "Battery_level",
+            },
+          },
+        },
       },
+      
       responses: {
         400: {
           description: "Bad Request",
