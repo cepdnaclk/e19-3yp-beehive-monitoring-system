@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer } from './utils/server.js';
 
+
 // Load environment variables
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.listen(PORT, () => {
 mongoose.connect(process.env.CONNECTION_STRING2)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB:', err));
+
 
 /*
 MQTT Config
