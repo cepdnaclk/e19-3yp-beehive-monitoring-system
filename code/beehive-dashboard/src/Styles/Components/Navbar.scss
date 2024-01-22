@@ -67,7 +67,7 @@
     flex-direction: column;
     align-items: flex-start;
     position: absolute;
-    top: 35px;
+    top: 37px;
     right: -150px;
     background-color: #8e8e8e48;
     width: 150px;
@@ -77,7 +77,7 @@
   }
 
   .nav-menu.active {
-    height: 100%;
+    height: 100vh;
     right: 0; 
   }
 
