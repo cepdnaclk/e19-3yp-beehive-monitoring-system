@@ -1,7 +1,7 @@
 import Logo from '../Assets/Logo.png';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import MenuIcon from "@mui/icons-material/Menu";  // Corrected import
+import MenuIcon from "@mui/icons-material/Menu";
 import '../Styles/Components/Navbar.scss';
 
 function Navbar() {
