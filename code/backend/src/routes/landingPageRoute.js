@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 
 //Uncomment this line when testing locally
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+//const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const router = express.Router();
 
 router.get("/", (req, res) => {
