@@ -20,7 +20,6 @@ function Navbar() {
         <MenuIcon />
       </div>
       <ul className={`nav-menu  ${openLinks && 'active'}`}>
-        <li className='nav-contact'><Link to="/contact">CONTACT US</Link></li>
         <li className='nav-signin'><Link to="/signin">SIGN IN</Link></li>
       </ul>
     </div>

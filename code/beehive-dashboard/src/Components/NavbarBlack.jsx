@@ -28,7 +28,6 @@ function NavbarBlack() {
         <MenuIcon />
       </div>
       <ul className={`navb-menu  ${openLinks && 'active'}`}>
-        <li className='contactb'><Link to="/contact">CONTACT US</Link></li>
         <li className='navb-signout'><Link to="/signin">SIGN OUT</Link></li>
       </ul>
     </div>
