@@ -62,6 +62,10 @@
 
 }
 
+.menub-icon {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .navb-menu ul li:not(:last-child) {
     margin-right: 30px;
@@ -80,7 +84,7 @@
     flex-direction: column;
     align-items: flex-start;
     position: absolute;
-    top: 35px;
+    top: 37px;
     right: -150px;
     background-color: #8e8e8e48;
     width: 150px;
@@ -90,7 +94,7 @@
   }
 
   .navb-menu.active {
-    height: 100%;
+    height: 100vh;
     right: 0; 
   }
 
