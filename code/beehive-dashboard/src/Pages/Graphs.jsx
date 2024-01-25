@@ -176,8 +176,8 @@ const Graphs = () => {
     const fetchBeehiveMetrics = async () => {
       const data = await getBeehiveMetricsByBeehiveId(beehiveData._id);
       for (let i = 0; i < data.length; i++) {
-      //generate a random number between 11 and 12
-      const randomWeight = Math.random() * (12-11) + 11;
+      //generate a random number between 4.59 and 4.61
+      const randomWeight = Math.random() * (4.70 - 4.56) + 4.56;
       data[i].weight = randomWeight;
       
       }
