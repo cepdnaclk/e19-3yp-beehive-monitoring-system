@@ -8,10 +8,10 @@ export const BeehiveProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  const fetchBeehives = () => {
+  const fetchBeehives = async () => {
     setIsLoading(true);
     
-    getAllBeehives()
+   await getAllBeehives()
       .then((beehives) => {
         console.log("Successfully fetched beehives:", beehives);
         setBeehives(beehives.beehives);
@@ -23,6 +23,7 @@ export const BeehiveProvider = ({ children }) => {
         setIsLoading(false);
         
       });
+      return Promise.resolve();
   };
 
   const syncFetchBeehives = () => {
@@ -62,7 +63,7 @@ export const BeehiveProvider = ({ children }) => {
 
   return (
     <BeehiveContext.Provider
-      value={{ beehives, isLoading, isSyncing, setIsSyncing,fetchBeehives }}
+      value={{ beehives, fetchBeehives }}
     >
       {children}
     </BeehiveContext.Provider>

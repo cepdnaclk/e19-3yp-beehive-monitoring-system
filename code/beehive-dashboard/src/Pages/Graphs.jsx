@@ -14,6 +14,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { getCameraRecordByBeehiveId } from "../Services/cameraRecordService";
 import { getBeehiveMetricsByBeehiveId } from "../Services/beehiveMetricsService";
 import { downloadBeehiveMetricsCsv } from "../Services/beehiveMetricsService";
+import { MyChartHandler } from "../Components/MyChartHandler";
 
 const Graphs = () => {
   const location = useLocation();
@@ -33,6 +34,12 @@ const Graphs = () => {
   const [tableData, setTableData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const backgroundClick = useRef(null);
+
+  const [weightDuration, setWeightDuration] = useState("hour");
+  const [temperatureDuration, setTemperatureDuration] = useState("hour");
+  const [humidityDuration, setHumidityDuration] = useState("hour");
+  const [CO2Duration, setCO2Duration] = useState("hour");
+
 
   useEffect(() => {
     document.addEventListener("click", handleBackgroundClick);
@@ -176,8 +183,8 @@ const Graphs = () => {
     const fetchBeehiveMetrics = async () => {
       const data = await getBeehiveMetricsByBeehiveId(beehiveData._id);
       for (let i = 0; i < data.length; i++) {
-      //generate a random number between 11 and 12
-      const randomWeight = Math.random() * (12-11) + 11;
+      //generate a random number between 4.59 and 4.61
+      const randomWeight = Math.random() * (4.70 - 4.56) + 4.56;
       data[i].weight = randomWeight;
       
       }
@@ -253,7 +260,7 @@ const Graphs = () => {
                 <hr />
                 <div className="sort">
                   <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort">
+                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setWeightDuration(e.target.value)}>
                     <option value="hour">Last hour</option>
                     <option value="day">Day</option>
                     <option value="week">Week</option>
@@ -270,9 +277,12 @@ const Graphs = () => {
                 >
                   i
                 </button>
-                <MyLineChart
+                <MyChartHandler
                   data={data}
                   dataKeys={["weight"]}
+                  colors={["#8884d8"]}
+                  type = "area"
+                  duration={weightDuration}
                 />
               </div>
             </div>
@@ -288,7 +298,7 @@ const Graphs = () => {
                 <hr />
                 <div className="sort">
                   <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort">
+                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setTemperatureDuration(e.target.value)}>
                     <option value="hour">Last hour</option>
                     <option value="day">Day</option>
                     <option value="week">Week</option>
@@ -312,10 +322,13 @@ const Graphs = () => {
                   }}
                   className="graph_click"
                 >
-                  <MyAreaChart
+                  <MyChartHandler
                     data={data}
                     dataKeys={["temperature"]}
                     colors={["#82ca9d"]}
+                    
+                  type = "area"
+                  duration={temperatureDuration}
                   />
                 </div>
               </div>
@@ -332,7 +345,7 @@ const Graphs = () => {
                 <hr />
                 <div className="sort">
                   <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort">
+                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setHumidityDuration(e.target.value)}>
                     <option value="hour">Last hour</option>
                     <option value="day">Day</option>
                     <option value="week">Week</option>
@@ -356,10 +369,12 @@ const Graphs = () => {
                   }}
                   className="graph_click"
                 >
-                  <MyAreaChart
+                  <MyChartHandler
                     data={data}
                     dataKeys={["humidity"]}
                     colors={["#8884d8"]}
+                    type = "area"
+                  duration={humidityDuration}
                   />
                 </div>
               </div>
@@ -376,7 +391,7 @@ const Graphs = () => {
                 <hr />
                 <div className="sort">
                   <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort">
+                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setCO2Duration(e.target.value)}>
                     <option value="hour">Last hour</option>
                     <option value="day">Day</option>
                     <option value="week">Week</option>
@@ -401,10 +416,12 @@ const Graphs = () => {
                   }}
                   className="graph_click"
                 >
-                  <MyAreaChart
+                  <MyChartHandler
                     data={data}
                     dataKeys={["CO2"]}
                     colors={["#ff8042"]}
+                    type = "area"
+                  duration={CO2Duration}
                   />
                 </div>
               </div>

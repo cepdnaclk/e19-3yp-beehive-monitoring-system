@@ -124,6 +124,7 @@ export const exportBeehiveMetricsCsv = asyncHandler(async (req, res) => {
                 { id: 'temperature', title: 'Temperature' },
                 { id: 'humidity', title: 'Humidity' },
                 { id: 'CO2', title: 'CO2' },
+                {id: 'Weight', title: 'Weight'},
                 // Add other headers as needed
             ],
         });
@@ -136,6 +137,7 @@ export const exportBeehiveMetricsCsv = asyncHandler(async (req, res) => {
             temperature: metric.Temperature,
             humidity: metric.Humidity,
             CO2: metric.CO2,
+            Weight: metric.Weight,
             // Include other fields if needed
         }));
 
