@@ -27,7 +27,7 @@ const MyAreaChart = ({
         return format(new Date(date), "HH:mm");
       case "week":
       case "month":
-        return format(new Date(date), "MMM dd, HH:mm");
+        return format(new Date(date), "MM-dd");
       default:
         return format(new Date(date), "yyyy-MM-dd HH:mm");
     }
@@ -37,7 +37,7 @@ const MyAreaChart = ({
   const groupDataByFrequency = (data, frequency) => {
     const groups = {};
     console.log("Frequency:", frequency)
-
+    console.log("Data:", data)
     data.forEach((d) => {
       let groupKey;
       const date = new Date(d.createdAt);
@@ -92,12 +92,12 @@ const MyAreaChart = ({
   };
 
   let formattedData = groupDataByFrequency(
-    data.map((item) => ({
-      ...item,
-      createdAt: formatDate(item.createdAt),
-    })),
+    data,
     duration
-  );
+  ).map((item) => ({
+    ...item,
+    timestamp: formatDate(item.timestamp),
+  }));
   console.log("Formatted data:", formattedData);
 
   return (
