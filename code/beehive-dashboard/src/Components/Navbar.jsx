@@ -1,6 +1,7 @@
 import Logo from '../Assets/Logo.png';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import MenuIcon from "@mui/icons-material/Menu";
 import '../Styles/Components/Navbar.scss';
 
 function Navbar() {
@@ -15,8 +16,10 @@ function Navbar() {
       <div className="nav-logo">
         <Link to="/"><img src={Logo} alt='Logo' /></Link>
       </div>
-      <ul className="nav-menu">
-        <li><Link to="/contact">CONTACT US</Link></li>
+      <div className="menu-icon" onClick={toggleNavbar}>
+        <MenuIcon />
+      </div>
+      <ul className={`nav-menu  ${openLinks && 'active'}`}>
         <li className='nav-signin'><Link to="/signin">SIGN IN</Link></li>
       </ul>
     </div>
