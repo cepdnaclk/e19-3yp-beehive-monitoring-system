@@ -100,7 +100,7 @@ import swaggerJsDoc from "swagger-jsdoc";
  *             example:
  *               username: "exampleUser"
  *               email: "user@example.com"
- *              
+ *
  *       400:
  *         description: Bad Request - Invalid input or missing required fields.
  *       401:

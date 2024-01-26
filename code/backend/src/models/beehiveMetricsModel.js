@@ -16,13 +16,11 @@ const beehiveMetricsSchema = new Schema(
     },
     Temperature: {
       type: Number,
-      
-
     },
     Humidity: {
       type: Number,
-      min : 0,
-      max : 100,
+      min: 0,
+      max: 100,
     },
     Weight: {
       type: Number,
@@ -34,7 +32,6 @@ const beehiveMetricsSchema = new Schema(
       //range
       min: 0,
       max: 100,
-
     },
   },
   {
@@ -42,4 +39,7 @@ const beehiveMetricsSchema = new Schema(
   }
 );
 
-export const BeehiveMetrics = mongoose.model("BeehiveMetrics", beehiveMetricsSchema);
+export const BeehiveMetrics = mongoose.model(
+  "BeehiveMetrics",
+  beehiveMetricsSchema
+);
