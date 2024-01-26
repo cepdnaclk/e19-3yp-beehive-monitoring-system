@@ -40,9 +40,25 @@ import swaggerJsDoc from "swagger-jsdoc";
  * @swagger
  * /api/beehive-metrics:
  *   post:
- *     summary: Get new BeehiveMetrics
+ *     summary: Create new BeehiveMetrics
  *     description: This endpoint is for creating a new BeehiveMetrics.
  *     tags: [BeehiveMetrics]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - beehiveName
+ *               - location
+ *             properties:
+ *               beehiveName:
+ *                 type: string
+ *                 description: Name of the beehive.
+ *               location:
+ *                 type: string
+ *                 description: Location of the beehive.
  *     responses:
  *       201:
  *         description: Successfully created a beehive.
@@ -60,6 +76,42 @@ import swaggerJsDoc from "swagger-jsdoc";
  *                   Battery_level: 50
  *       400:
  *         description: Bad Request - Invalid input or missing required fields.
+ */
+
+/**
+ * @swagger
+ * /api/beehive-metrics/:id:
+ *   put:
+ *     summary: Update a BeehiveMetrics
+ *     description: This endpoint is for updating an existing BeehiveMetrics.
+ *     tags: [BeehiveMetrics]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - beehive_id
+ *             properties:
+ *               beehive_id:
+ *                 type: string
+ *                 description: ID of the beehive.
+ *     responses:
+ *       200:
+ *         description: Successfully updated the beehive.
+ *         content:
+ *           application/json:
+ *             example:
+ *               Name: Beehive1
+ *               Location: Location1
+ *               CO2: 100
+ *               Temperature: 20
+ *               Humidity: 30
+ *               Weight: 40
+ *               Battery_level: 50
+ *       404:
+ *         description: Not Found - Beehive Metrics not found.
  */
 
 router.use(validateToken);
