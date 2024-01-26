@@ -16,11 +16,11 @@ import swaggerJsDoc from "swagger-jsdoc";
  * /api/beehive/get:
  *   get:
  *     summary: Get beehive information
- *     description: This endpoint is for retrieving information about a beehive.
+ *     description: This endpoint is for retrieving information about all beehives.
  *     tags: [Beehives]
  *     responses:
  *       200:
- *         description: Successfully retrieved beehive information.
+ *         description: Successfully retrieved beehives information.
  *         content:
  *           application/json:
  *             examples:

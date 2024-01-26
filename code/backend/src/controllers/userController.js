@@ -25,14 +25,14 @@ export const registerUser = asyncHandler(async (req, res) => {
   if (!emailRegex.test(email)) {
     res.status(400).json({ message: "Email is not valid" });
     throw new Error("Email is not valid");
-  };
+  }
 
   //validate username
   const usernameRegex = /^[a-zA-Z0-9]+$/;
   if (!usernameRegex.test(username)) {
     res.status(400).json({ message: "Username is not valid" });
     throw new Error("Username is not valid");
-  };
+  }
 
   //validate password
   //password should be at least 8 chars long
@@ -45,7 +45,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   if (!passwordRegex.test(password)) {
     res.status(400).json({ message: "Password is not valid" });
     throw new Error("Password is not valid");
-  };
+  }
 
   //Hash password
 
@@ -59,7 +59,9 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   console.log(`User created ${user}`);
   if (user) {
-    res.status(201).json({ _id: user.id, email: user.email, username: user.username});
+    res
+      .status(201)
+      .json({ _id: user.id, email: user.email, username: user.username });
   } else {
     res.status(400).json({ message: "User data is not valid" });
     throw new Error("User data is not valid");
@@ -78,7 +80,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     throw new error("All fields are mandatory!");
   }
   const user = await User.findOne({ email });
-  if(!user){
+  if (!user) {
     res.status(404).json({ message: "User not found" });
     throw new Error("User not found");
   }
@@ -98,7 +100,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     );
     res.status(200).json({ accessToken });
   } else {
-    res.status(401).json({message:"Incorrect password"});
+    res.status(401).json({ message: "Incorrect password" });
     throw new Error("email or password is not valid");
   }
 });
@@ -110,5 +112,3 @@ export const loginUser = asyncHandler(async (req, res) => {
 export const currentUser = asyncHandler(async (req, res) => {
   res.json(req.user);
 });
-
-

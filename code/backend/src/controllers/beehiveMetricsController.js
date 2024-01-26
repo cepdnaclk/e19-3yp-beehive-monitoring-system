@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { BeehiveMetrics } from "../models/beehiveMetricsModel.js";
-import { createObjectCsvStringifier } from 'csv-writer';
+import { createObjectCsvStringifier } from "csv-writer";
 
 //@desc Get all beehive metrics
 //@route GET /api/beehive-metrics
@@ -27,7 +27,7 @@ export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
     }
 
     // Transforming the data into the desired format
-    const transformedData = beehiveMetrics.map(metric => ({
+    const transformedData = beehiveMetrics.map((metric) => ({
       createdAt: metric.createdAt,
       temperature: metric.Temperature,
       humidity: metric.Humidity,
@@ -39,7 +39,6 @@ export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 //@desc Add new beehive metrics
 //@route POST /api/beehive-metrics
@@ -106,48 +105,48 @@ export const deleteBeehiveMetrics = asyncHandler(async (req, res) => {
     .json({ beehiveMetrics, message: "Beehive metrics deleted successfully" });
 });
 
-
-
 export const exportBeehiveMetricsCsv = asyncHandler(async (req, res) => {
-    const { beehive_id } = req.params;
+  const { beehive_id } = req.params;
 
-    try {
-        const beehiveMetrics = await BeehiveMetrics.find({ beehive_id });
-        if (!beehiveMetrics || beehiveMetrics.length === 0) {
-            res.status(404);
-            throw new Error("Beehive metrics not found");
-        }
-        console.log('Beehive metrics found', beehiveMetrics.length);
-        const csvStringifier = createObjectCsvStringifier({
-            header: [
-                { id: 'createdAt', title: 'Created At' },
-                { id: 'temperature', title: 'Temperature' },
-                { id: 'humidity', title: 'Humidity' },
-                { id: 'CO2', title: 'CO2' },
-                {id: 'Weight', title: 'Weight'},
-                // Add other headers as needed
-            ],
-        });
-
-        res.setHeader('Content-Type', 'text/csv');
-        res.setHeader('Content-Disposition', `attachment; filename="beehive-metrics-${beehive_id}.csv"`);
-
-        const transformedData = beehiveMetrics.map(metric => ({
-            createdAt: metric.createdAt,
-            temperature: metric.Temperature,
-            humidity: metric.Humidity,
-            CO2: metric.CO2,
-            Weight: metric.Weight,
-            // Include other fields if needed
-        }));
-
-        res.write(csvStringifier.getHeaderString());
-        res.write(csvStringifier.stringifyRecords(transformedData));
-        console.log('CSV file generated successfully');
-        res.end();
-
-    } catch (error) {
-        console.error('Error generating CSV file', error);
-        res.status(500).send('Error generating CSV file');
+  try {
+    const beehiveMetrics = await BeehiveMetrics.find({ beehive_id });
+    if (!beehiveMetrics || beehiveMetrics.length === 0) {
+      res.status(404);
+      throw new Error("Beehive metrics not found");
     }
+    console.log("Beehive metrics found", beehiveMetrics.length);
+    const csvStringifier = createObjectCsvStringifier({
+      header: [
+        { id: "createdAt", title: "Created At" },
+        { id: "temperature", title: "Temperature" },
+        { id: "humidity", title: "Humidity" },
+        { id: "CO2", title: "CO2" },
+        { id: "Weight", title: "Weight" },
+        // Add other headers as needed
+      ],
+    });
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="beehive-metrics-${beehive_id}.csv"`
+    );
+
+    const transformedData = beehiveMetrics.map((metric) => ({
+      createdAt: metric.createdAt,
+      temperature: metric.Temperature,
+      humidity: metric.Humidity,
+      CO2: metric.CO2,
+      Weight: metric.Weight,
+      // Include other fields if needed
+    }));
+
+    res.write(csvStringifier.getHeaderString());
+    res.write(csvStringifier.stringifyRecords(transformedData));
+    console.log("CSV file generated successfully");
+    res.end();
+  } catch (error) {
+    console.error("Error generating CSV file", error);
+    res.status(500).send("Error generating CSV file");
+  }
 });

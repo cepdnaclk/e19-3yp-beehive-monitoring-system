@@ -22,19 +22,14 @@ export const options = {
         description: "Development server",
       },
     ],
-
-    // paths: {
-    //   "/api/user": {
-    //     get: {
-    //       summary: "Get all users",
-    //       responses: {
-    //         200: {
-    //           description: "OK",
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    tags: [
+      {
+        name: "Beehives",
+      },
+      {
+        name: "BeehiveMetrics", // Add this tag for BeehiveMetrics operations
+      },
+    ],
     components: {
       schemas: {
         User: {
@@ -60,7 +55,7 @@ export const options = {
         },
         Beehive: {
           type: "object",
-          required: ["name", "location" ],
+          required: ["name", "location"],
           properties: {
             name: {
               type: "string",
@@ -92,7 +87,43 @@ export const options = {
               description: "Weight of the beehive",
               example: "Weight",
             },
-            Battery_level: {  
+            Battery_level: {
+              type: "string",
+              description: "Battery level of the beehive",
+              example: "Battery_level",
+            },
+          },
+        },
+        BeehiveMetrics: {
+          type: "object",
+          required: ["beehive_id"],
+          properties: {
+            beehive_id: {
+              type: "string",
+              description: "ID of the beehive",
+              example: "beehive1",
+            },
+            CO2: {
+              type: "string",
+              description: "CO2 level of the beehive",
+              example: "CO2",
+            },
+            Temperature: {
+              type: "string",
+              description: "Temperature of the beehive",
+              example: "Temperature",
+            },
+            Humidity: {
+              type: "string",
+              description: "Humidity of the beehive",
+              example: "Humidity",
+            },
+            Weight: {
+              type: "string",
+              description: "Weight of the beehive",
+              example: "Weight",
+            },
+            Battery_level: {
               type: "string",
               description: "Battery level of the beehive",
               example: "Battery_level",
@@ -100,7 +131,6 @@ export const options = {
           },
         },
       },
-      
       responses: {
         400: {
           description: "Bad Request",
