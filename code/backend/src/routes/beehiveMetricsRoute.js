@@ -14,34 +14,51 @@ import swaggerJsDoc from "swagger-jsdoc";
 
 /**
  * @swagger
- * /api/beehive-metrics/{beehive_id}:
+ * /api/beehive-metrics:
  *   get:
- *     summary: Get Beehive Information
- *     description: This endpoint is for retrieving information about a specific beehive.
+ *     summary: Get all beehive metrics
+ *     description: This endpoint is for retrieving information about all beehive metrics.
  *     tags: [BeehiveMetrics]
  *     responses:
  *       200:
- *         description: Successfully retrieved beehive information.
+ *         description: Successfully retrieved beehive metrics.
  *         content:
  *           application/json:
- *             examples:
- *               example1:
- *                 value:
- *                   Name: Beehive1
- *                   Location: Location1
- *                   CO2: 100
- *                   Temperature: 20
- *                   Humidity: 30
- *                   Weight: 40
- *                   Battery_level: 50
+ *             example:
+ *               beehiveMetrics: [{metric1}, {metric2}, ...]
+ */
+
+/**
+ * @swagger
+ * /api/beehive-metrics/{beehive_id}:
+ *   get:
+ *     summary: Get beehive metrics by Beehive ID
+ *     description: This endpoint is for retrieving information about a specific beehive metrics by ID.
+ *     tags: [BeehiveMetrics]
+ *     parameters:
+ *       - in: path
+ *         name: beehive_id
+ *         required: true
+ *         description: ID of the beehive.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved beehive metrics by ID.
+ *         content:
+ *           application/json:
+ *             example:
+ *               transformedData: [{createdAt, temperature, humidity, CO2}, ...]
+ *       404:
+ *         description: Not Found - Beehive metrics not found.
  */
 
 /**
  * @swagger
  * /api/beehive-metrics:
  *   post:
- *     summary: Create New BeehiveMetrics
- *     description: This endpoint is for creating a new BeehiveMetrics.
+ *     summary: Add new beehive metrics
+ *     description: This endpoint is for adding new beehive metrics.
  *     tags: [BeehiveMetrics]
  *     requestBody:
  *       required: true
@@ -50,104 +67,137 @@ import swaggerJsDoc from "swagger-jsdoc";
  *           schema:
  *             type: object
  *             required:
- *               - beehiveName
- *               - location
+ *               - beehive_id
+ *               - CO2
+ *               - Temperature
+ *               - Humidity
+ *               - Weight
+ *               - Battery_level
  *             properties:
- *               beehiveName:
+ *               beehive_id:
  *                 type: string
- *                 description: Name of the beehive.
- *               location:
- *                 type: string
- *                 description: Location of the beehive.
+ *                 description: ID of the beehive.
+ *               CO2:
+ *                 type: number
+ *                 description: CO2 level.
+ *               Temperature:
+ *                 type: number
+ *                 description: Temperature.
+ *               Humidity:
+ *                 type: number
+ *                 description: Humidity.
+ *               Weight:
+ *                 type: number
+ *                 description: Weight.
+ *               Battery_level:
+ *                 type: number
+ *                 description: Battery level.
  *     responses:
  *       201:
- *         description: Successfully created a beehive.
+ *         description: Successfully added new beehive metrics.
  *         content:
  *           application/json:
- *             examples:
- *               example1:
- *                 value:
- *                   Name: Beehive1
- *                   Location: Location1
- *                   CO2: 100
- *                   Temperature: 20
- *                   Humidity: 30
- *                   Weight: 40
- *                   Battery_level: 50
+ *             example:
+ *               beehiveMetrics: {metric}
  *       400:
  *         description: Bad Request - Invalid input or missing required fields.
  */
 
 /**
  * @swagger
- * /api/beehive-metrics/{beehive_id}:
+ * /api/beehive-metrics/{id}:
  *   put:
- *     summary: Update BeehiveMetrics
- *     description: This endpoint is for updating an existing BeehiveMetrics.
+ *     summary: Update beehive metrics
+ *     description: This endpoint is for updating existing beehive metrics by ID.
  *     tags: [BeehiveMetrics]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the beehive metrics.
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - beehive_id
  *             properties:
- *               beehive_id:
- *                 type: string
- *                 description: ID of the beehive.
+ *               CO2:
+ *                 type: number
+ *                 description: CO2 level.
+ *               Temperature:
+ *                 type: number
+ *                 description: Temperature.
+ *               Humidity:
+ *                 type: number
+ *                 description: Humidity.
+ *               Weight:
+ *                 type: number
+ *                 description: Weight.
+ *               Battery_level:
+ *                 type: number
+ *                 description: Battery level.
  *     responses:
  *       200:
- *         description: Successfully updated the beehive.
+ *         description: Successfully updated beehive metrics.
  *         content:
  *           application/json:
  *             example:
- *               Name: Beehive1
- *               Location: Location1
- *               CO2: 100
- *               Temperature: 20
- *               Humidity: 30
- *               Weight: 40
- *               Battery_level: 50
+ *               updatedMetrics: {updatedMetric}
  *       404:
- *         description: Not Found - Beehive Metrics not found.
+ *         description: Not Found - Beehive metrics not found.
  */
 
 /**
  * @swagger
- * /api/beehive-metrics/{beehive_id}:
+ * /api/beehive-metrics/{id}:
  *   delete:
- *     summary: Delete BeehiveMetrics
- *     description: This endpoint is for deleting an existing BeehiveMetrics.
+ *     summary: Delete beehive metrics
+ *     description: This endpoint is for deleting existing beehive metrics by ID.
  *     tags: [BeehiveMetrics]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - beehive_id
- *             properties:
- *               beehive_id:
- *                 type: string
- *                 description: ID of the beehive.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the beehive metrics.
+ *         schema:
+ *           type: string
  *     responses:
- *       200:
- *         description: Successfully deleted the beehive.
+ *       201:
+ *         description: Successfully deleted beehive metrics.
  *         content:
  *           application/json:
  *             example:
- *               Name: Beehive1
- *               Location: Location1
- *               CO2: 100
- *               Temperature: 20
- *               Humidity: 30
- *               Weight: 40
- *               Battery_level: 50
+ *               beehiveMetrics: {deletedMetric}
  *       404:
- *         description: Not Found - Beehive Metrics not found.
+ *         description: Not Found - Beehive metrics not found.
+ */
+
+/**
+ * @swagger
+ * /api/beehive-metrics/export/{beehive_id}:
+ *   get:
+ *     summary: Export beehive metrics as CSV
+ *     description: This endpoint is for exporting beehive metrics as a CSV file by Beehive ID.
+ *     tags: [BeehiveMetrics]
+ *     parameters:
+ *       - in: path
+ *         name: beehive_id
+ *         required: true
+ *         description: ID of the beehive.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully exported beehive metrics as CSV.
+ *         content:
+ *           text/csv:
+ *             example:
+ *               CSV file content...
+ *       404:
+ *         description: Not Found - Beehive metrics not found.
  */
 
 router.use(validateToken);
