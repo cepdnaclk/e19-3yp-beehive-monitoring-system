@@ -14,10 +14,10 @@ import swaggerJsDoc from "swagger-jsdoc";
 
 /**
  * @swagger
- * /api/beehive-metrics/:beehive_id:
+ * /api/beehive-metrics/{beehive_id}:
  *   get:
- *     summary: Get beehive information
- *     description: This endpoint is for retrieving information about a beehive.
+ *     summary: Get Beehive Information
+ *     description: This endpoint is for retrieving information about a specific beehive.
  *     tags: [BeehiveMetrics]
  *     responses:
  *       200:
@@ -40,7 +40,7 @@ import swaggerJsDoc from "swagger-jsdoc";
  * @swagger
  * /api/beehive-metrics:
  *   post:
- *     summary: Create new BeehiveMetrics
+ *     summary: Create New BeehiveMetrics
  *     description: This endpoint is for creating a new BeehiveMetrics.
  *     tags: [BeehiveMetrics]
  *     requestBody:
@@ -80,9 +80,9 @@ import swaggerJsDoc from "swagger-jsdoc";
 
 /**
  * @swagger
- * /api/beehive-metrics/:id:
+ * /api/beehive-metrics/{beehive_id}:
  *   put:
- *     summary: Update a BeehiveMetrics
+ *     summary: Update BeehiveMetrics
  *     description: This endpoint is for updating an existing BeehiveMetrics.
  *     tags: [BeehiveMetrics]
  *     requestBody:
@@ -100,6 +100,42 @@ import swaggerJsDoc from "swagger-jsdoc";
  *     responses:
  *       200:
  *         description: Successfully updated the beehive.
+ *         content:
+ *           application/json:
+ *             example:
+ *               Name: Beehive1
+ *               Location: Location1
+ *               CO2: 100
+ *               Temperature: 20
+ *               Humidity: 30
+ *               Weight: 40
+ *               Battery_level: 50
+ *       404:
+ *         description: Not Found - Beehive Metrics not found.
+ */
+
+/**
+ * @swagger
+ * /api/beehive-metrics/{beehive_id}:
+ *   delete:
+ *     summary: Delete BeehiveMetrics
+ *     description: This endpoint is for deleting an existing BeehiveMetrics.
+ *     tags: [BeehiveMetrics]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - beehive_id
+ *             properties:
+ *               beehive_id:
+ *                 type: string
+ *                 description: ID of the beehive.
+ *     responses:
+ *       200:
+ *         description: Successfully deleted the beehive.
  *         content:
  *           application/json:
  *             example:
