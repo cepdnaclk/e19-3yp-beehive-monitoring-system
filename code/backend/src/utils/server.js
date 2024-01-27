@@ -10,7 +10,7 @@ import {router as notificationRouter} from "../routes/notificationsRoute.js";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
-import {options} from "./swagger.js";
+import { options } from "./swagger.js";
 import swaggerJSDoc from "swagger-jsdoc";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,19 +33,15 @@ export function createServer() {
   app.use("/api/camera", cameraRecordRouter);
   app.use("/api/notifications", notificationRouter);
   app.use("/", landingPageRoute);
-  
 
-  
   try {
     const swaggerSpec = swaggerJSDoc(options);
     console.log("Swagger document loaded successfully.");
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    
-    
-    } catch (error) {
-      console.error("Error loading Swagger document:", error);
-    }
-    app.use("*", (req, res) => res.status(404).json({ error: "not found" }));
+  } catch (error) {
+    console.error("Error loading Swagger document:", error);
+  }
+  app.use("*", (req, res) => res.status(404).json({ error: "not found" }));
 
   return app;
 }

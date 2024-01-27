@@ -37,12 +37,26 @@ import swaggerJsDoc from "swagger-jsdoc";
  *                 type: string
  *                 description: Email of the user.
  *     responses:
- *       200:
+ *       201:
  *         description: User successfully registered.
+ *         content:
+ *           application/json:
+ *             example:
+ *               _id: "user_id"
+ *               email: "user@example.com"
+ *               username: "exampleUser"
  *       400:
  *         description: Bad Request - Invalid input or missing required fields.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "All fields are mandatory!"
  *       401:
  *         description: Unauthorized - Authentication failed or user already exists.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "User already registered!"
  */
 
 /**
@@ -50,7 +64,7 @@ import swaggerJsDoc from "swagger-jsdoc";
  * /api/user/login:
  *   post:
  *     summary: User login
- *     description: This endpoint is for logging user into their account.
+ *     description: This endpoint is for logging the user into their account.
  *     tags: [Users]
  *     requestBody:
  *       required: true
@@ -71,12 +85,28 @@ import swaggerJsDoc from "swagger-jsdoc";
  *     responses:
  *       200:
  *         description: User successfully logged in.
+ *         content:
+ *           application/json:
+ *             example:
+ *               accessToken: "your_access_token_here"
  *       400:
  *         description: Bad Request - Invalid input or missing required fields.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "All fields are mandatory!"
  *       401:
  *         description: Unauthorized - Authentication failed - email or password is not valid.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Incorrect password"
  *       404:
  *         description: Not Found - User not found.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "User not found"
  */
 
 /**
@@ -84,14 +114,8 @@ import swaggerJsDoc from "swagger-jsdoc";
  * /api/user/current:
  *   get:
  *     summary: Get current user information
- *     description: This endpoint is for retrieve information about the current user.
+ *     description: This endpoint is for retrieving information about the current user.
  *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
  *     responses:
  *       200:
  *         description: Successful response with the current user's information.
@@ -100,11 +124,18 @@ import swaggerJsDoc from "swagger-jsdoc";
  *             example:
  *               username: "exampleUser"
  *               email: "user@example.com"
- *              
  *       400:
  *         description: Bad Request - Invalid input or missing required fields.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Invalid request"
  *       401:
  *         description: Unauthorized. User not authenticated.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Unauthorized"
  */
 
 router.post("/register", registerUser);

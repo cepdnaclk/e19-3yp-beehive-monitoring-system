@@ -6,7 +6,6 @@
   align-items: center;
   margin: 20px 30px;
   padding: 0 60px;
-  color: white;
   border-bottom: 1px solid #000000;
 }
 
@@ -34,15 +33,9 @@
   text-decoration: none;
 }
 
-.contact{
-  &:hover {
-    text-decoration: underline;
-    color: rgb(0, 0, 0);
-    transition: transform 0.3s ease;
-  }
+.navb-notification {
+  cursor: pointer;
 }
-    
- 
 
 .navb-signout {
   border-radius: 50px;
@@ -110,7 +103,7 @@
     padding: 20px 10px 10px 10px;
   }
 
-  .navb-signout {
+  .navb-notification {
     margin-top: 50px;
   }
 
