@@ -4,11 +4,12 @@ import { useState,useContext } from 'react';
 import MenuIcon from "@mui/icons-material/Menu";
 import '../Styles/Components/NavbarBlack.scss';
 import { AuthContext } from '../Context/AuthContext';
-
+import Notification from './Notification';
 
 
 function NavbarBlack() {
   const [openLinks, setOpenLinks] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
   const { logout } = useContext(AuthContext);
 
   const toggleNavbar = () => {
@@ -19,6 +20,10 @@ function NavbarBlack() {
     logout();
   }
 
+  const closeNotification = () => {
+    setNotificationMessage('');
+  };
+
   return (
     <div className='navb'>
       <div className="navb-logo">
@@ -28,6 +33,9 @@ function NavbarBlack() {
         <MenuIcon />
       </div>
       <ul className={`navb-menu  ${openLinks && 'active'}`}>
+        <li className='navb-notification'>
+          <Notification message={notificationMessage} onClose={closeNotification} />
+        </li>
         <li className='navb-signout'><Link to="/signin">SIGN OUT</Link></li>
       </ul>
     </div>
