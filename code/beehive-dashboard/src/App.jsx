@@ -7,20 +7,26 @@ import HiveDashboard from "./Pages/HiveDashboard";
 import { AuthProvider } from "./Context/AuthContext";
 import { Routes, Route } from "react-router-dom";
 import { BeehiveProvider } from "./Context/BeehiveContext";
+import { NotificationProvider } from "./Context/NotificationContext";
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <BeehiveProvider>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/graph" element={<Graphs />} />
-          <Route path="/hive-dashboard/:hiveName" element={<HiveDashboard />} />
-        </Routes>
-        </BeehiveProvider>
+        <NotificationProvider>
+          <BeehiveProvider>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/graph" element={<Graphs />} />
+              <Route
+                path="/hive-dashboard/:hiveName"
+                element={<HiveDashboard />}
+              />
+            </Routes>
+          </BeehiveProvider>
+        </NotificationProvider>
       </AuthProvider>
     </div>
   );
