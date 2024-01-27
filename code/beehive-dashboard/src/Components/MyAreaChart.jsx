@@ -24,6 +24,7 @@ const MyAreaChart = ({
       case "hour":
         return format(new Date(date), "mm:ss");
       case "day":
+        console.log(format(new Date(date), "HH:mm"));
         return format(new Date(date), "HH:mm");
       case "week":
       case "month":
@@ -53,7 +54,7 @@ const MyAreaChart = ({
           break;
         case "day":
           // Group by hour
-          groupKey = format(date, "yyyy-MM-dd HH");
+          groupKey = format(date, "yyyy-MM-dd HH:mm");
           break;
         case "week":
           // Group by day
