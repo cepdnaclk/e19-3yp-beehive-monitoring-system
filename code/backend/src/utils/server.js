@@ -5,7 +5,6 @@ import { router as userRouter } from "../routes/userRoute.js";
 import { router as beehiveRouter } from "../routes/beehiveRoute.js";
 import { router as beehiveMetricsRouter } from "../routes/beehiveMetricsRoute.js";
 import { router as cameraRecordRouter } from "../routes/cameraRecordRoute.js";
-import { router as landingPageRoute } from "../routes/landingPageRoute.js";
 import {router as notificationRouter} from "../routes/notificationsRoute.js";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
@@ -32,7 +31,7 @@ export function createServer() {
   app.use("/api/beehive-metrics", beehiveMetricsRouter);
   app.use("/api/camera", cameraRecordRouter);
   app.use("/api/notifications", notificationRouter);
-  app.use("/", landingPageRoute);
+  
 
   try {
     const swaggerSpec = swaggerJSDoc(options);
