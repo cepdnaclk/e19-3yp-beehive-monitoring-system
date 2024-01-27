@@ -34,7 +34,7 @@ const NotificationPopup = ({ notifications, onClose, onClearNotification }) => {
                 onClick={() => handleClearNotification(notification.id)}
                 className="notification-close-icon"
               >
-                <FontAwesomeIcon icon={faTimes} />
+                <FontAwesomeIcon icon={faTrash} />
               </button>
             </div>
           ))

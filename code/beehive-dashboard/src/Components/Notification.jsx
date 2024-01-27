@@ -2,13 +2,14 @@ import React, { useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faTrash } from "@fortawesome/free-solid-svg-icons";
 import NotificationPopup from "./NotificationPopup";
-import "../Styles/Components/Notification.scss";
 
 const Notification = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [notifications, setNotifications] = useState([
     { id: 1, body: "Notification 1" },
     { id: 2, body: "Notification 2" },
+    { id: 3, body: "Notification 3" },
+    { id: 4, body: "Notification 4" },
   ]);
 
   const togglePopup = () => {
