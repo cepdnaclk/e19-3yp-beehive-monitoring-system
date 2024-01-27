@@ -1,16 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getNotificationRecords } from "../Services/notificationService";
+import { getNotificationRecords,updateAllNotificationRecords,updateNotificationRecord } from "../Services/notificationService";
 
 export const NotificationContext = createContext();
 
 export const NotificationProvider = ({ children }) => {
-    const [notificationRecords, setNotificationRecords] = useState([]);
+    const [notifications, setNotificationRecords] = useState([]);
 
     const fetchNotificationRecords = async () => {
         await getNotificationRecords()
-            .then((notificationRecords) => {
-                console.log("Successfully fetched notification records:", notificationRecords);
-                setNotificationRecords(notificationRecords);
+            .then((notifications) => {
+                console.log("Successfully fetched notification records:", notifications);
+                setNotificationRecords(notifications);
             })
             .catch((error) => {
                 console.error("Failed to fetch notification records:", error);
@@ -24,9 +24,26 @@ export const NotificationProvider = ({ children }) => {
         fetchNotificationRecords();
     }, []);
 
+    const clearAllNotifications = async () => {
+        setNotificationRecords([]);
+
+        await updateAllNotificationRecords();
+
+    }
+
+    const clearNotification = async (notificationId) => {
+        const updatedNotifications = notifications.filter(
+            (notification) => notification._id !== notificationId
+        );
+        console.log("Updated Notifications:", updatedNotifications);
+        setNotificationRecords(updatedNotifications);
+
+        await updateNotificationRecord(notificationId);
+    }
+
 
     return (
-        <NotificationContext.Provider value={{ notificationRecords, fetchNotificationRecords }}>
+        <NotificationContext.Provider value={{ notifications, fetchNotificationRecords,clearAllNotifications,clearNotification }}>
             {children}
         </NotificationContext.Provider>
     );

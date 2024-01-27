@@ -1,24 +1,27 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback,useContext,useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faTrash } from "@fortawesome/free-solid-svg-icons";
 import NotificationPopup from "./NotificationPopup";
+import { NotificationContext } from "../Context/NotificationContext";
 
 const Notification = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { id: 1, body: "Notification 1" },
-    { id: 2, body: "Notification 2" },
-    { id: 3, body: "Notification 3" },
-    { id: 4, body: "Notification 4" },
-  ]);
+  const {notifications,fetchNotificationRecords,clearAllNotifications,clearNotification} = useContext(NotificationContext);
+  useEffect(() => {
+    console.log("Notifications:", notifications);
+    fetchNotificationRecords();
+  }
+  , []);
+
+  
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
 
-  const clearAllNotifications = useCallback((updatedNotifications) => {
-    setNotifications(updatedNotifications);
-  }, []);
+  // const clearAllNotifications = useCallback((updatedNotifications) => {
+  //  // setNotifications(updatedNotifications);
+  // }, []);
 
   return (
     <div className="notification-container">
@@ -31,7 +34,8 @@ const Notification = () => {
         <NotificationPopup
           notifications={notifications}
           onClose={togglePopup}
-          onClearNotification={clearAllNotifications}
+          onClearNotification={clearNotification}
+          onClearAllNotifications={clearAllNotifications}
         />
       )}
     </div>

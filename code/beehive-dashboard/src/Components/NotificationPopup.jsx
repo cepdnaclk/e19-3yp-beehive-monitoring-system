@@ -3,16 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/Components/NotificationPopup.scss';
 
-const NotificationPopup = ({ notifications, onClose, onClearNotification }) => {
+const NotificationPopup = ({ notifications, onClose, onClearNotification,onClearAllNotifications }) => {
   const handleClearNotification = (notificationId) => {
-    const updatedNotifications = notifications.filter(
-      (notification) => notification.id !== notificationId
-    );
-    onClearNotification(updatedNotifications);
+    console.log("Notification ID:", notificationId);
+    onClearNotification(notificationId);
   };
 
   const handleClearAllNotifications = () => {
-    onClearNotification([]);
+    onClearAllNotifications();
   };
 
   return (
@@ -28,10 +26,10 @@ const NotificationPopup = ({ notifications, onClose, onClearNotification }) => {
           <p className="no-notifications-message">There are no notifications</p>
         ) : (
           notifications.map((notification) => (
-            <div className="notification-item" key={notification.id}>
-              {notification.body}
+            <div className="notification-item" key={notification._id}>
+              {notification.notificationMessage}
               <button
-                onClick={() => handleClearNotification(notification.id)}
+                onClick={() => handleClearNotification(notification._id)}
                 className="notification-close-icon"
               >
                 <FontAwesomeIcon icon={faTrash} />
