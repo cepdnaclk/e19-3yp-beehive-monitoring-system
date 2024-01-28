@@ -10,6 +10,21 @@
   padding-top: 20px;
 }
 
+.color-overlay-sign {
+  height: 100%;
+  width: 100%;
+  float: left;
+  padding: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  object-fit: cover;
+  background-color: #f1bd5436;
+  z-index: 1;
+}
+
 .left {
   left: 0;
   background-color: #E8E3CD;
@@ -23,7 +38,7 @@
 
 .signin-banner-image {
   height: 100%;
-  width: auto;
+  width: 50%;
   float: left;
   padding: none;
   position: fixed;
@@ -32,25 +47,28 @@
   left: 0;
   right: 0;
   object-fit: cover;
-  z-index: -1;
+  z-index: 0;
 }
 
 .right {
   right: 0;
-  background-color: #E8E3CD;
+  background-color: #6b9dd2;
+  z-index: 1;
 }
 
 .centered {
   position: absolute;
-  top: 43%;
-  left: 18%;
-  transform: translate(0, -50%);
+  top: 330px;
+  left: 18px;
+  transform: translate(10%, -350px);
   text-align: center;
+  z-index: 2;
 }
 
 .centered img {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
+  z-index: 10000;
 }
 
 .signin-form {
@@ -78,14 +96,15 @@
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  height: 200px;
 }
 
 .input{
   display: flex;
   align-items: center;
   margin: auto;
-  width: 300px;
+  width: 90%;
   height: 40px;
   background: #ffffff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
@@ -114,15 +133,22 @@
 }
 
 .signin-button button {
-  background-color: #253F65;
+  width: 170px;
+  height: 30px;
+  background-color: #253f65;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  padding: 10px 50px;
+  padding: 0px 50px;
   border: none;
   border-radius: 24px;
   cursor: pointer;
   box-shadow: 0px 6px 23px -6px #253f6575;
+  transition: background 0.3s ease;
+}
+
+.signin-button button:hover {
+  background-color: #3c66a4;
 }
 .change-button {
   margin-top: 20px;
@@ -130,14 +156,19 @@
 
 .change-button button {
   background-color: transparent;
-  color: rgb(9, 89, 155);
+  color: rgb(9, 60, 155);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 10px 50px;
   border: none;
   border-radius: 24px;
   cursor: pointer;
   text-decoration: underline;
+  transition: background 0.3s ease;
+}
+
+.change-button button:hover {
+  color: #0a37ea;
 }
 
 .email-icon{
@@ -154,3 +185,12 @@
   font-family: 'Raleway', sans-serif;
   margin-top: 10px;
 }
+
+// @media screen and (max-width: 1200px) {
+//   .left {
+//     display: none;
+//   }
+//   .right {
+//     width: 100%;
+//   }
+// }
