@@ -118,7 +118,7 @@ const MyAreaChart = ({
         data={formattedData}
         margin={{
           top: 25,
-          right: 30,
+          right: 80,
           left: 35,
           bottom: 50,
         }}
