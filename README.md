@@ -22,7 +22,7 @@ ___
 [issues-shield]: https://img.shields.io/github/issues/cepdnaclk/e19-3yp-beehive-monitoring-system.svg?style=for-the-badge
 
 ---
-
+<!-- Introduction -->
 ## 🐝 Introduction
 
 Detecting and preventing absconding events in beehives is a critical challenge for beekeepers. Our Smart Beehive Monitoring System aims to address this issue by leveraging advanced technologies to provide early and reliable detection of abscondment.
