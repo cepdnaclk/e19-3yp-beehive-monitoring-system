@@ -25,6 +25,8 @@ ___
 <!-- Introduction -->
 ## 🐝 Introduction
 
+  ![My Image](readmepic1.jpg)
+
 Beekeeping faces challenges in traditional hive management methods, where manual monitoring is time-consuming and may not provide timely insights into the health and behavior of bee colonies. One significant issue is the difficulty in early detection of abscondment, a situation where bees abandon their hive, leading to significant losses for beekeepers. Additionally, identifying feeding irregularities manually is a complex task, requiring careful observation and expertise.
 
 The Smart Beehive Monitoring System addresses these challenges by leveraging advanced technologies such as cameras and artificial intelligence. This system aims to transform traditional beekeeping practices by automating the monitoring process. Through the integration of smart sensors, cameras, and AI algorithms, the system collects and analyzes data in real-time, providing beekeepers with a comprehensive understanding of hive conditions
