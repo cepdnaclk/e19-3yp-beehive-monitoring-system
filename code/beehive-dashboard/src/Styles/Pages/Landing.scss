@@ -5,16 +5,17 @@
     padding: 0;
   }
   .landing-container {
-    position: relative;
+    position: fixed;
+    width: 100%;
   }
   
   // .navbar {
-  //   position: absolute;
+  //   position: fixed;
   //   top: 0;
   //   left: 0;
-  //   width: 100%;
-  //   z-index: 0;
-  // }
+  //   width: 100%;  // Set the width to cover the whole screen
+  //   z-index: 2;  // Adjust z-index as needed
+  // }  
   
   .banner-container {
     position: relative;
@@ -52,9 +53,9 @@
   }
   
   .content-container {
-    position: absolute;
-    top: 45%;
-    left: 28%;
+    position: fixed;
+    top: 350px;
+    left: 380px;
     transform: translate(-50%, -50%);
     z-index: 2;
     color: white;
@@ -76,8 +77,8 @@
   }
 
   .hexagon-design {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: -100px;
     right: 0;
     margin: 0;
     z-index: -1;
