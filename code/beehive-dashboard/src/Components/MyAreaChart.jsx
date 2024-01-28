@@ -162,6 +162,8 @@ const MyAreaChart = ({
                 ? "Temperature (°C)"
                 : dataKeys[0] === "humidity"
                 ? "Humidity (%)"
+                : dataKeys[0] === "weight"
+                ? "Weight (kg)"
                 : "CO2 level (ppm)"
             }
             offset={0}

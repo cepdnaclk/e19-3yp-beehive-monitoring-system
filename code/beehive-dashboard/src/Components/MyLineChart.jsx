@@ -51,7 +51,13 @@ const MyLineChart = ({
           <Label value="Time" offset={0} position="insideBottom" style={{ fontWeight: "bold", fontSize: "1.15rem" }}/>
         </XAxis>
         <YAxis>
-          <Label value="Values" offset={5} position="insideLeft" angle={270} style={{ fontWeight: "bold", fontSize: "1.15rem" }}/>
+        <Label
+          value={dataKeys.includes("weight") ? "Weight (kg)" : "Values"}
+          offset={0}
+          position="insideLeft"
+          angle={270}
+          style={{ fontWeight: "bold", fontSize: "1.15rem" }}
+        />
         </YAxis>
         <Tooltip />
 
