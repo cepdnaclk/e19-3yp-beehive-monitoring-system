@@ -25,7 +25,8 @@ ___
 <!-- Introduction -->
 ## 🐝 Introduction
 
-  ![Readme Image](./docs/images/Readmepic1.jpg)
+  <img src="./docs/images/Readmepic1.jpg" width="100" height="150">
+
 
 
 Beekeeping faces challenges in traditional hive management methods, where manual monitoring is time-consuming and may not provide timely insights into the health and behavior of bee colonies. One significant issue is the difficulty in early detection of abscondment, a situation where bees abandon their hive, leading to significant losses for beekeepers. Additionally, identifying feeding irregularities manually is a complex task, requiring careful observation and expertise.
