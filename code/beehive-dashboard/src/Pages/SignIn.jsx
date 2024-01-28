@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "../Assets/Sign up Bee image.png";
+import Banner2 from "../Assets/Bee w.jpg";
 import Polygon from "../Assets/Sign up Polygon.png";
 import LoginForm from "../Components/LoginForm";
 import SignUpForm from "../Components/RegisterForm";
@@ -17,10 +17,11 @@ function SignIn() {
     <div>
       <div className="split left">
         <div className="signin-banner-container">
-          <img src={Banner} alt="" className="signin-banner-image" />
+          <img src={Banner2} alt="" className="signin-banner-image" />
         </div>
       </div>
       <div className="split right">
+        <div className="color-overlay-sign"></div>
         <div className="centered">
           <img src={Polygon} alt="" className="polygon-image" />
           {isRegistered ? (

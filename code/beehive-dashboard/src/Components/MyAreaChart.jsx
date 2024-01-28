@@ -118,9 +118,9 @@ const MyAreaChart = ({
         data={formattedData}
         margin={{
           top: 25,
-          right: 30,
+          right: 80,
           left: 35,
-          bottom: 20,
+          bottom: 50,
         }}
       >
         <defs>
@@ -150,7 +150,7 @@ const MyAreaChart = ({
         <XAxis dataKey="timestamp">
           <Label
             value="Time"
-            offset={-20}
+            offset={-5}
             position="insideBottom"
             style={{ fontWeight: "bold", fontSize: "1.15rem" }}
           />
@@ -162,6 +162,8 @@ const MyAreaChart = ({
                 ? "Temperature (°C)"
                 : dataKeys[0] === "humidity"
                 ? "Humidity (%)"
+                : dataKeys[0] === "weight"
+                ? "Weight (kg)"
                 : "CO2 level (ppm)"
             }
             offset={0}
