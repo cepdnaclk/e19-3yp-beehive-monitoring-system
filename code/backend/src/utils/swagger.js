@@ -18,9 +18,16 @@ export const options = {
     },
     servers: [
       {
+        url: "http://beehive-backend.eba-suumbhuc.ap-southeast-1.elasticbeanstalk.com",
+        description: "Production server",
+      },
+      {
         url: "http://localhost:5001",
         description: "Development server",
       },
+      
+      
+      
     ],
     tags: [
       {

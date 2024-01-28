@@ -34,6 +34,10 @@ const beehiveSchema = new Schema(
     Battery_level: {
       type: String,
     },
+    email: {
+      type: String,
+      
+    },
   },
   {
     timestamps: true,

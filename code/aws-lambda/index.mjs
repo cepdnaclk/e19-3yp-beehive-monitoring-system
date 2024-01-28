@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 import { BeehiveMetrics } from "./beehiveMetricsModel.js";
 import { Notification } from "./notificationModel.js";
 import { Beehive } from "./beehiveModel.js";
@@ -12,6 +13,18 @@ export const handler = async (event) => {
   console.log("Received event:", JSON.stringify(event, null, 2));
   console.log("mongoUri:", mongoUri);
   let response;
+
+  //Create a transport for nodemailer
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.email,
+      pass: process.env.password,
+    },
+  });
+
+
   try {
     await mongoose.connect(mongoUri);
 
@@ -56,6 +69,16 @@ export const handler = async (event) => {
             notificationMessage: `Low battery warning for your beehive "${beehive.name}"`,
             isRead: false,
           });
+
+          // Send email
+          const mailOptions = {
+            from: process.env.email,
+            to: beehive.email,
+            subject: "Low battery warning",
+            text: `Your beehive "${beehive.name}" has a low battery`,
+          };
+
+          await transporter.sendMail(mailOptions);
         }
       }
     }
