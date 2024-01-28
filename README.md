@@ -25,7 +25,7 @@ ___
 <!-- Introduction -->
 ## 🐝 Introduction
 
-  <img src="./docs/images/Readmepic1.jpg" width="100" height="150">
+  <img src="./docs/images/Readmepic1.jpg" width="300" height="200">
 
 
 
