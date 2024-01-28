@@ -36,6 +36,8 @@ Our solution involves the deployment of camera sensors at the beehive entrance. 
 
 
 ## 🐝 Features
+<!-- Features -->
+
 
 Our Smart Beehive Monitoring System offers the following features:
 
