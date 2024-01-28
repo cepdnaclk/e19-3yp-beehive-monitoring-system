@@ -102,3 +102,28 @@
   .learn-more:hover {
     background: #FFD655;
   }
+
+  @media screen and (max-width: 768px) {
+    .content-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .content-container p {
+      font-size: 16px;
+    }
+
+    .content-container h3 {
+      font-size: 34px;
+    }
+
+    .hexagon-design {
+      display: none;
+    }
+  }
