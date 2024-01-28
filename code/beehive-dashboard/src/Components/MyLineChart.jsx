@@ -43,20 +43,20 @@ const MyLineChart = ({
           top: 25,
           right: 30,
           left: 35,
-          bottom: 20,
+          bottom: 40,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="timestamp">
-          <Label value="Time" offset={-15} position="insideBottom" />
+          <Label value="Time" offset={0} position="insideBottom" style={{ fontWeight: "bold", fontSize: "1.15rem" }}/>
         </XAxis>
         <YAxis>
-          <Label value="Values" offset={5} position="insideLeft" angle={270} />
+          <Label value="Values" offset={5} position="insideLeft" angle={270} style={{ fontWeight: "bold", fontSize: "1.15rem" }}/>
         </YAxis>
         <Tooltip />
 
         {dataKeys.map((key, index) => (
-          <>
+          <React.Fragment key={key}>
             <Line
               key={key}
               type="monotone"
@@ -65,7 +65,7 @@ const MyLineChart = ({
               fill={colors[index % colors.length]}
               strokeWidth={2}
             />{" "}
-          </> // Use provided colors or default ones
+          </React.Fragment> // Use provided colors or default ones
         ))}
       </LineChart>
     </div>
