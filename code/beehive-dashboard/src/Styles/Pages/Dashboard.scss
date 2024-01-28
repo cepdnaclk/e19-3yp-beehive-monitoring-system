@@ -24,6 +24,7 @@ body {
   }
 
   .beehive-card {
+    cursor: pointer;
     height: 300px;
     width: 300px;
     margin: 20px;
@@ -45,6 +46,7 @@ body {
     }
   }
   .sync-button{
+    cursor: pointer;
     width: 5rem;
     height: 2.2rem;
     font-size: 1.2rem;
@@ -55,7 +57,7 @@ body {
     }
     border: none;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
-    background-color: #ffffff;
+    background-color: #fcffeb;
 
   }
   .syncing-text{
