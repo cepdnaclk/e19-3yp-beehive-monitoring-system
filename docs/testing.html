@@ -13,7 +13,7 @@
     <!-- Header -->
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav__logo">
+            <a href="./index.html" class="nav__logo">
                 <img src="./assets/img/Logo.png" alt="">
             </a>
 
@@ -40,7 +40,62 @@
         </nav>
     </header>
         
-    </main>
+    </main class="main">
+
+    <section class="about section container" id="">
+        <div class="about__container grid">
+            <img src="assets/img/load-cell.png" alt="" class="about__img">
+
+            <div class="about__data">
+                <h2 class="section__title about__title">
+                    Load Cell Calibration: <br>
+                </h2>
+
+                <p class="about__description">
+                    To ensure the accuracy of weight measurements, we did a meticulous load cell calibration process. Beginning with a functionality test, the HX711 ADC module's operational status is quickly checked by measuring resistances. The main calibration involves establishing a zero point by recording the raw data value when the load cell platform is empty and level. Subsequently, known weights are applied to the platform, and their raw data values are recorded. These data points form the basis for creating a calibration curve, allowing the system to accurately measure weights in the hive.
+                </p>
+                Click <a href="https://docs.google.com/document/d/1OR7ZIVIdTaUVexy1G9sqabwm65dynHI79zPBmHX3LsA/edit?usp=sharing" class="manual">
+                    here
+                </a> for more details.
+            </div>
+        </div>
+    </section>
+
+    <section class="about section container" id="">
+        <div class="about__container grid">
+
+            <div class="about__data">
+                <h2 class="section__title about__title">
+                    Gas Sensor Calibration: <br>
+                </h2>
+
+                <p class="about__description">
+                    For precise CO2 ppm measurements, the MQ-135 gas sensor undergoes a thorough calibration process. Analyzing the sensitivity characteristic curve involves correlating sensor resistance (Rs) with different gas concentrations, represented on a log-log scale. The Rs is determined through a voltage divider formula. Calibration points are identified by using well-known air conditions, forming a calibration graph. This calibration ensures accurate and reliable CO2 ppm measurements, contributing to the overall precision of the Smart Beehive Monitoring System.
+                </p>
+                Click <a href="https://docs.google.com/document/d/1OR7ZIVIdTaUVexy1G9sqabwm65dynHI79zPBmHX3LsA/edit?usp=sharing" class="manual">
+                    here
+                </a> for more details.
+            </div>
+            
+            <img src="assets/img/gas sensor.jpg" alt="" class="about__img">
+        </div>
+    </section>
+
+    <section class="about section container" id="">
+        <div class="about__container grid">
+            <img src="assets/img/graphs.png" alt="" class="about__img">
+
+            <div class="about__data">
+                <h2 class="section__title about__title">
+                    Temperature and Humidity Sensor Validation: <br>
+                </h2>
+
+                <p class="about__description">
+                    To ensure the accuracy of temperature and humidity readings, the DHT21 sensor undergoes a comprehensive validation process using Testo 400 equipment in our chemical department. This involves comparing the sensor's measurements with those obtained from the highly precise Testo 400 equipment. By analyzing and validating the correlation between the sensor's readings and the benchmark Testo 400 measurements, we verify the reliability of the DHT21 sensor in providing precise and trustworthy environmental data. This meticulous validation process enhances the overall dependability of our monitoring system, ensuring users receive accurate information for critical decision-making in chemical-related applications.
+                </p>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer section">
