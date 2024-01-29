@@ -146,6 +146,10 @@ body.dark-theme {
   color: #c8c8c8;
 }
 
+.dark-theme .manual{
+  color: #c8c8c8;
+}
+
 .dark-theme .social-media-links a{
   color: #ffffff;
 }
@@ -362,6 +366,14 @@ body.dark-theme {
 
 .button--link:hover .button__icon {
   transform: translateX(0.25rem);
+}
+
+.manual {
+  font-size: 10px;
+  transition: 0.3s;
+}
+.manual:hover {
+  color: var(--first-color);
 }
 
 /* ABOUT */
@@ -938,7 +950,7 @@ body.dark-theme {
   }
 
   .archi_img {
-    width: 920px;
+    width: 700px;
   }
 }
 
