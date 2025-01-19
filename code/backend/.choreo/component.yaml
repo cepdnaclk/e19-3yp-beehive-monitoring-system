@@ -1,0 +1,7 @@
+schemaVersion: 1.0 
+ # Example endpoint configuration
+endpoints:
+- name: my-service-endpoint
+  service:
+     port: 5000
+  type: REST
