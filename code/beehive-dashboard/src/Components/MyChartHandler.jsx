@@ -15,7 +15,7 @@ export const MyChartHandler = ({ data, dataKeys, duration, colors, type }) => {
 
     // Filter Data according to duration
     const filterData = (duration, data) => {
-        const now = new Date();
+        const now = new Date('2024-01-29T10:44:55.073+00:00');
         return data.filter(item => {
             const createdAt = new Date(item.createdAt);
             switch (duration) {

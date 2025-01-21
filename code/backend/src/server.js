@@ -12,7 +12,7 @@ dotenv.config();
 
 // Create express server
 const app = createServer();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Get the directory name of the current module
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

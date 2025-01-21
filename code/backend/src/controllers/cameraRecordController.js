@@ -45,33 +45,28 @@ export const getCameraRecords = asyncHandler(async (req, res) => {
     beehive_id: { $in: beehive_ids },
   });
 
+  console.log("The camera records are :", cameraRecords);
+
   try {
-    const recordsPromises = cameraRecords.map(async (record) => {
-      const urlsPromises = record.sample_image_names.map(async (imageName) => {
-        const getObjectParams = {
-          Bucket: bucketName, // Replace with your bucket name
-          Key: imageName,
-        };
-        const command = new GetObjectCommand(getObjectParams);
-        return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-      });
+    const staticImageUrl = "https://ogden_images.s3.amazonaws.com/www.iamcountryside.com/images/sites/4/2022/05/13124510/beehive-entrance.jpg"; // Replace with your static image URL
 
-      const urls = await Promise.all(urlsPromises);
-
-      // Convert Mongoose document to a plain object and add the URLs
+    const cameraRecordsWithUrls = cameraRecords.map((record) => {
+      // Convert Mongoose document to a plain object
       const recordObj = record.toObject();
-      recordObj.sample_image_urls = urls; // Array of URLs
+
+      // Add the static URL for all sample_image_urls
+      recordObj.sample_image_urls = record.sample_image_names.map(() => staticImageUrl);
+
       return recordObj;
     });
 
-    const cameraRecordsWithUrls = await Promise.all(recordsPromises);
-
     res.status(200).json({ cameraRecords: cameraRecordsWithUrls });
   } catch (error) {
-    console.error("Error fetching URLs:", error);
+    console.error("Error processing records:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 //@desc create new camera record
 //@route POST /api/camera
@@ -129,49 +124,44 @@ export const createCameraRecord = asyncHandler(async (req, res) => {
 export const getCameraRecord = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  let cameraRecords = await CameraRecord.find({ beehive_id: id });
+  // Fetch camera records for the given beehive_id
+  const cameraRecords = await CameraRecord.find({ beehive_id: id });
   if (!cameraRecords || cameraRecords.length === 0) {
     res.status(404).send("Camera Record not found");
     return;
   }
 
   try {
-    const recordsPromises = cameraRecords.map(async (record) => {
+    // Define a static image URL
+    const staticImageUrl = "https://ogden_images.s3.amazonaws.com/www.iamcountryside.com/images/sites/4/2022/05/13124510/beehive-entrance.jpg"; // Replace with your static image URL
+
+    // Map camera records and add URLs and formatted timestamps
+    const cameraRecordsWithUrls = cameraRecords.map((record) => {
       console.log(record);
-      const urlsPromises = record.sample_image_names.map(async (imageName) => {
-        const getObjectParams = {
-          Bucket: bucketName,
-          Key: imageName,
-        };
-        const command = new GetObjectCommand(getObjectParams);
-        return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+
+      // Convert Mongoose document to a plain object
+      const recordObj = record.toObject();
+
+      // Add static URLs for sample_image_urls
+      recordObj.sample_image_urls = record.sample_image_names.map(() => staticImageUrl);
+
+      // Convert createdAt to GMT+5:30 and add as a new field
+      recordObj.createdAtLocal = new Date(record.createdAt).toLocaleString("en-US", {
+        timeZone: "Asia/Colombo",
       });
 
-      const urls = await Promise.all(urlsPromises);
-
-      // Convert Mongoose document to a plain object and add the URLs
-      const recordObj = record.toObject();
-      recordObj.sample_image_urls = urls; // Array of URLs
       return recordObj;
     });
 
-    const cameraRecordsWithUrls = await Promise.all(recordsPromises);
+    console.log("The camera records are:", cameraRecordsWithUrls);
 
-    console.log("The camera records are :", cameraRecordsWithUrls);
-    //fix GMT 0 time to GMT + 5.30
-    //Add to a new field
-    cameraRecordsWithUrls.forEach((record) => {
-      record.createdAtLocal = new Date(record.createdAt).toLocaleString(
-        "en-US",
-        { timeZone: "Asia/Colombo" }
-      );
-    });
     res.status(200).json({ cameraRecords: cameraRecordsWithUrls });
   } catch (error) {
-    console.error("Error fetching URLs:", error);
+    console.error("Error processing records:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 //@desc delete camera record by id
 //@route DELETE /api/camera/:id
