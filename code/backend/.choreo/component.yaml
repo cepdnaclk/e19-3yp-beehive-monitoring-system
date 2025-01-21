@@ -7,5 +7,5 @@ endpoints:
         port: 5000
       type: REST
       networkVisibilities:
-        - Public
+        - Project
       schemaFilePath: openapi.yaml
