@@ -1,31 +1,66 @@
-.battery-indicator {
-    border: 1px solid #333;
-    height: 20px;
-    width: 40px;
-    border-radius: 5px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    
-    font-size: 0.9rem;
-    text-align: center;
-    font-weight: 600;
+@import "../tokens";
+
+.battery {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: $font;
+
+  // One tone drives the fill, the terminal, the bolt and the number, so the
+  // whole control reads as a single state.
+  &--good { --battery-tone: #{$success}; }
+  &--medium { --battery-tone: #{$honey-deep}; }
+  &--low { --battery-tone: #{$danger}; }
+  &--unknown { --battery-tone: #{$muted}; }
+
+  &__cell {
+    flex-shrink: 0;
+    width: 1.85rem;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__shell {
+    fill: none;
+    stroke: #c7bfae;
+    stroke-width: 1.2;
+  }
+
+  &__terminal {
+    fill: #c7bfae;
+  }
+
+  &__fill {
+    fill: var(--battery-tone);
+    transition: width 0.4s ease;
+  }
+
+  &__bolt {
+    fill: #fff;
+    stroke: var(--battery-tone);
+    stroke-width: 0.7;
+    stroke-linejoin: round;
+  }
+
+  &__value {
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--battery-tone);
+  }
+
+  &__status {
+    padding: 0.12rem 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--battery-tone);
+    background: color-mix(in srgb, var(--battery-tone) 12%, transparent);
+    border-radius: 999px;
+  }
 }
 
-.battery-level {
-    height: 100%;
-    transition: width 0.5s ease;
+@media (prefers-reduced-motion: reduce) {
+  .battery__fill {
+    transition: none;
+  }
 }
-
-.blink {
-    animation: blink-animation 1s linear infinite;
-}
-
-@keyframes blink-animation {
-    50% {
-        opacity: 0;
-    }
-}
-
-
-  

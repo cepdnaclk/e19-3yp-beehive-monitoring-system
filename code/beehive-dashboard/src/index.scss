@@ -1,4 +1,27 @@
-body{
-    padding:0;
-    margin:0;
+@import "./Styles/tokens";
+
+html {
+  // Anchors on the landing page scroll rather than jump.
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $page;
+  color: $ink;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Pages used to set the page colour on body from their own stylesheet, so
+// whichever page loaded last decided the background for all of them.
+#root {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

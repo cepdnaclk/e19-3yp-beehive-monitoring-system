@@ -1,20 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
+@import "./Styles/tokens";
 
-.App{
-    text-align: center;
+/*
+Global shell only. Each page owns its own background and text alignment.
+
+`.App { text-align: center }` used to live here and centred every page through
+the wrapper in App.jsx, which quietly centred anything that did not override it.
+All five routes now state their own alignment, so the rule is gone.
+*/
+
+* {
+  font-family: $font;
+  font-variant-numeric: lining-nums;
 }
 
-*{
-    font-family: 'Raleway', sans-serif;
-    font-variant-numeric: lining-nums;
+// Slim, themed scrollbars. The previous rule set `width: 0px`, which hid them
+// outright; that was survivable when every page was position: fixed, but the
+// pages scroll now and a scrollbar is worth having.
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-  }
+  background: transparent;
+}
 
-::-webkit-scrollbar {
-    width: 0px;
-    background-color: #F5F5F5;
+::-webkit-scrollbar-thumb {
+  background: #d8cfbe;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+
+  &:hover {
+    background: #c2b7a1;
+    background-clip: content-box;
   }
+}
+
+// Firefox has no pseudo-elements for this.
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d8cfbe transparent;
+}

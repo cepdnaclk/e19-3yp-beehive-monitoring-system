@@ -1,196 +1,487 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+/*
+Dark treatment. The hero photo half was already dark, so a cream form panel beside
+it split the page in two; both halves are navy now and it reads as one surface.
+The navy is the same gradient used on the dashboard hero and the landing CTA.
 
-.split {
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
+Everything is nested under .auth-page. These are generic names (.auth-input,
+.auth-field) and this file is imported by three components, so without the
+wrapper they would leak into every other page the bundle loads.
+*/
 
-.color-overlay-sign {
-  height: 100%;
-  width: 100%;
-  float: left;
-  padding: none;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  object-fit: cover;
-  background-color: #f1bd5436;
-  z-index: 1;
-}
+@import "../tokens";
 
-.left {
-  left: 0;
-  background-color: #6b9dd2;
-}
+// Panel-local surfaces. Kept here rather than in tokens because this is the only
+// dark-on-dark form in the app.
+$panel-card: #202b38;
+$panel-line: rgba(255, 255, 255, 0.1);
+$panel-text: rgba(255, 255, 255, 0.62);
+$panel-label: rgba(255, 255, 255, 0.78);
 
-.signin-banner-container {
-  position: relative;
-  overflow: hidden;
-  height: 100vh;
-}
-
-.signin-banner-image {
-  height: 100%;
-  width: 50%;
-  float: left;
-  padding: none;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.right {
-  right: 0;
-  background-color: #6b9dd2;
-  z-index: 1;
-}
-
-.centered {
-  position: absolute;
-  top: 330px;
-  left: 18px;
-  transform: translate(10%, -350px);
-  text-align: center;
-  z-index: 2;
-}
-
-.centered img {
-  width: 80%;
-  height: 80%;
-  z-index: 10000;
-}
-
-.signin-form {
-  position: absolute;
-  top: 46%;
-  left: 54%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.signin-form img{
-  width: 60%;
-  height: auto;
-}
-
-.signin-form h3 {
-  color: #000000;
-  font-size: 23px;
-  font-weight: 600;
-  font-family: 'Raleway', sans-serif;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.256);
-}
-
-.inputs {
-  margin-top: 20px;
+.auth-page {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 200px;
-}
+  min-height: 100vh;
+  font-family: $font;
+  text-align: left;
+  color: #fff;
+  // The navy lives on the page, not on the right panel, so the photo can fade
+  // out into the exact colour behind it and the two halves meet with no seam.
+  background: linear-gradient(135deg, #232f3d 0%, #1a2430 60%, #16202b 100%);
 
-.input{
-  display: flex;
-  align-items: center;
-  margin: auto;
-  width: 90%;
-  height: 40px;
-  background: #ffffff;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
-  border-radius: 50px;
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-.input img{
-  width: 20px;
-  height: 20px;
-  margin: 0px 30px;
-}
+  /* ---------- Left: photo, scrim, copy ---------- */
 
-.input input{
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 16px;
-  color: #000000;
-  font-family: 'Raleway', sans-serif;
-}
+  .auth-visual {
+    position: relative;
+    flex: 1 1 52%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    isolation: isolate;
+  }
 
-.signin-button {
-  margin-top: 20px;
-}
+  /*
+  The photo, its scrim and the honeycomb all carry the same fade, so the whole
+  left half dissolves together into the page gradient. Masking the container
+  instead would take the headline with it.
+  */
+  %fades-into-panel {
+    mask-image: linear-gradient(to right, #000 0%, #000 38%, transparent 97%);
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 38%, transparent 97%);
+  }
 
-.signin-button button {
-  width: 170px;
-  height: 30px;
-  background-color: #253f65;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 0px 50px;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  box-shadow: 0px 6px 23px -6px #253f6575;
-  transition: background 0.3s ease;
-}
+  .auth-visual__photo {
+    @extend %fades-into-panel;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
 
-.signin-button button:hover {
-  background-color: #3c66a4;
-}
-.change-button {
-  margin-top: 20px;
-}
+  // Weighted to the bottom so the copy has contrast while the bee and the
+  // blossom in the upper half stay visible. It carries the same fade as the
+  // photo, otherwise the scrim would keep darkening the page gradient past the
+  // point where the photo has already gone.
+  .auth-visual__scrim {
+    @extend %fades-into-panel;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(
+        to top,
+        rgba(12, 18, 25, 0.95) 0%,
+        rgba(12, 18, 25, 0.76) 30%,
+        rgba(12, 18, 25, 0.26) 62%,
+        rgba(12, 18, 25, 0.08) 100%
+      ),
+      linear-gradient(120deg, rgba(247, 148, 29, 0.18), transparent 55%);
+  }
 
-.change-button button {
-  background-color: transparent;
-  color: rgb(9, 60, 155);
-  font-size: 14px;
-  font-weight: 600;
-  padding: 10px 50px;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  text-decoration: underline;
-  transition: background 0.3s ease;
-}
+  .auth-visual__comb {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.12);
+    // Single diagonal fade: strongest at the bottom-left, gone before the right
+    // edge. Two stacked masks would need mask-composite, which Safari spells
+    // differently.
+    mask-image: linear-gradient(to top right, #000 0%, transparent 68%);
+    -webkit-mask-image: linear-gradient(to top right, #000 0%, transparent 68%);
+  }
 
-.change-button button:hover {
-  color: #0a37ea;
-}
+  .auth-visual__content {
+    position: relative;
+    z-index: 3;
+    padding: 0 clamp(2rem, 5vw, 4.5rem) clamp(2.5rem, 5vw, 4rem);
+    color: #fff;
+    max-width: 34rem;
+  }
 
-.email-icon{
-  padding: 2px;
-  margin-top: 4px;
-  margin-right: 20px;
-  margin-left: 10px;
-}
+  .auth-visual__eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $honey;
+    margin-bottom: 1rem;
+  }
 
-.invalid-warning{
-  color: red;
-  font-size: 20px;
-  font-weight: 500;
-  font-family: 'Raleway', sans-serif;
-  margin-top: 10px;
-}
+  .auth-visual__title {
+    margin: 0 0 1rem;
+    font-size: clamp(2.1rem, 3.6vw, 3.1rem);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 
-// @media screen and (max-width: 1200px) {
-//   .left {
-//     display: none;
-//   }
-//   .right {
-//     width: 100%;
-//   }
-// }
+    em {
+      font-style: normal;
+      color: $honey;
+    }
+  }
+
+  .auth-visual__lede {
+    margin: 0 0 2rem;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .auth-visual__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(6px);
+    }
+
+    svg {
+      color: $honey;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* ---------- Right: the form ---------- */
+
+  .auth-panel {
+    position: relative;
+    flex: 1 1 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+    // Transparent: the gradient is on .auth-page so it runs unbroken beneath
+    // both halves.
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .auth-panel__comb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(247, 148, 29, 0.16);
+    mask-image: radial-gradient(120% 90% at 100% 0%, #000 0%, transparent 65%);
+    -webkit-mask-image: radial-gradient(120% 90% at 100% 0%, #000 0%, transparent 65%);
+  }
+
+  .auth-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 25rem;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    background: $panel-card;
+    border: 1px solid $panel-line;
+    border-radius: 1.25rem;
+    box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.6);
+  }
+
+  .auth-card__logo {
+    display: block;
+    margin-bottom: 1.75rem;
+
+    img {
+      height: 2.2rem;
+      width: auto;
+      // The wordmark is dark navy and disappears on this background.
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .auth-card__switch {
+    margin: 1.75rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid $panel-line;
+    text-align: center;
+    font-size: 0.88rem;
+    color: $panel-text;
+
+    button {
+      margin-left: 0.4rem;
+      padding: 0;
+      font: inherit;
+      font-weight: 700;
+      color: $honey;
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.25rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $honey;
+        outline-offset: 3px;
+      }
+    }
+  }
+
+  /* ---------- Form internals, shared by both forms ---------- */
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .auth-form__header {
+    margin-bottom: 0.25rem;
+
+    h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: #fff;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: $panel-text;
+    }
+  }
+
+  .auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: $panel-label;
+    }
+  }
+
+  .auth-field__hint {
+    font-size: 0.78rem;
+    // Lifted off the token red, which is too dark to read on this background.
+    color: #ff8f7a;
+  }
+
+  .auth-input {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0 0.9rem;
+    height: 2.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.7rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+    // :focus-within rather than :focus on the input, so the whole control
+    // lights up as one object.
+    &:focus-within {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: $honey;
+      box-shadow: 0 0 0 3px rgba(247, 148, 29, 0.22);
+    }
+
+    &--invalid {
+      border-color: #ff8f7a;
+
+      &:focus-within {
+        border-color: #ff8f7a;
+        box-shadow: 0 0 0 3px rgba(255, 143, 122, 0.2);
+      }
+    }
+  }
+
+  .auth-input__icon {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .auth-input input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    font-family: $font;
+    font-size: 0.95rem;
+    color: #fff;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.34);
+    }
+
+    // Chrome paints its own near-white autofill background, which would knock a
+    // white block into the middle of the dark card.
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      -webkit-text-fill-color: #fff;
+      caret-color: #fff;
+      -webkit-box-shadow: 0 0 0 40rem #232f3d inset;
+      transition: background-color 9999s ease-in-out 0s;
+    }
+  }
+
+  .auth-input__toggle {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.5);
+    background: none;
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $honey;
+      outline-offset: 1px;
+    }
+  }
+
+  .auth-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: #ffc4b8;
+    background: rgba(192, 57, 43, 0.18);
+    border: 1px solid rgba(255, 143, 122, 0.35);
+    border-radius: 0.6rem;
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      color: #ff8f7a;
+    }
+  }
+
+  .auth-submit {
+    height: 2.9rem;
+    margin-top: 0.4rem;
+    font-family: $font;
+    font-size: 0.95rem;
+    font-weight: 700;
+    // Dark text on amber, which carries far more contrast than white would.
+    color: $ink;
+    background: $honey;
+    border: none;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
+    box-shadow: 0 8px 20px -8px rgba(247, 148, 29, 0.6);
+
+    &:hover:not(:disabled) {
+      background: #ffa733;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      color: rgba(255, 255, 255, 0.5);
+      background: #6b5535;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  /* ---------- Narrow screens ---------- */
+
+  @media (max-width: $breakpoint) {
+    flex-direction: column;
+
+    // The photo becomes a short banner rather than disappearing, so the page
+    // keeps its identity on a phone.
+    .auth-visual {
+      flex: 0 0 auto;
+      min-height: 15rem;
+    }
+
+    .auth-visual__lede,
+    .auth-visual__metrics {
+      display: none;
+    }
+
+    .auth-visual__content {
+      padding-bottom: 2rem;
+    }
+
+    // Stacked vertically now, so the photo has to fade downward into the panel
+    // instead of to the right.
+    .auth-visual__photo,
+    .auth-visual__scrim {
+      mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 99%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 99%);
+    }
+
+    .auth-visual__scrim {
+      background:
+        linear-gradient(
+          to top,
+          rgba(12, 18, 25, 0.9) 0%,
+          rgba(12, 18, 25, 0.6) 40%,
+          rgba(12, 18, 25, 0.15) 100%
+        );
+    }
+
+    .auth-visual__comb {
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 80%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 80%);
+    }
+
+    .auth-panel {
+      flex: 1 1 auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .auth-submit,
+    .auth-input {
+      transition: none;
+    }
+  }
+}

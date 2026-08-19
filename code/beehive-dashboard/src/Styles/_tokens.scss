@@ -1,0 +1,43 @@
+/*
+Shared design tokens, taken from the logo: amber mark on a deep navy wordmark.
+Imported by the auth and dashboard styles so the two pages stay one system.
+*/
+
+$honey: #f7941d;
+$honey-deep: #dd7f0c;
+$honey-wash: #fff6e6;
+
+$ink: #1f2a37;
+$ink-soft: #3f4b5a;
+$muted: #7a8593;
+
+$page: #faf6ee;
+$cream: #fdfaf3;
+$surface: #ffffff;
+$line: #e8e0d2;
+
+// One hue per metric, reused on the cards and in the stat row so a colour
+// always means the same quantity.
+$temp: #e0603a;
+$humid: #3b8fd4;
+$co2: #5b9e5b;
+$weight: #9a6b3f;
+
+$danger: #c0392b;
+$success: #2f8f5b;
+
+$font: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+// Where the two-column layouts collapse to one.
+$breakpoint: 960px;
+
+$radius-sm: 0.5rem;
+$radius-md: 0.75rem;
+$radius-lg: 1.25rem;
+
+$shadow-card:
+  0 1px 2px rgba(31, 42, 55, 0.04),
+  0 12px 32px -14px rgba(31, 42, 55, 0.22);
+$shadow-hover:
+  0 2px 4px rgba(31, 42, 55, 0.05),
+  0 20px 40px -16px rgba(31, 42, 55, 0.28);

@@ -1,16 +1,108 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #E8E3CD;
-}
-.hiveDashboard-container {
-    position: relative;
-}
+@import "../tokens";
 
-// .navbar {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     z-index: 0;
-// }
+.hive-dashboard-page {
+  min-height: 100vh;
+  background: $page;
+  font-family: $font;
+  text-align: left;
+  color: $ink;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .hive-dashboard-main {
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 2.5rem clamp(1rem, 4vw, 2.5rem) 4rem;
+  }
+
+  .hive-dashboard-card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #232f3d 0%, #1a2430 60%, #16202b 100%);
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
+    color: #fff;
+
+    &__comb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      color: rgba(247, 148, 29, 0.16);
+      mask-image: radial-gradient(90% 130% at 100% 0%, #000 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(90% 130% at 100% 0%, #000 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    &__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 34rem;
+    }
+
+    &__eyebrow {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: $honey;
+    }
+
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0 0 1.75rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      height: 2.5rem;
+      padding: 0 1.25rem;
+      font-family: $font;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: $ink;
+      background: $honey;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+
+      svg {
+        font-size: 0.78rem;
+      }
+
+      &:hover {
+        background: #ffa733;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hive-dashboard-card button {
+      transition: none;
+    }
+  }
+}

@@ -50,16 +50,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Returns a boolean like login does. It previously returned nothing, so the
+    // caller had no way to tell success from failure.
     const register = async (username, email, password) => {
         setIsLoading(true);
+        let result = false;
         try {
             const user = await AuthService.register(username, email, password);
             setCurrentUser(user);
+            result = true;
         } catch (error) {
             console.error("Registration failed:", error);
         } finally {
             setIsLoading(false);
         }
+        return result;
     };
 
     const logout = () => {

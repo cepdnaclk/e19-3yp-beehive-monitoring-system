@@ -1,86 +1,223 @@
-.name {
-  width: 30%;
-  border-radius: 50px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
-  padding: 7px 10px;
-  background: #fff;
-  color: black;
-  font-family: "Raleway", sans-serif;
+@import "../tokens";
+
+/*
+Everything nested under .hive-card. The previous version styled bare .name,
+.box, .ellipse and .card-features globally and stacked them with negative
+z-index and percentage offsets like `top: -99%`, which only lined up at one
+card size. This is a plain flex column instead.
+*/
+
+.hive-card {
   position: relative;
-  z-index: -1;
+  // Clips the watermark to the rounded corners.
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  font-family: $font;
+  text-align: left;
+  color: $ink;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(247, 148, 29, 0.45);
+    box-shadow: $shadow-hover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $honey;
+    outline-offset: 3px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  // Watermark rather than a thumbnail: large, faint, bleeding off the corner so
+  // it reads as part of the card surface instead of as an inserted picture.
+  // The metric tiles sit on their own opaque background, so text stays legible
+  // over it.
+  &__bg {
+    position: absolute;
+    right: -1.75rem;
+    bottom: -1.5rem;
+    z-index: 0;
+    width: 11rem;
+    height: auto;
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  &:hover &__bg {
+    opacity: 0.13;
+    transform: translate(-0.35rem, -0.35rem) scale(1.04);
+  }
+
+  // Everything except the watermark stacks above it.
+  &__header,
+  &__metrics,
+  &__footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__identity {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin: 0.25rem 0 0;
+      font-size: 0.78rem;
+      color: $muted;
+
+      svg {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: $success;
+    background: rgba(47, 143, 91, 0.1);
+    border-radius: 999px;
+
+    i {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    &--warn {
+      color: $danger;
+      background: rgba(192, 57, 43, 0.1);
+    }
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid $line;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: $honey-deep;
+
+    svg {
+      font-size: 0.65rem;
+      transition: transform 0.18s ease;
+    }
+  }
+
+  &:hover &__more svg {
+    transform: translateX(2px);
+  }
 }
 
-.box-container {
-  position: relative;
-  top: 10%;
-  left: 54%;
-  transform: translate(-50%, -50%);
-  z-index: 0;
-}
-
-.box {
-  width: 60%;
-  height: auto;
-}
-
-.ellipse {
-  height: 80%;
-  z-index: 0;
-  position: relative;
-  top: -15%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-}
-.card-features {
-  position: relative;
-  top: -99%;
-  left: 25%;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: left; // Changed to left to align with the flex layout
-  width: 100%; // Ensure full width is used for the layout
-}
-
-.card-features li {
-  margin-bottom: 10px; // Adjust as needed
-  color: #000000;
-  font-family: "Raleway", sans-serif;
-  font-size: 14px;
+.hive-metric {
   display: flex;
   align-items: center;
-  justify-content: flex-start; // Align items to the start of the flex container
+  gap: 0.55rem;
+  padding: 0.6rem;
+  background: #fbf8f2;
+  border-radius: $radius-md;
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 1.85rem;
+    height: 1.85rem;
+    font-size: 0.78rem;
+    border-radius: $radius-sm;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+
+    small {
+      font-size: 0.66rem;
+      color: $muted;
+    }
+
+    strong {
+      font-size: 0.92rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+  }
+
+  // One hue per quantity, matching the stat row on the dashboard hero.
+  &--temperature &__icon { color: $temp; background: rgba(224, 96, 58, 0.12); }
+  &--humidity &__icon { color: $humid; background: rgba(59, 143, 212, 0.12); }
+  &--co2 &__icon { color: $co2; background: rgba(91, 158, 91, 0.12); }
+  &--weight &__icon { color: $weight; background: rgba(154, 107, 63, 0.12); }
 }
 
-.card-features li .feature {
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-}
-
-.card-features li .feature-battery {
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-top: -1rem;
-}
-
-.icon-temperature,
-.icon-humidity,
-.icon-co2 {
-  margin-right: 5px; // Uniform margin for all icons
-}
-
-// Specific icon colors
-.icon-temperature {
-  color: rgb(199, 25, 25);
-}
-
-.icon-humidity {
-  color: rgb(1, 1, 44);
-}
-
-.icon-co2 {
-  color: rgb(57, 78, 57);
+@media (prefers-reduced-motion: reduce) {
+  .hive-card,
+  .hive-card__more svg,
+  .hive-card__bg {
+    transition: none;
+  }
 }

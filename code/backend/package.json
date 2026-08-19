@@ -7,6 +7,10 @@
   "scripts": {
     "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
+    "seed": "node ./src/bridge/seedDemo.js",
+    "broker": "node ./src/bridge/broker.js",
+    "bridge": "node ./src/bridge/mqttBridge.js",
+    "simulate": "node ./src/bridge/simulate.js",
     "test": "jest --config jest.config.js"
   },
   "keywords": [],
@@ -15,8 +19,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.485.0",
     "@aws-sdk/s3-request-presigner": "^3.485.0",
-    "aws-crt": "^1.19.0",
-    "aws-iot-device-sdk-v2": "^1.17.0",
+    "aedes": "^0.51.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "csv-writer": "^1.6.0",
@@ -27,6 +30,7 @@
     "mongodb": "^6.3.0",
     "mongodb-memory-server": "^9.1.1",
     "mongoose": "^8.9.5",
+    "mqtt": "^5.3.5",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.2",
     "swagger-jsdoc": "^6.2.8",

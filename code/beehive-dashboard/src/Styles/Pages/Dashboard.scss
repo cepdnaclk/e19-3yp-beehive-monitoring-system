@@ -1,76 +1,248 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #E8E3CD;
-}
-.dashboard-container {
+@import "../tokens";
+
+/*
+Scoped to .dashboard-page. The old file set the page colour on body, which meant
+the dashboard's background followed the user onto every other route in the
+bundle; the container carries it now.
+*/
+
+.dashboard-page {
+  min-height: 100vh;
+  background: $page;
+  font-family: $font;
+  color: $ink;
+  // Every page states its own alignment now that App.scss no longer centres
+  // the whole app through its wrapper.
+  text-align: left;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .dashboard-main {
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 4rem;
+  }
+
+  /* ---------- Hero band: title, sync, summary ---------- */
+
+  .dashboard-hero {
     position: relative;
+    overflow: hidden;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #232f3d 0%, #1a2430 60%, #16202b 100%);
+    border-radius: $radius-lg;
+    color: #fff;
+    box-shadow: $shadow-card;
+  }
+
+  .dashboard-hero__comb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(247, 148, 29, 0.16);
+    mask-image: radial-gradient(90% 130% at 100% 0%, #000 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(90% 130% at 100% 0%, #000 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .dashboard-hero__top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: rgba(255, 255, 255, 0.68);
+    }
+  }
+
+  .dashboard-hero__eyebrow {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $honey;
+  }
+
+  .dashboard-sync {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1.15rem;
+    font-family: $font;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: $ink;
+    background: $honey;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.08s ease;
+
+    &:hover:not(:disabled) {
+      background: #ffa733;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .is-spinning {
+      animation: dashboard-spin 0.9s linear infinite;
+    }
+  }
+
+  .dashboard-stats {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 0.75rem;
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+  }
+
+  .dashboard-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: $radius-md;
+
+    &__icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: $radius-sm;
+      font-size: 0.9rem;
+    }
+
+    &__text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+      min-width: 0;
+
+      strong {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      small {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.6);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &.tone-amber &__icon { background: rgba(247, 148, 29, 0.18); color: $honey; }
+    &.tone-red &__icon { background: rgba(224, 96, 58, 0.2); color: #ff8f6b; }
+    &.tone-blue &__icon { background: rgba(59, 143, 212, 0.2); color: #79bdf3; }
+    &.tone-green &__icon { background: rgba(47, 143, 91, 0.2); color: #6fd39b; }
+  }
+
+  /* ---------- Card grid ---------- */
+
+  // auto-fill with a minimum keeps the cards a readable width at every size
+  // instead of the old fixed 300px boxes spread by space-around, which left
+  // large uneven gaps on wide screens.
+  .hive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .hive-skeleton {
+    height: 14.5rem;
+    border-radius: $radius-lg;
+    background: linear-gradient(
+      100deg,
+      #f1ece1 30%,
+      #f8f4ec 50%,
+      #f1ece1 70%
+    );
+    background-size: 200% 100%;
+    animation: dashboard-shimmer 1.3s ease-in-out infinite;
+  }
+
+  .dashboard-empty {
+    padding: 3.5rem 2rem;
+    text-align: center;
+    background: $surface;
+    border: 1px dashed $line;
+    border-radius: $radius-lg;
+
+    h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 auto;
+      max-width: 26rem;
+      font-size: 0.92rem;
+      color: $muted;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dashboard-sync .is-spinning,
+    .hive-skeleton {
+      animation: none;
+    }
+  }
 }
 
-// .navbar {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     z-index: 0;
-// }
+@keyframes dashboard-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-.beehive-cards-container {
-    padding: 2px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
+@keyframes dashboard-shimmer {
+  0% {
+    background-position: 200% 0;
   }
-
-  .beehive-card {
-    cursor: pointer;
-    height: 300px;
-    width: 300px;
-    margin: 20px;
-    box-sizing: border-box;
-    &:hover {
-      transform: translateY(-0.3rem);
-      transition: transform 0.3s ease;
-    }
+  100% {
+    background-position: -200% 0;
   }
-
-  .add-card {
-    height: 300px;
-    width: 300px;
-    margin: 20px;
-    box-sizing: border-box;
-    &:hover {
-      transform: translateY(-0.5rem);
-      transition: transform 0.3s ease;
-    }
-  }
-  .sync-button{
-    cursor: pointer;
-    width: 5rem;
-    height: 2.2rem;
-    font-size: 1.2rem;
-    border-radius: 1rem;
-    &:hover {
-      transform: translateY(-0.3rem);
-      transition: transform 0.3s ease;
-    }
-    border: none;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
-    background-color: #fcffeb;
-
-  }
-  .syncing-text{
-    font-size: 1.2rem;
-    font-weight: 600;
-    font-family: 'Raleway', sans-serif;
-    color: #000000;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.256);
-  }
-  .loading-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-  }
+}

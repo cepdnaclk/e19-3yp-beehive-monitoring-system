@@ -1,40 +1,63 @@
-.add-card {
-    position: relative;
-    width: 30%;
-    box-sizing: border-box;
-    margin: 20px;
-}
+@import "../tokens";
 
-.add-ellipse {
-    height: 60%;
-    position: absolute;
-    top: 58%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
+/*
+Matches .hive-card's shape so the grid stays even, but drawn as a dashed
+placeholder to read as an action rather than a hive. Currently commented out of
+the dashboard.
+*/
+
+.add-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 14.5rem;
+  padding: 1.25rem;
+  font-family: $font;
+  text-align: center;
+  background: $surface;
+  border: 1px dashed rgba(247, 148, 29, 0.5);
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    background: $honey-wash;
+    border-color: $honey;
+  }
 }
 
 .add-sign {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  background: $honey-wash;
+  border: 1px solid rgba(247, 148, 29, 0.35);
+  border-radius: 50%;
 }
 
 .add-logo {
-    width: 70%;
-    height: auto;
+  width: 45%;
+  height: auto;
 }
 
 .add-text {
-    text-align: center;
-    color: #000000;
-    font-family: 'Raleway', sans-serif;
-    font-size: 14px;
-    font-weight: 550;
-    position: absolute;
-    top: 58%;
-    left: 50%;
-    transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $ink-soft;
+}
+
+// The decorative ellipse belonged to the old absolutely-positioned card.
+.add-ellipse {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-card {
+    transition: none;
+  }
 }

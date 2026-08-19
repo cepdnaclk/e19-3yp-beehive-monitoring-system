@@ -1,129 +1,496 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import "../tokens";
 
-  body {
+/*
+The old landing page pinned every element with position: fixed, so the page
+could not scroll and the copy sat at a hardcoded top/left that only lined up on
+one screen size. This is a normal document flow with a full-viewport hero.
+
+The hero photo has its sharp subject on the left and soft bokeh on the right,
+so the copy sits on the right where it does not cover the bees, and the scrim
+is weighted that way to match.
+*/
+
+.landing-page {
+  font-family: $font;
+  text-align: left;
+  color: $ink;
+  background: $surface;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* ---------- Hero ---------- */
+
+  .landing-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .landing-hero__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% center;
+    z-index: 0;
+  }
+
+  .landing-hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(
+        to right,
+        rgba(10, 15, 21, 0.35) 0%,
+        rgba(10, 15, 21, 0.55) 35%,
+        rgba(10, 15, 21, 0.86) 68%,
+        rgba(10, 15, 21, 0.94) 100%
+      ),
+      linear-gradient(to top, rgba(10, 15, 21, 0.7), transparent 45%);
+  }
+
+  .landing-hero__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 7rem clamp(1.25rem, 5vw, 3rem) 4rem;
+  }
+
+  .landing-hero__copy {
+    max-width: 32rem;
+    color: #fff;
+  }
+
+  .landing-hero__eyebrow {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: $honey;
+  }
+
+  .landing-hero h1 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+
+    em {
+      font-style: normal;
+      color: $honey;
+    }
+  }
+
+  .landing-hero__copy > p {
+    margin: 0 0 2rem;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .landing-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .landing-hero__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
     margin: 0;
     padding: 0;
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+
+    svg {
+      font-size: 0.78rem;
+      color: $honey;
+    }
   }
-  .landing-container {
-    position: fixed;
-    width: 100%;
+
+  /* ---------- Buttons ---------- */
+
+  .landing-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    height: 2.9rem;
+    padding: 0 1.6rem;
+    font-family: $font;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: background 0.18s ease, transform 0.08s ease, border-color 0.18s ease;
+
+    svg {
+      font-size: 0.78rem;
+      transition: transform 0.18s ease;
+    }
+
+    &:hover svg {
+      transform: translateX(3px);
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &--primary {
+      color: $ink;
+      background: $honey;
+      border: 1px solid $honey;
+      box-shadow: 0 8px 22px -8px rgba(247, 148, 29, 0.7);
+
+      &:hover {
+        background: #ffa733;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 3px;
+      }
+    }
+
+    &--ghost {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $honey;
+        outline-offset: 3px;
+      }
+    }
   }
-  
-  .banner-container {
+
+  /* ---------- Shared section furniture ---------- */
+
+  .landing-section {
     position: relative;
     overflow: hidden;
-    height: 100vh;
-  }
-  
-  .banner-image {
-    height: 100%;
-    width: 100%;
-    float: left;
-    padding: none;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    object-fit: cover;
-    z-index: -1;
-  }
-  
-  .color-overlay {
-    height: 100%;
-    width: 100%;
-    float: left;
-    padding: none;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    object-fit: cover;
-    background-color: rgba(66, 65, 65, 0.527);
-    z-index: -1;
-  }
-  
-  .content-container {
-    position: fixed;
-    top: 350px;
-    left: 380px;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    color: white;
-    text-align: left;
-    padding: 20px;
-  }
-  
-  .content-container p {
-    font-family: 'Raleway', sans-serif;
-    font-size: 18px;
-    max-width: 600px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  .content-container h3 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 40px;
-    margin: 0 0 50px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 3rem);
+    background: $page;
   }
 
-  .hexagon-design {
-    position: fixed;
-    bottom: -100px;
-    right: 0;
-    margin: 0;
-    z-index: -1;
-  }
-  
-  .hexagon-design img {
-    height: 50%;
-    width: 80%;
-    float: right;
-    padding: none;
-    object-fit: cover;
-    z-index: -1;
+  .landing-section__comb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(247, 148, 29, 0.14);
+    mask-image: radial-gradient(80% 100% at 0% 0%, #000 0%, transparent 65%);
+    -webkit-mask-image: radial-gradient(80% 100% at 0% 0%, #000 0%, transparent 65%);
+    pointer-events: none;
   }
 
-  .learn-more {
+  .landing-section__head {
+    position: relative;
+    z-index: 1;
+    max-width: 40rem;
+    margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
+    text-align: center;
+
+    h2 {
+      margin: 0 0 0.85rem;
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: $muted;
+    }
+  }
+
+  .landing-section__eyebrow {
     display: inline-block;
-    margin-top: 20px;
-    text-decoration: none;
-    border-radius: 50px;
-    padding: 10px 30px;
-    background: #FCB43A;
-    color: black;
-    font-family: 'Raleway', sans-serif;
-    font-size: 14px;
+    margin-bottom: 0.85rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    transition: background 0.3s ease;
-  }
-  
-  .learn-more:hover {
-    background: #FFD655;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: $honey-deep;
   }
 
-  @media screen and (max-width: 768px) {
-    .content-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      color: white;
-      text-align: center;
-      padding: 20px;
+  /* ---------- Metric cards ---------- */
+
+  .landing-metrics {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .landing-metric {
+    padding: 1.6rem;
+    background: $surface;
+    border: 1px solid $line;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: $shadow-hover;
     }
 
-    .content-container p {
-      font-size: 16px;
+    &__icon {
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin-bottom: 1.1rem;
+      font-size: 1.05rem;
+      border-radius: $radius-md;
     }
 
-    .content-container h3 {
-      font-size: 34px;
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      font-weight: 700;
     }
 
-    .hexagon-design {
-      display: none;
+    p {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: $muted;
+    }
+
+    // Same hue per quantity as the dashboard cards.
+    &--temperature &__icon { color: $temp; background: rgba(224, 96, 58, 0.12); }
+    &--humidity &__icon { color: $humid; background: rgba(59, 143, 212, 0.12); }
+    &--co2 &__icon { color: $co2; background: rgba(91, 158, 91, 0.12); }
+    &--weight &__icon { color: $weight; background: rgba(154, 107, 63, 0.12); }
+  }
+
+  /* ---------- How it works ---------- */
+
+  .landing-steps-section {
+    padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 3rem);
+    background: $surface;
+
+    &__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: center;
+      gap: clamp(2rem, 6vw, 4.5rem);
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+
+    &__aside {
+      display: grid;
+      place-items: center;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      background: linear-gradient(150deg, $honey-wash, #fdf1dc);
+      border: 1px solid rgba(247, 148, 29, 0.25);
+      border-radius: $radius-lg;
+
+      img {
+        width: min(100%, 17rem);
+        height: auto;
+      }
+    }
+
+    h2 {
+      margin: 0 0 1.75rem;
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
   }
+
+  .landing-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    h3 {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+      font-weight: 700;
+
+      b {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: $honey-deep;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: $muted;
+    }
+  }
+
+  .landing-step__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 0.95rem;
+    color: $honey-deep;
+    background: $honey-wash;
+    border: 1px solid rgba(247, 148, 29, 0.28);
+    border-radius: $radius-md;
+  }
+
+  /* ---------- Closing call to action ---------- */
+
+  .landing-cta {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3.5rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 3rem);
+    background: linear-gradient(135deg, #232f3d 0%, #1a2430 60%, #16202b 100%);
+    color: #fff;
+    text-align: center;
+
+    &__comb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      color: rgba(247, 148, 29, 0.16);
+      mask-image: radial-gradient(70% 120% at 50% 0%, #000 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(70% 120% at 50% 0%, #000 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    &__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 34rem;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0 0 1.75rem;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.72);
+    }
+  }
+
+  /* ---------- Footer ---------- */
+
+  .landing-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 2.5rem 1.5rem;
+    background: $page;
+    border-top: 1px solid $line;
+
+    img {
+      width: 118px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: $muted;
+    }
+  }
+
+  /* ---------- Narrow screens ---------- */
+
+  @media (max-width: 900px) {
+    .landing-hero__inner {
+      justify-content: flex-start;
+    }
+
+    .landing-hero__scrim {
+      background:
+        linear-gradient(
+          to top,
+          rgba(10, 15, 21, 0.94) 0%,
+          rgba(10, 15, 21, 0.78) 45%,
+          rgba(10, 15, 21, 0.45) 100%
+        );
+    }
+
+    .landing-steps-section__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .landing-steps-section__aside {
+      order: -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing-btn,
+    .landing-btn svg,
+    .landing-metric {
+      transition: none;
+    }
+  }
+}

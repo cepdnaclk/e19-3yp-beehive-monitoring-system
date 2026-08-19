@@ -19,19 +19,30 @@ export const getBeehiveMetricsById = asyncHandler(async (req, res) => {
   const { beehive_id } = req.params;
   console.log("The beehive_id is:", beehive_id);
 
+  // The Pi publishes every second, so an unbounded find grows without limit and
+  // the charts eventually choke. Newest-first with a cap keeps this bounded;
+  // the result is reversed so the charts still read oldest to newest.
+  const limit = Math.min(Number(req.query.limit) || 2000, 10000);
+
   try {
-    const beehiveMetrics = await BeehiveMetrics.find({ beehive_id });
+    const beehiveMetrics = (
+      await BeehiveMetrics.find({ beehive_id })
+        .sort({ createdAt: -1 })
+        .limit(limit)
+    ).reverse();
     if (!beehiveMetrics || beehiveMetrics.length === 0) {
       res.status(404);
       throw new Error("Beehive metrics not found");
     }
 
-    // Transforming the data into the desired format
+    // Transforming the data into the desired format. Weight is included because
+    // the dashboard charts it; without it the frontend had to invent a value.
     const transformedData = beehiveMetrics.map((metric) => ({
       createdAt: metric.createdAt,
       temperature: metric.Temperature,
       humidity: metric.Humidity,
       CO2: metric.CO2,
+      weight: metric.Weight,
     }));
 
     res.status(200).json(transformedData);
