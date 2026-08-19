@@ -1,44 +1,51 @@
-import Logo from '../Assets/Logo.png';
-import { Link } from 'react-router-dom';
-import { useState,useContext } from 'react';
-import MenuIcon from "@mui/icons-material/Menu";
-import '../Styles/Components/NavbarBlack.scss';
-import { AuthContext } from '../Context/AuthContext';
-import Notification from './Notification';
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faXmark, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
+import Logo from "../Assets/Logo.png";
+import Notification from "./Notification";
+import { AuthContext } from "../Context/AuthContext";
+import "../Styles/Components/NavbarBlack.scss";
 
 function NavbarBlack() {
-  const [openLinks, setOpenLinks] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
   const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const toggleNavbar = () => {
-    setOpenLinks(!openLinks);
-  };
-
-  const handleLogout = () => {
+  const handleSignOut = () => {
+    // The old navbar defined a logout handler but never attached it, so the
+    // link navigated to /signin while the token stayed in localStorage.
     logout();
-  }
-
-  const closeNotification = () => {
-    setNotificationMessage('');
+    navigate("/signin");
   };
 
   return (
-    <div className='navb'>
-      <div className="navb-logo">
-        <Link to="/"><img src={Logo} alt='Logo' /></Link>
+    <header className="navb">
+      <div className="navb__inner">
+        <Link to="/dashboard" className="navb__logo">
+          <img src={Logo} alt="BeeZee" />
+        </Link>
+
+        <button
+          type="button"
+          className="navb__toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+        >
+          <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} />
+        </button>
+
+        <nav className={`navb__actions${menuOpen ? " is-open" : ""}`}>
+          <Notification />
+          <button type="button" className="navb__signout" onClick={handleSignOut}>
+            <FontAwesomeIcon icon={faRightFromBracket} />
+            <span>Sign out</span>
+          </button>
+        </nav>
       </div>
-      <div className="menub-icon" onClick={toggleNavbar}>
-        <MenuIcon />
-      </div>
-      <ul className={`navb-menu  ${openLinks && 'active'}`}>
-        <li className='navb-notification'>
-          <Notification message={notificationMessage} onClose={closeNotification} />
-        </li>
-        <li className='navb-signout'><Link to="/signin">SIGN OUT</Link></li>
-      </ul>
-    </div>
+    </header>
   );
 }
 

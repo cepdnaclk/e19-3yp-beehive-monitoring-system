@@ -1,516 +1,581 @@
-.graph_container {
-  position: fixed;
-  top: 13%;
-  left: 50%;
-  transform: translate(-50%);
-  display: flex;
-  width: 90%;
-  height: 83%;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  background-color: rgb(241, 240, 238);
-  border-radius: 1.75rem;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+@import "../tokens";
 
-  .graph_card_container {
-    padding: 3rem 2rem;
-    padding-top: 5rem;
-    height: 83%;
+/*
+The old page pinned its container with `position: fixed; top: 13%; height: 83%`
+and scrolled the cards inside it, so the layout depended on viewport height and
+the charts were clipped on short screens. This is a normal scrolling page.
+*/
+
+.graphs-page {
+  min-height: 100vh;
+  background: $page;
+  font-family: $font;
+  text-align: left;
+  color: $ink;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .graphs-main {
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 4rem;
+  }
+
+  /* ---------- Header ---------- */
+
+  .graphs-head {
     display: flex;
+    align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    overflow-y: auto;
-  }
+    margin-bottom: 1.5rem;
 
-  @media screen and (min-width: 1600px) {
-    .graph_card {
-      width: 18rem;
+    &__title {
+      flex: 1;
+      min-width: 0;
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.4rem, 3vw, 1.9rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin: 0.25rem 0 0;
+        font-size: 0.82rem;
+        color: $muted;
+
+        svg {
+          font-size: 0.72rem;
+        }
+      }
     }
   }
 
-  @media screen and (max-width: 1400px) {
-    width: 87%;
-  }
-  @media screen and (max-width: 1080px) {
-    width: 85%;
-  }
-
-  @media screen and (max-width: 765px) {
-    width: 82%;
-  }
-  @media screen and (max-width: 600px) {
-    width: 75%;
-  }
-  @media screen and (max-width: 464px) {
-    width: 70%;
-  }
-
-  .topic {
-    position: absolute;
-    top: 0.75rem;
-    left: 1.8rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #504f4f;
-    overflow: hidden;
-    padding: 0.5rem 1.2rem;
-    border-radius: 1.5rem;
-    background-color: rgba(241, 240, 238, 0.767);
-    backdrop-filter: blur(2px);
-    z-index: 99;
-  }
-
-  .video_card {
-    position: relative;
-    display: flex;
-    width: 32rem;
-    height: 11rem;
-    background-color: rgb(255, 255, 255);
-    border-radius: 1.5rem;
-    box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
-    padding: 1rem 1rem;
-    margin: 1rem 0;
-    overflow: hidden;
+  .graphs-back,
+  .graphs-export {
+    display: inline-flex;
     align-items: center;
-    align-content: center;
+    gap: 0.5rem;
+    height: 2.4rem;
+    padding: 0 1.1rem;
+    font-family: $font;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
 
-    &:hover {
-      box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
-      transform: translateY(-0.3rem);
-      transition: transform 0.3s ease;
+    svg {
+      font-size: 0.78rem;
     }
 
-    @media screen and (max-width: 600px) {
-      width: 17rem;
-      height: 17rem;
+    &:active {
+      transform: translateY(1px);
     }
 
-    .video_container {
-      display: flex;
-      width: 100%;
-      flex-direction: row;
-      justify-content: left;
-      align-items: center;
-      align-content: center;
-      flex-wrap: wrap;
-      font-weight: normal;
-      padding: 0 0.8rem;
-
-      .video {
-        width: 15rem;
-        height: 11rem;
-        overflow: hidden;
-        border-radius: 1rem;
-        margin-top: 0.8rem;
-      }
-
-      .vl {
-        margin: 0 2rem;
-        border-left: 2px solid rgb(19, 42, 50);
-        height: 11rem;
-        overflow: hidden;
-      }
-
-      .video_details {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: start;
-
-        overflow: hidden;
-        margin-top: 1.7rem;
-
-        .value {
-          font-size: 1.4rem;
-          font-weight: bolder;
-          margin-top: -1.2rem;
-          margin-bottom: 0.2rem;
-          overflow: hidden;
-        }
-      }
-    }
-
-    .info_button {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-
-      border-color: transparent;
-      height: 30px;
-      width: 30px;
-      align-content: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-size: 20px;
-      padding-top: 2px;
-      text-align: center;
-      font-weight: bolder;
-      cursor: pointer;
-      box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
-      background-color: #bac0c1;
-      color: #ffffff;
-      &:hover {
-        color: #ffffff;
-        background-color: #396594;
-        font-size: 20px;
-        font-weight: bold;
-      }
-    }
-
-    .video_click {
-      cursor: pointer;
+    &:focus-visible {
+      outline: 2px solid $honey;
+      outline-offset: 2px;
     }
   }
 
-  .general_info_card {
-    position: relative;
-    width: 32rem;
-    height: 11rem;
-    background-color: rgb(255, 255, 255);
-    border-radius: 1.5rem;
-    box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
-    padding: 1rem 1rem;
-    margin: 1rem 0;
-    overflow: hidden;
+  .graphs-back {
+    color: $ink-soft;
+    background: $surface;
+    border: 1px solid $line;
 
     &:hover {
-      box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
-      transform: translateY(-0.3rem);
-      transition: transform 0.3s ease;
+      color: $ink;
+      border-color: $muted;
+    }
+  }
+
+  .graphs-export {
+    color: $ink;
+    background: $honey;
+    border: 1px solid $honey;
+
+    &:hover {
+      background: #ffa733;
+    }
+  }
+
+  /* ---------- Current values ---------- */
+
+  .graphs-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .graphs-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    background: $surface;
+    border: 1px solid $line;
+    border-radius: $radius-md;
+
+    &__icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 2.1rem;
+      height: 2.1rem;
+      font-size: 0.85rem;
+      border-radius: $radius-sm;
     }
 
-    @media screen and (max-width: 600px) {
-      width: 17rem;
-      height: 17rem;
-    }
-
-    .general_info {
+    &__text {
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
-      align-items: start;
-      margin-left: 1rem;
-      font-weight: 600;
+      gap: 0.15rem;
+      min-width: 0;
 
-      .general_info_details {
-        display: flex;
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-evenly;
-        margin-bottom: 0.5rem;
-        flex-wrap: wrap;
-        font-weight: normal;
+      small {
+        font-size: 0.7rem;
+        color: $muted;
+      }
 
-        .info_box {
-          border-radius: 1.75rem;
-          box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.3);
-          padding: 0.5rem 1.5rem;
-          margin: 0.5rem 0.5rem;
-          background-color: rgba(231, 242, 243, 0.913);
+      strong {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+    }
 
-          &:hover {
-            box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
-            transform: translateY(-0.2rem);
-            transition: transform 0.3s ease;
-          }
+    &--temperature &__icon { color: $temp; background: rgba(224, 96, 58, 0.12); }
+    &--humidity &__icon { color: $humid; background: rgba(59, 143, 212, 0.12); }
+    &--CO2 &__icon { color: $co2; background: rgba(91, 158, 91, 0.12); }
+    &--weight &__icon { color: $weight; background: rgba(154, 107, 63, 0.12); }
+  }
+
+  /* ---------- Chart cards ---------- */
+
+  .graphs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .graph-card {
+    padding: 1.25rem 1.25rem 0.75rem;
+    background: $surface;
+    border: 1px solid $line;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
+
+    &__head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      h2 {
+        margin: 0;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: $muted;
+      }
+
+      strong {
+        display: block;
+        margin-top: 0.15rem;
+        font-size: 1.45rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+    }
+
+    &__controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+
+      select {
+        height: 2rem;
+        padding: 0 1.75rem 0 0.65rem;
+        font-family: $font;
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: $ink-soft;
+        background-color: $surface;
+        // Chevron drawn inline so the control matches the rest of the page
+        // rather than falling back to the platform select.
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%237a8593' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.6rem center;
+        background-size: 0.6rem;
+        border: 1px solid $line;
+        border-radius: $radius-sm;
+        cursor: pointer;
+        appearance: none;
+
+        &:hover {
+          border-color: $muted;
         }
 
-        .key {
-          font-size: 0.8rem;
+        &:focus-visible {
+          outline: 2px solid $honey;
+          outline-offset: 1px;
+        }
+      }
+
+      button {
+        display: grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.76rem;
+        color: $muted;
+        background: $surface;
+        border: 1px solid $line;
+        border-radius: $radius-sm;
+        cursor: pointer;
+        transition: color 0.15s ease, border-color 0.15s ease;
+
+        &:hover {
+          color: $ink;
+          border-color: $muted;
         }
 
-        .value {
-          font-size: 1.4rem;
-          font-weight: bolder;
-          margin-top: -0.5rem;
-          margin-bottom: 0.5rem;
+        &:focus-visible {
+          outline: 2px solid $honey;
+          outline-offset: 1px;
         }
       }
     }
   }
 
-  .graph_card {
-    position: relative;
-    width: 17rem;
-    height: 21rem;
-    background-color: rgb(255, 255, 255);
-    border-radius: 1.5rem;
-    box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
-    padding: 1rem 1rem;
-    margin: 1rem 0;
-    overflow: hidden;
+  .graphs-skeleton {
+    height: 17rem;
+    border-radius: $radius-lg;
+    background: linear-gradient(100deg, #f1ece1 30%, #f8f4ec 50%, #f1ece1 70%);
+    background-size: 200% 100%;
+    animation: graphs-shimmer 1.3s ease-in-out infinite;
+  }
 
-    &:hover {
-      box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
-      transform: translateY(-0.3rem);
-      transition: transform 0.5s ease;
+  .graphs-empty {
+    padding: 3.5rem 2rem;
+    text-align: center;
+    background: $surface;
+    border: 1px dashed $line;
+    border-radius: $radius-lg;
+
+    h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
     }
 
-    .graph {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      // padding: 1rem 1rem;
-      // margin: 1rem 1rem;
-      overflow: hidden;
+    p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: $muted;
     }
+  }
 
-    .graph_details {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: start;
-      margin-left: 1rem;
+  /* ---------- Camera ---------- */
 
-      .value {
-        font-size: 1.7rem;
-        font-weight: bolder;
-        margin-top: -1rem;
-        margin-bottom: 0.5rem;
-      }
-    }
+  .graphs-camera {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: $surface;
+    border: 1px solid $line;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-card;
 
-    .info_button {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      overflow: hidden;
-      border-color: transparent;
-      height: 30px;
-      width: 30px;
-      align-content: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-size: 20px;
-      padding-top: 2px;
-      text-align: center;
-      font-weight: bolder;
-      cursor: pointer;
-      box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.5);
-      background-color: #bac0c1;
-      color: #ffffff;
-      &:hover {
-        color: #ffffff;
-        background-color: #396594;
-        font-size: 20px;
-        font-weight: bold;
-      }
-    }
-
-    .graph_click {
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .sort {
+    > header {
       display: flex;
       align-items: center;
-      background-color: transparent;
-      border-color: transparent;
-      align-content: center;
-      justify-content: flex-start;
-      border-radius: 2rem;
-      font-size: 0.6rem;
-      padding-top: 2px;
-      text-align: left;
-      margin-left: 1rem;
-      font-weight: bolder;
-      color: #6c6a6a;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
 
-      .dropdown {
-        font-size: 0.65rem;
-        border-color: transparent;
-        border-bottom: 1px solid rgb(2, 46, 87);
+      h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+
+        svg {
+          font-size: 0.85rem;
+          color: $honey-deep;
+        }
+      }
+
+      select {
+        height: 2rem;
+        padding: 0 0.65rem;
+        font-family: $font;
+        font-size: 0.76rem;
+        color: $ink-soft;
+        border: 1px solid $line;
+        border-radius: $radius-sm;
+        background: $surface;
+      }
+    }
+
+    &__body {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    &__meta {
+      margin: 0;
+
+      div + div {
+        margin-top: 0.9rem;
+      }
+
+      dt {
+        font-size: 0.72rem;
+        color: $muted;
+      }
+
+      dd {
+        margin: 0.15rem 0 0;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+    }
+
+    &__empty {
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.88rem;
+      color: $muted;
+      background: $page;
+      border-radius: $radius-md;
+    }
+  }
+
+  /* ---------- Table modal ---------- */
+
+  .graphs-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    background: rgba(20, 27, 35, 0.55);
+    backdrop-filter: blur(3px);
+
+    &__panel {
+      display: flex;
+      flex-direction: column;
+      width: min(34rem, 100%);
+      max-height: min(80vh, 44rem);
+      background: $surface;
+      border-radius: $radius-lg;
+      box-shadow: $shadow-hover;
+      overflow: hidden;
+    }
+
+    &__head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.1rem 1.25rem 0.9rem;
+
+      h2 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      p {
+        margin: 0.15rem 0 0;
+        font-size: 0.78rem;
+        color: $muted;
+      }
+
+      button {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 1.9rem;
+        height: 1.9rem;
+        color: $muted;
+        background: none;
+        border: none;
+        border-radius: $radius-sm;
         cursor: pointer;
 
         &:hover {
-          color: #0f355e;
-          font-size: 0.64rem;
-          font-weight: bold;
-          border-color: transparent;
-          border-bottom: 1px solid rgb(7, 77, 143);
+          color: $ink;
+          background: rgba(31, 42, 55, 0.06);
+        }
+
+        &:focus-visible {
+          outline: 2px solid $honey;
+          outline-offset: 1px;
         }
       }
     }
+
+    &__controls {
+      padding: 0 1.25rem 1rem;
+      border-bottom: 1px solid $line;
+    }
+
+    // Segmented control rather than a dropdown: four options, and the current
+    // range stays visible instead of being hidden behind a click.
+    &__ranges {
+      display: inline-flex;
+      padding: 0.2rem;
+      margin-bottom: 1rem;
+      background: $page;
+      border: 1px solid $line;
+      border-radius: 999px;
+
+      button {
+        padding: 0.35rem 0.85rem;
+        font-family: $font;
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: $muted;
+        background: none;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: color 0.15s ease, background 0.15s ease;
+
+        &:hover {
+          color: $ink;
+        }
+
+        &.is-active {
+          color: $ink;
+          background: $surface;
+          box-shadow: 0 1px 3px rgba(31, 42, 55, 0.12);
+        }
+
+        &:focus-visible {
+          outline: 2px solid $honey;
+          outline-offset: 1px;
+        }
+      }
+    }
+
+    &__stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin: 0;
+
+      dt {
+        font-size: 0.68rem;
+        color: $muted;
+      }
+
+      dd {
+        margin: 0.15rem 0 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+    }
+
+    &__body {
+      flex: 1;
+      overflow: auto;
+      padding: 0 1.25rem;
+    }
+
+    &__empty {
+      margin: 0;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      font-size: 0.88rem;
+      color: $muted;
+    }
+
+    &__foot {
+      padding: 0.7rem 1.25rem;
+      font-size: 0.74rem;
+      color: $muted;
+      background: #fdfbf7;
+      border-top: 1px solid $line;
+    }
   }
 
-  // gap: 5rem;
-  // margin: 5rem 5rem;
-}
-
-.close_button {
-  position: absolute;
-  top: 3rem;
-  right: 3rem;
-  background-color: rgb(194, 71, 71);
-  border-color: transparent;
-  height: 35px;
-  width: 35px;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 30px;
-  vertical-align: middle;
-  text-align: center;
-  font-weight: bolder;
-  cursor: pointer;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.8);
-  color: #ffffff;
-  &:hover {
-    color: rgb(174, 88, 88);
-    background-color: rgb(247, 239, 239);
+  @media (max-width: 720px) {
+    .graphs-camera__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
-  .svg {
-    text-align: center;
-    vertical-align: middle;
-    scale: 1.5;
-  }
-}
-
-.sync_button {
-  position: absolute;
-  top: 6rem;
-  right: 2rem;
-  background-color: darken($color: rgb(54, 54, 54), $amount: 10);
-  border-color: transparent;
-  color: #ffffff;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  text-align: center;
-  vertical-align: middle;
-  font-weight: bolder;
-  cursor: pointer;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.8);
-  padding: 0.35rem 1rem;
-  width: 7rem;
-  border-radius: 1.5rem;
-
-  .svg {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-
-  &:hover {
-    color: darken($color: rgb(54, 54, 54), $amount: 13);
-    background-color: rgb(244, 244, 244);
-  }
-}
-
-.export_button {
-  margin-top: 2rem;
-  margin-bottom: -2rem;
-  margin-left: 60rem;
-  background-color: darken($color: rgb(54, 54, 54), $amount: 10);
-  border-color: transparent;
-  color: #ffffff;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  text-align: center;
-  font-weight: bolder;
-  cursor: pointer;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.8);
-  padding: 0.35rem 1rem;
-  width: 7rem;
-  border-radius: 1.5rem;
-
-  &:hover {
-    color: darken($color: rgb(54, 54, 54), $amount: 13);
-    background-color: rgb(244, 244, 244);
-  }
-}
-
-.sort_button {
-  appearance: none;
-  -webkit-appearance: none;
-  position: absolute;
-  top:7rem;
-  right: 2rem;
-  background-color: darken($color: rgb(54, 54, 54), $amount: 10);
-  border-color: transparent;
-  color: #ffffff;
-  text-align: center;
-  font-weight: bolder;
-  cursor: pointer;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.8);
-  padding: 0.35rem 1rem;
-  width: 8rem;
-  border-radius: 1.5rem;
-  padding-right: 2rem;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22lightblue%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.7rem top 50%;
-  background-size: 0.65rem auto;
-
-  &:hover {
-    color: darken($color: rgb(54, 54, 54), $amount: 13);
-    background-color: rgb(244, 244, 244);
+  @media (prefers-reduced-motion: reduce) {
+    .graphs-skeleton {
+      animation: none;
+    }
   }
 }
 
-.table_container {
-  display: flex;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  border-radius: 1.75rem;
-  overflow: auto;
-  width: 100vw;
-  height: 100vh;
-  justify-items: center;
-  backdrop-filter: blur(2px);
-  background-color: rgba(0, 0, 0, 0.2);
+/* Rendered by recharts outside the page's own markup. */
+.chart-tooltip {
+  padding: 0.5rem 0.7rem;
+  font-family: $font;
+  background: rgba(31, 42, 55, 0.94);
+  border-radius: $radius-sm;
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.5);
+
+  &__time {
+    display: block;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  strong {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+
+    small {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
 }
 
-.table_background {
-  overflow-y: auto;
-  padding: 20px;
-  max-height: 90%;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 1.7em;
-  border-color: transparent;
+.chart-empty {
+  display: grid;
+  place-items: center;
+  height: 190px;
+  font-family: $font;
+  font-size: 0.85rem;
+  color: $muted;
 }
 
-.graph_header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-}
-
-.back-button {
-  margin-top: 2rem;
-  margin-bottom: -2rem;
-  margin-left: 3rem;
-  background-color: darken($color: rgb(5, 197, 91), $amount: 10);
-  border-color: transparent;
-  color: #ffffff;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  text-align: center;
-  font-weight: bolder;
-  cursor: pointer;
-  box-shadow: 0px 6px 23px -6px rgba(0, 58, 13, 0.8);
-  padding: 0.35rem 1rem;
-  width: 7rem;
-  border-radius: 1.5rem;
-
-  &:hover {
-    color: darken($color: rgb(54, 54, 54), $amount: 13);
-    background-color: rgb(244, 244, 244);
+@keyframes graphs-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }

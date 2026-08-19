@@ -18,13 +18,26 @@ const bucketRegion = process.env.BUCKET_REGION;
 const accessKey = process.env.ACCESS_KEY;
 const secretAccessKey = process.env.SECRET_ACCESS_KEY;
 
-const s3Client = new S3Client({
-  region: bucketRegion,
-  credentials: {
-    accessKeyId: accessKey,
-    secretAccessKey: secretAccessKey,
-  },
-});
+// Built on first use rather than at import. Constructing it eagerly threw
+// "Region is missing" and took the whole server down whenever the S3 variables
+// were blank, even though only image upload needs them.
+let s3Client;
+
+const isS3Configured = () =>
+  Boolean(bucketName && bucketRegion && accessKey && secretAccessKey);
+
+const getS3Client = () => {
+  if (!s3Client) {
+    s3Client = new S3Client({
+      region: bucketRegion,
+      credentials: {
+        accessKeyId: accessKey,
+        secretAccessKey: secretAccessKey,
+      },
+    });
+  }
+  return s3Client;
+};
 
 //@desc Get all camera records
 //@route GET /api/camera
@@ -81,6 +94,13 @@ export const createCameraRecord = asyncHandler(async (req, res) => {
     res.status(400).throw(new Error("All fields are mandatory"));
   }
 
+  if (!isS3Configured()) {
+    res.status(503);
+    throw new Error(
+      "Image upload needs the S3 variables in .env. The rest of the API works without them."
+    );
+  }
+
   const recordDateTime = new Date().toISOString(); // Use ISO string or format as you like
 
   // Process each file and upload to S3
@@ -97,7 +117,7 @@ export const createCameraRecord = asyncHandler(async (req, res) => {
       };
 
       try {
-        const data = await s3Client.send(new PutObjectCommand(params));
+        const data = await getS3Client().send(new PutObjectCommand(params));
         console.log("Success", data);
         uploadedFiles.push(s3Key); // Store the full S3 key
       } catch (err) {

@@ -1,67 +1,116 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import Box from "../Assets/Beehive_box.png";
-import Ellipse from "../Assets/Card_Ellipse.png";
-import "../Styles/Components/BeehiveCard.scss";
-import BatteryIndicator from "./BatteryIndicator";
-import {
-  faThermometerHalf,
-  faTint,
-  faCloud,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTemperatureHalf,
+  faDroplet,
+  faCloud,
+  faWeightHanging,
+  faLocationDot,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+
+import BatteryIndicator from "./BatteryIndicator";
+import HiveBox from "../Assets/Beehive_box.png";
+import "../Styles/Components/BeehiveCard.scss";
+
+const LOW_BATTERY = 20;
+
+// A hive that has not reported yet has no metrics on its document, so every
+// value is formatted defensively rather than assuming a number is there.
+const format = (value, suffix, digits = 1) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? `${number.toFixed(digits)}${suffix}` : "—";
+};
 
 function BeehiveCard({ beehiveData }) {
   const navigate = useNavigate();
+  const battery = Number(beehiveData.Battery_level);
+  const isLow = Number.isFinite(battery) && battery < LOW_BATTERY;
 
-  const handleClick = () => {
-    navigate(`/graph`, { state: { beehiveData: beehiveData } });
-  };
+  const metrics = [
+    {
+      key: "temperature",
+      icon: faTemperatureHalf,
+      label: "Temperature",
+      value: format(beehiveData.Temperature, "°C"),
+    },
+    {
+      key: "humidity",
+      icon: faDroplet,
+      label: "Humidity",
+      value: format(beehiveData.Humidity, "%"),
+    },
+    {
+      key: "co2",
+      icon: faCloud,
+      label: "CO₂",
+      value: format(beehiveData.CO2, " ppm", 0),
+    },
+    {
+      key: "weight",
+      icon: faWeightHanging,
+      label: "Weight",
+      value: format(beehiveData.Weight, " kg", 2),
+    },
+  ];
 
   return (
-    <div className="beehive-card" onClick={handleClick}>
-      <p className="name">{beehiveData.name}</p>
-      <div className="box-container">
-        <img src={Box} alt="" className="box" />
-      </div>
-      <img src={Ellipse} alt="" className="ellipse" />
-      <ul className="card-features">
-        <li>
-          <span className="feature-battery">
-            <BatteryIndicator level={parseFloat(beehiveData.Battery_level)} />
-            <span>
-              Battery: {parseFloat(beehiveData.Battery_level).toFixed(2)}%
+    <article
+      className="hive-card"
+      role="button"
+      tabIndex={0}
+      onClick={() => navigate("/graph", { state: { beehiveData } })}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          navigate("/graph", { state: { beehiveData } });
+        }
+      }}
+    >
+      {/* Decorative watermark. Sits behind the content and bleeds off the
+          bottom-right corner; the hive name identifies the card. */}
+      <img src={HiveBox} alt="" className="hive-card__bg" aria-hidden="true" />
+
+      <header className="hive-card__header">
+        <div className="hive-card__identity">
+          <h3>{beehiveData.name}</h3>
+          {beehiveData.location && (
+            <p>
+              <FontAwesomeIcon icon={faLocationDot} />
+              {beehiveData.location}
+            </p>
+          )}
+        </div>
+        <span
+          className={`hive-card__status${isLow ? " hive-card__status--warn" : ""}`}
+        >
+          <i />
+          {isLow ? "Low battery" : "Live"}
+        </span>
+      </header>
+
+      <ul className="hive-card__metrics">
+        {metrics.map(({ key, icon, label, value }) => (
+          <li key={key} className={`hive-metric hive-metric--${key}`}>
+            <span className="hive-metric__icon">
+              <FontAwesomeIcon icon={icon} />
             </span>
-          </span>
-        </li>
-        <li>
-          <span className="feature">
-            <FontAwesomeIcon icon={faTint} className="icon-humidity" />
-            <span>
-              Humidity: {parseFloat(beehiveData.Humidity).toFixed(2)}%
+            <span className="hive-metric__body">
+              <small>{label}</small>
+              <strong>{value}</strong>
             </span>
-          </span>
-        </li>
-        <li>
-          <span className="feature">
-            <FontAwesomeIcon
-              icon={faThermometerHalf}
-              className="icon-temperature"
-            />
-            <span>
-              Temperature: {parseFloat(beehiveData.Temperature).toFixed(2)}
-              {"\u00b0"}C
-            </span>
-          </span>
-        </li>
-        <li>
-          <span className="feature">
-            <FontAwesomeIcon icon={faCloud} className="icon-co2" />
-            <span>CO2: {parseFloat(beehiveData.CO2).toFixed(2)} ppm</span>
-          </span>
-        </li>
+          </li>
+        ))}
       </ul>
-    </div>
+
+      <footer className="hive-card__footer">
+        <BatteryIndicator level={battery} />
+        <span className="hive-card__more">
+          View charts
+          <FontAwesomeIcon icon={faChevronRight} />
+        </span>
+      </footer>
+    </article>
   );
 }
 

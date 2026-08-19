@@ -1,114 +1,148 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import "../tokens";
+
+/*
+The bar's height is kept close to the original (~4.5rem) on purpose: the Graphs
+page positions its container at a fixed `top: 13%`, so a much taller or shorter
+bar would shift how that page sits under it.
+*/
 
 .navb {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 30px;
-  padding: 0 60px;
-  border-bottom: 1px solid #000000;
-}
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  font-family: $font;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid $line;
 
-.navb-logo img {
-  width: 150px;
-  &:hover {
-    transform: translateY(-0.3rem);
-    transition: transform 0.3s ease;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
-}
 
-.navb-menu {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: 'Raleway', sans-serif;
-  gap: 70px;
-  text-decoration: none;
-}
-
-.navb-menu a {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-}
-
-.navb-notification {
-  cursor: pointer;
-}
-
-.navb-signout {
-  border-radius: 50px;
-  padding: 10px 30px;
-  background: #000000;
-  transition: background 0.3s ease;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
-}
-
-.navb-signout a{
-  color: rgb(255, 255, 255);
-}
-
-.navb-signout:hover {
-  background: #4f4f4f;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.4);
-
-}
-
-.menub-icon {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .navb-menu ul li:not(:last-child) {
-    margin-right: 30px;
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 78rem;
+    height: 4.5rem;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2.5rem);
   }
-}
 
-@media (max-width: 600px) {
-  .menub-icon {
+  &__logo {
     display: block;
-    color: black;
+    flex-shrink: 0;
+
+    img {
+      display: block;
+      width: 132px;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover img {
+      transform: translateY(-2px);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  &__signout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.4rem;
+    padding: 0 1.15rem;
+    font-family: $font;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    background: $ink;
+    border: none;
+    border-radius: 999px;
     cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.08s ease;
+
+    svg {
+      font-size: 0.8rem;
+    }
+
+    &:hover {
+      background: $ink-soft;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $honey;
+      outline-offset: 2px;
+    }
   }
 
-  .navb-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 37px;
-    right: -150px;
-    background-color: #8e8e8e48;
-    width: 150px;
-    height: 0;
-    transition: height 0.5s ease-in-out, right 0.5s ease-in-out;
-    overflow: hidden;
+  &__toggle {
+    display: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    place-items: center;
+    font-size: 1.05rem;
+    color: $ink;
+    background: none;
+    border: 1px solid $line;
+    border-radius: $radius-sm;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid $honey;
+      outline-offset: 2px;
+    }
   }
 
-  .navb-menu.active {
-    height: 100vh;
-    right: 0; 
+  @media (max-width: 600px) {
+    &__toggle {
+      display: grid;
+    }
+
+    // Collapsed into a sheet under the bar rather than the old off-screen
+    // panel, which slid a full-height overlay in from the right.
+    &__actions {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding: 0 clamp(1rem, 4vw, 2.5rem);
+      max-height: 0;
+      overflow: hidden;
+      background: $surface;
+      border-bottom: 1px solid transparent;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+
+      &.is-open {
+        max-height: 5rem;
+        padding: 0.85rem clamp(1rem, 4vw, 2.5rem);
+        border-bottom-color: $line;
+      }
+    }
   }
 
-  .navb-menu:not(.active) {
-    height: 0;
-    transition: height 0.5s ease-in-out, right 0.5s ease-in-out;
-  }
-
-  .navb-menu ul {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 20px 10px 10px 10px;
-  }
-
-  .navb-notification {
-    margin-top: 50px;
-  }
-
-  .navb-menu ul li {
-    margin: 10px 0;
-    text-align: left;
+  @media (prefers-reduced-motion: reduce) {
+    &__logo img,
+    &__signout,
+    &__actions {
+      transition: none;
+    }
   }
 }

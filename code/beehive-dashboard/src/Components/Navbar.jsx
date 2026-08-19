@@ -1,28 +1,26 @@
-import Logo from '../Assets/Logo.png';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import MenuIcon from "@mui/icons-material/Menu";
-import '../Styles/Components/Navbar.scss';
+import { Link } from "react-router-dom";
+import Logo from "../Assets/Logo.png";
+import "../Styles/Components/Navbar.scss";
 
+/*
+Landing-page bar only. It sits transparently over the hero rather than in the
+document flow, so the photo runs the full height of the viewport behind it.
+There is a single action, so it needs no hamburger; the old one collapsed one
+link into a full-height sliding overlay.
+*/
 function Navbar() {
-  const [openLinks, setOpenLinks] = useState(false);
-
-  const toggleNavbar = () => {
-    setOpenLinks(!openLinks);
-  };
-
   return (
-    <div className='nav'>
-      <div className="nav-logo">
-        <Link to="/"><img src={Logo} alt='Logo' /></Link>
+    <header className="nav">
+      <div className="nav__inner">
+        <Link to="/" className="nav__logo">
+          <img src={Logo} alt="BeeZee" />
+        </Link>
+
+        <Link to="/signin" className="nav__signin">
+          Sign in
+        </Link>
       </div>
-      <div className="menu-icon" onClick={toggleNavbar}>
-        <MenuIcon />
-      </div>
-      <ul className={`nav-menu  ${openLinks && 'active'}`}>
-        <li className='nav-signin'><Link to="/signin">SIGN IN</Link></li>
-      </ul>
-    </div>
+    </header>
   );
 }
 

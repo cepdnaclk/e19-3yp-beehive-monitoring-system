@@ -6,8 +6,11 @@ import { PARENT_API_URL } from './config';
 
 const API_URL = `${PARENT_API_URL}/user/`;
 
-const register = async (email, password) => {
-    const response = await axios.post(API_URL + 'register', { email, password });
+// username is required by the backend's registerUser controller. It used to be
+// missing from both the signature and the body, so AuthContext's three
+// arguments landed one place to the left and every registration was rejected.
+const register = async (username, email, password) => {
+    const response = await axios.post(API_URL + 'register', { username, email, password });
     if (response.data.accessToken) {
         localStorage.setItem('user', JSON.stringify(response.data));
     }

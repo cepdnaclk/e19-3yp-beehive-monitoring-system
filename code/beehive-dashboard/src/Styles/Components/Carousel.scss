@@ -1,7 +1,75 @@
+@import "../tokens";
+
+/*
+react-responsive-carousel ships its own stylesheet with grey arrows and dark
+dots. These overrides pull its controls onto the amber palette so the camera
+panel matches the rest of the page.
+*/
+
 .carousel_container {
-    max-width: 15rem;
-    max-height: 11rem;
-    margin: 0 auto;
-    border-radius: 1rem;
-    overflow: hidden;
+  width: 100%;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: $page;
+
+  .carousel .slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 16rem;
+    object-fit: cover;
+    border-radius: 0;
   }
+
+  .carousel .control-arrow {
+    width: 2.2rem;
+    padding: 0;
+    opacity: 1;
+    background: transparent;
+
+    &::before {
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+
+    &:hover {
+      background: rgba(31, 42, 55, 0.28);
+    }
+  }
+
+  .carousel .control-prev.control-arrow::before {
+    border-right-color: #fff;
+  }
+
+  .carousel .control-next.control-arrow::before {
+    border-left-color: #fff;
+  }
+
+  .carousel .control-dots {
+    margin: 0;
+    padding: 0.5rem 0;
+
+    .dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      margin: 0 0.2rem;
+      background: #fff;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+      opacity: 0.55;
+      transition: opacity 0.15s ease, background 0.15s ease;
+
+      &.selected,
+      &:hover {
+        background: $honey;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel_container .carousel .control-dots .dot {
+    transition: none;
+  }
+}

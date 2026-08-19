@@ -1,124 +1,174 @@
-import Logo from "../Assets/Logo.png";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faUser,
+  faEnvelope,
+  faLock,
   faEye,
   faEyeSlash,
-  faEnvelope,
-  faUser,
-  faLock,
-
+  faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import "../Styles/Pages/SignIn.scss";
 
-function RegisterForm() {
-  const [formData, setFormData] = useState({});
-  const [passwordMatch, setPasswordMatch] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const { register } = useContext(AuthContext);
+// Mirrors the policy enforced in the backend's registerUser controller, so the
+// rule is visible before submitting rather than coming back as a 400.
+const PASSWORD_RULE =
+  /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
+function RegisterForm() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    if (error) setError("");
   };
 
-  //Add Some Error handling
+  const passwordsMatch =
+    !formData.confirmPassword || formData.password === formData.confirmPassword;
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    if (register(formData.username, formData.email, formData.password)) {
-      navigate("/dashboard");
-    }
-  };
 
-  const handlePasswordMatchCheck = (e) => {
-    if (e.target.value === formData.password) {
-      setPasswordMatch(true);
-    } else {
-      setPasswordMatch(false);
+    if (!PASSWORD_RULE.test(formData.password)) {
+      setError(
+        "Password needs 8+ characters with an uppercase, a lowercase, a number and a special character."
+      );
+      return;
     }
-  };
+    if (formData.password !== formData.confirmPassword) {
+      setError("The two passwords do not match.");
+      return;
+    }
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
+    setIsSubmitting(true);
+    try {
+      // register resolves to false when the API rejects the details; the old
+      // version tested the promise itself, which is always truthy, so it
+      // navigated to the dashboard even on failure.
+      const success = await register(
+        formData.username,
+        formData.email,
+        formData.password
+      );
+      if (success) {
+        navigate("/dashboard");
+      } else {
+        setError("Could not create that account. The email may already be in use.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div>
-      <form className="login_right" onSubmit={handleLogin}>
-        <Link to="/">
-          <img src={Logo} alt="" className="signin-logo" />
-        </Link>
-        <h3>Login to your account</h3>
-        <div className="inputs">
-          <div className="input">
-          <div className="email-icon">
-              <FontAwesomeIcon icon={faUser} />
-            </div>
-            <input
-              type="text"
-              id="username"
-              placeholder="Username"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-            <div className="email-icon">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </div>
-            <input
-              type="text"
-              id="email"
-              placeholder="Email"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input">
-          <div className="email-icon">
-              <FontAwesomeIcon icon={faLock} />
-            </div>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="Password"
-              onChange={handleChange}
-            />
-            {/* Font Awesome Icon for Show/Hide Password */}
-            <FontAwesomeIcon
-              icon={showPassword ? faEyeSlash : faEye}
-              onClick={toggleShowPassword}
-            />
-          </div>
-          <div classname="input-container">
-            <div className="input">
-              <div className="email-icon">
-              <FontAwesomeIcon icon={faLock} />
-            </div>
-              <input
-                type="password"
-                id="password"
-                placeholder="Retype Password"
-                onChange={handlePasswordMatchCheck}
-              />
-            </div>
+    <form className="auth-form" onSubmit={handleRegister}>
+      <header className="auth-form__header">
+        <h2>Create your account</h2>
+        <p>Start monitoring your apiary in minutes.</p>
+      </header>
 
-            <p style={{ color: "red" }}>
-              {passwordMatch ? "" : "Passwords do not match"}
-            </p>
-          </div>
+      <div className="auth-field">
+        <label htmlFor="username">Username</label>
+        <div className="auth-input">
+          <FontAwesomeIcon icon={faUser} className="auth-input__icon" />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Letters and numbers only"
+            autoComplete="username"
+            required
+            value={formData.username}
+            onChange={handleChange}
+          />
         </div>
+      </div>
 
-        <div className="signin-button">
-          <button type="submit">SIGN UP</button>
+      <div className="auth-field">
+        <label htmlFor="email">Email</label>
+        <div className="auth-input">
+          <FontAwesomeIcon icon={faEnvelope} className="auth-input__icon" />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            autoComplete="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
+          />
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div className="auth-field">
+        <label htmlFor="password">Password</label>
+        <div className="auth-input">
+          <FontAwesomeIcon icon={faLock} className="auth-input__icon" />
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            name="password"
+            placeholder="At least 8 characters"
+            autoComplete="new-password"
+            required
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <button
+            type="button"
+            className="auth-input__toggle"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+          </button>
+        </div>
+      </div>
+
+      <div className="auth-field">
+        <label htmlFor="confirmPassword">Confirm password</label>
+        <div className={`auth-input${passwordsMatch ? "" : " auth-input--invalid"}`}>
+          <FontAwesomeIcon icon={faLock} className="auth-input__icon" />
+          <input
+            type={showPassword ? "text" : "password"}
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Retype your password"
+            autoComplete="new-password"
+            required
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
+        {!passwordsMatch && (
+          <span className="auth-field__hint">Passwords do not match.</span>
+        )}
+      </div>
+
+      {error && (
+        <p className="auth-error" role="alert">
+          <FontAwesomeIcon icon={faCircleExclamation} />
+          {error}
+        </p>
+      )}
+
+      <button type="submit" className="auth-submit" disabled={isSubmitting}>
+        {isSubmitting ? "Creating account…" : "Create account"}
+      </button>
+    </form>
   );
 }
 

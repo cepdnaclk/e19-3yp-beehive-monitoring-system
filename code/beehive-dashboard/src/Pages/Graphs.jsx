@@ -1,512 +1,311 @@
-import MyLineChart from "../Components/MyLineChart";
-import MyAreaChart from "../Components/MyAreaChart";
-import Table from "../Components/Table";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faFileCsv,
+  faTemperatureHalf,
+  faDroplet,
+  faCloud,
+  faWeightHanging,
+  faLocationDot,
+  faTableList,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
+
 import Navbar from "../Components/NavbarBlack";
-import React, { useState, useEffect, useRef} from "react";
-import { useNavigate } from "react-router-dom";
+import MetricTableModal from "../Components/MetricTableModal";
 import ImageCarousel from "../Components/Carousel";
-import "../Styles/Pages/Graphs.scss";
-import { IoCloseCircleOutline } from "react-icons/io5";
-import { FcSynchronize, FcExport } from "react-icons/fc";
-import { TiExportOutline } from "react-icons/ti";
-import { TiArrowBack } from "react-icons/ti";
-import { Navigate, useLocation } from "react-router-dom";
-import { getCameraRecordByBeehiveId } from "../Services/cameraRecordService";
-import { getBeehiveMetricsByBeehiveId } from "../Services/beehiveMetricsService";
-import { downloadBeehiveMetricsCsv } from "../Services/beehiveMetricsService";
+import BatteryIndicator from "../Components/BatteryIndicator";
 import { MyChartHandler } from "../Components/MyChartHandler";
+import { getCameraRecordByBeehiveId } from "../Services/cameraRecordService";
+import {
+  getBeehiveMetricsByBeehiveId,
+  downloadBeehiveMetricsCsv,
+} from "../Services/beehiveMetricsService";
+import "../Styles/Pages/Graphs.scss";
+
+const DURATIONS = [
+  { value: "hour", label: "Last hour" },
+  { value: "day", label: "Last day" },
+  { value: "week", label: "Last week" },
+  { value: "month", label: "Last month" },
+];
+
+const CHARTS = [
+  { key: "temperature", label: "Temperature", unit: "°C", icon: faTemperatureHalf, color: "#e0603a", digits: 1 },
+  { key: "humidity", label: "Humidity", unit: "%", icon: faDroplet, color: "#3b8fd4", digits: 1 },
+  { key: "CO2", label: "CO₂", unit: " ppm", icon: faCloud, color: "#5b9e5b", digits: 0 },
+  { key: "weight", label: "Weight", unit: " kg", icon: faWeightHanging, color: "#9a6b3f", digits: 2 },
+];
 
 const Graphs = () => {
   const location = useLocation();
-  const beehiveData = location.state?.beehiveData;
   const navigate = useNavigate();
-  console.log(beehiveData);
+  const beehiveData = location.state?.beehiveData;
 
-  useEffect(() => {
-    if (beehiveData) {
-      // Load the data into your state or do something with it
-
-      setTableData(beehiveData);
-    }
-  }, [beehiveData]);
-
-  const [showTable, setShowTable] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const backgroundClick = useRef(null);
-
-  const [weightDuration, setWeightDuration] = useState("hour");
-  const [temperatureDuration, setTemperatureDuration] = useState("hour");
-  const [humidityDuration, setHumidityDuration] = useState("hour");
-  const [CO2Duration, setCO2Duration] = useState("hour");
-
-
-  useEffect(() => {
-    document.addEventListener("click", handleBackgroundClick);
-
-    return () => {
-      document.removeEventListener("click", handleBackgroundClick);
-    };
-  }, []);
-
-  const handleBackgroundClick = (e) => {
-    if (e.target === backgroundClick.current) {
-      setShowTable(false);
-    }
-  };
   const [cameraRecords, setCameraRecords] = useState([]);
   const [selectedCameraRecord, setSelectedCameraRecord] = useState(null);
-  const [imageUrls, setImageUrls] = useState([
-    "https://img.freepik.com/premium-photo/bees-entering-beehive-with-collected-floral-nectar_130265-3819.jpg?w=1380",
-    "https://static3.bigstockphoto.com/8/5/2/large1500/258793825.jpg",
-  ]);
+  const [tableConfig, setTableConfig] = useState(null);
+  const [durations, setDurations] = useState({
+    temperature: "day",
+    humidity: "day",
+    CO2: "day",
+    weight: "day",
+  });
 
   useEffect(() => {
-    const fetchCameraRecords = async () => {
-      const data = await getCameraRecordByBeehiveId(beehiveData._id);
+    if (!beehiveData) return undefined;
+
+    let cancelled = false;
+
+    const load = async () => {
+      // The two requests are independent. Camera records answer 404 for a hive
+      // that has none, and that rejection used to skip setIsLoading(false) and
+      // strand the whole page on "Loading..." forever.
+      const [metrics, camera] = await Promise.allSettled([
+        getBeehiveMetricsByBeehiveId(beehiveData._id),
+        getCameraRecordByBeehiveId(beehiveData._id),
+      ]);
+
+      if (cancelled) return;
+
+      if (metrics.status === "fulfilled") {
+        // A null from a failed sensor read would crash the .toFixed() calls in
+        // the summary tiles, so incomplete readings are dropped here.
+        setData(
+          metrics.value.filter(
+            (m) =>
+              m.temperature != null &&
+              m.humidity != null &&
+              m.CO2 != null &&
+              m.weight != null
+          )
+        );
+      }
+
+      if (camera.status === "fulfilled") {
+        const records = camera.value.cameraRecords ?? [];
+        setCameraRecords(records);
+        setSelectedCameraRecord(records[0] ?? null);
+      }
+
       setIsLoading(false);
-      console.log(data);
-      setCameraRecords(data.cameraRecords);
-
-      setSelectedCameraRecord(data.cameraRecords[0]);
-      console.log(data.cameraRecords[0]);
-      setImageUrls(data.cameraRecords[0].sample_image_urls);
     };
-    fetchCameraRecords();
 
-    console.log(cameraRecords);
-  }, []);
-  // const handleDownloadCsv = (beehiveId) => {
-  //   downloadBeehiveMetricsCsv(beehiveId)
-  //     .then((response) => {
-  //       console.log(response);
-  //       const url = window.URL.createObjectURL(new Blob([response.data]));
-  //       const link = document.createElement("a");
-  //       link.href = url;
-  //       link.setAttribute("download", `beehive-metrics-${beehiveId}.csv`); // or any other filename
-  //       document.body.appendChild(link);
-  //       link.click();
-  //       link.parentNode.removeChild(link);
-  //     })
-  //     .catch((error) => console.error("Error downloading CSV file:", error));
-  // };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [beehiveData]);
 
-  const handleDownloadCsv = async (beehiveId) => {
-    const response = await downloadBeehiveMetricsCsv(beehiveId);
-    console.log(response);
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `beehive-metrics-${beehiveId}.csv`); // or any other filename
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
+  // Reached by typing /graph directly, where there is no hive in router state.
+  if (!beehiveData) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  const latest = data[data.length - 1];
+
+  const handleDownloadCsv = async () => {
+    try {
+      const response = await downloadBeehiveMetricsCsv(beehiveData._id);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `beehive-metrics-${beehiveData._id}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading CSV file:", error);
+    }
   };
 
-  const [data, setData] = useState([
-    {
-      createdAt: "2024-01-01T10:00:00.000Z",
-      temperature: 12,
-      humidity: 60,
-      CO2: 300,
-      weight:20,
-    },
-    // {
-    //   createdAt: "2024-01-01T11:00:00.000Z",
-    //   temperature: 15,
-    //   humidity: 65,
-    //   CO2: 320,
-    // },
-    // {
-    //   createdAt: "2024-01-01T12:00:00Z",
-    //   temperature: 14.480638127331558,
-    //   humidity: 61.105928601719484,
-    //   CO2: 353,
-    // },
-    // {
-    //   createdAt: "2024-01-01T13:00:00Z",
-    //   temperature: 14.312689925488288,
-    //   humidity: 59.01917911620542,
-    //   CO2: 327,
-    // },
-    // {
-    //   createdAt: "2024-01-01T14:00:00Z",
-    //   temperature: 13.323954187164201,
-    //   humidity: 66.20053437080327,
-    //   CO2: 337,
-    // },
-    // {
-    //   createdAt: "2024-01-01T15:00:00Z",
-    //   temperature: 15.787548422931067,
-    //   humidity: 68.99521451828583,
-    //   CO2: 396,
-    // },
-    // {
-    //   createdAt: "2024-01-01T16:00:00Z",
-    //   temperature: 13.269477066827797,
-    //   humidity: 50.27777777763697,
-    //   CO2: 360,
-    // },
-    // {
-    //   createdAt: "2024-01-01T17:00:00Z",
-    //   temperature: 16.86646918373297,
-    //   humidity: 55.02876886162029,
-    //   CO2: 334,
-    // },
-    // {
-    //   createdAt: "2024-01-01T18:00:00Z",
-    //   temperature: 14.726577354647768,
-    //   humidity: 57.4560784122444,
-    //   CO2: 382,
-    // },
-    // {
-    //   createdAt: "2024-01-01T19:00:00Z",
-    //   temperature: 14.950598344062467,
-    //   humidity: 65.566236593079,
-    //   CO2: 341,
-    // },
-    // {
-    //   createdAt: "2024-01-01T20:00:00Z",
-    //   temperature: 12.827280451977341,
-    //   humidity: 63.294163336436114,
-    //   CO2: 358,
-    // },
-    // {
-    //   createdAt: "2024-01-01T21:00:00Z",
-    //   temperature: 13.284715345942043,
-    //   humidity: 55.44195549343026,
-    //   CO2: 350,
-    // },
-  ]);
-
-  useEffect(() => {
-    const fetchBeehiveMetrics = async () => {
-      const data = await getBeehiveMetricsByBeehiveId(beehiveData._id);
-      for (let i = 0; i < data.length; i++) {
-      //generate a random number between 4.59 and 4.61
-      const randomWeight = Math.random() * (4.70 - 4.56) + 4.56;
-      data[i].weight = randomWeight;
-      
-      }
-      console.log(data);
-      setData(data);
-    };
-    fetchBeehiveMetrics();
-  }, []);
-
-  const [showingData, setShowingData] = useState(data);
-
   return (
-    <div className="dashboard_container">
+    <div className="graphs-page">
       <Navbar />
-      {showTable && (
-        <div className="table">
-          <div className="table_container">
-            <button
-              className="close_button"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowTable(false);
-              }}
-            >
-              <IoCloseCircleOutline />
-            </button>
-            
 
-            <select className="sort_button" name="sort" id="sort">
-              <option value="hour">Last hour</option>
-              <option value="day">Day</option>
-              <option value="week">Week</option>
-              <option value="month">Month</option>
-            </select>
+      <main className="graphs-main">
+        <header className="graphs-head">
+          <button
+            type="button"
+            className="graphs-back"
+            onClick={() => navigate("/dashboard")}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+            Dashboard
+          </button>
 
-            <div className="table_background" ref={backgroundClick}>
-              <Table data={showingData} dataKeys={tableData} />
-            </div>
+          <div className="graphs-head__title">
+            <h1>{beehiveData.name}</h1>
+            {beehiveData.location && (
+              <p>
+                <FontAwesomeIcon icon={faLocationDot} />
+                {beehiveData.location}
+              </p>
+            )}
           </div>
-        </div>
-      )}
-      {!isLoading ? (
-        <div className="graph_container">
-          <div className="graph_header">
-          <p className="topic">{beehiveData.name}</p>
-          <button
-            className="export_button"
-            onClick={(e) => {
-              e.preventDefault();
-              handleDownloadCsv(beehiveData._id);
-            }}
-          >
-            <TiExportOutline /> Export
+
+          <button type="button" className="graphs-export" onClick={handleDownloadCsv}>
+            <FontAwesomeIcon icon={faFileCsv} />
+            Export CSV
           </button>
-          <button
-            className="back-button"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/dashboard");
-            }}
-          >
-            <TiArrowBack/>Back
-          </button>
+        </header>
+
+        <section className="graphs-summary">
+          {CHARTS.map(({ key, label, unit, icon, digits }) => (
+            <div key={key} className={`graphs-stat graphs-stat--${key}`}>
+              <span className="graphs-stat__icon">
+                <FontAwesomeIcon icon={icon} />
+              </span>
+              <span className="graphs-stat__text">
+                <small>{label}</small>
+                <strong>
+                  {latest && Number.isFinite(Number(latest[key]))
+                    ? `${Number(latest[key]).toFixed(digits)}${unit}`
+                    : "—"}
+                </strong>
+              </span>
             </div>
-          <div className="graph_card_container">
-            <div className="graph_card">
-              <div className="graph" id="graph1">
-                <div className="graph_details">
-                  <p>Weight</p>
-                  <p className="value">
-                    {data[data.length - 1].weight.toFixed(1)} kg</p>
-                </div>
-                <hr />
-                <div className="sort">
-                  <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setWeightDuration(e.target.value)}>
-                    <option value="hour">Last hour</option>
-                    <option value="day">Day</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                  </select>
-                </div>
-                <button
-                  className="info_button"
-                  onClick={() => {
-                    setShowTable(true);
-                    setShowingData(data);
-                    setTableData(["weight"]);
-                  }}
-                >
-                  i
-                </button>
+          ))}
+
+          <div className="graphs-stat graphs-stat--battery">
+            <span className="graphs-stat__text">
+              <small>Battery</small>
+              <BatteryIndicator
+                level={Number(beehiveData.Battery_level)}
+                showLabel
+              />
+            </span>
+          </div>
+        </section>
+
+        {isLoading ? (
+          <div className="graphs-grid">
+            {CHARTS.map(({ key }) => (
+              <div key={key} className="graphs-skeleton" />
+            ))}
+          </div>
+        ) : data.length === 0 ? (
+          <div className="graphs-empty">
+            <h2>No readings yet</h2>
+            <p>This hive has not reported any measurements so far.</p>
+          </div>
+        ) : (
+          <div className="graphs-grid">
+            {CHARTS.map(({ key, label, unit, color, digits }) => (
+              <article key={key} className="graph-card">
+                <header className="graph-card__head">
+                  <div>
+                    <h2>{label}</h2>
+                    <strong style={{ color }}>
+                      {latest && Number.isFinite(Number(latest[key]))
+                        ? `${Number(latest[key]).toFixed(digits)}${unit}`
+                        : "—"}
+                    </strong>
+                  </div>
+
+                  <div className="graph-card__controls">
+                    <select
+                      value={durations[key]}
+                      aria-label={`${label} time range`}
+                      onChange={(e) =>
+                        setDurations({ ...durations, [key]: e.target.value })
+                      }
+                    >
+                      {DURATIONS.map((d) => (
+                        <option key={d.value} value={d.value}>
+                          {d.label}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      aria-label={`Show ${label} readings as a table`}
+                      onClick={() =>
+                        setTableConfig({ key, label, unit, color, digits })
+                      }
+                    >
+                      <FontAwesomeIcon icon={faTableList} />
+                    </button>
+                  </div>
+                </header>
+
                 <MyChartHandler
                   data={data}
-                  dataKeys={["weight"]}
-                  colors={["#8884d8"]}
-                  type = "area"
-                  duration={weightDuration}
+                  dataKeys={[key]}
+                  colors={[color]}
+                  unit={unit}
+                  type="area"
+                  duration={durations[key]}
                 />
-              </div>
-            </div>
-
-            <div className="graph_card">
-              <div className="graph" id="graph2">
-                <div className="graph_details">
-                  <p>Tempreture</p>
-                  <p className="value">
-                    {data[data.length - 1].temperature.toFixed(1)} °C
-                  </p>
-                </div>
-                <hr />
-                <div className="sort">
-                  <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setTemperatureDuration(e.target.value)}>
-                    <option value="hour">Last hour</option>
-                    <option value="day">Day</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                  </select>
-                </div>
-                <button
-                  className="info_button"
-                  onClick={() => {
-                    setShowTable(true);
-                    setShowingData(data);
-                    setTableData(["temperature"]);
-                  }}
-                >
-                  i
-                </button>
-                <div
-                  onClick={() => {
-                    setShowTable(true);
-                    setTableData(["temperature"]);
-                  }}
-                  className="graph_click"
-                >
-                  <MyChartHandler
-                    data={data}
-                    dataKeys={["temperature"]}
-                    colors={["#82ca9d"]}
-                    
-                  type = "area"
-                  duration={temperatureDuration}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="graph_card">
-              <div className="graph" id="graph1">
-                <div className="graph_details">
-                  <p>Humidity</p>
-                  <p className="value">
-                    {data[data.length - 1].humidity.toFixed(1)} %
-                  </p>
-                </div>
-                <hr />
-                <div className="sort">
-                  <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setHumidityDuration(e.target.value)}>
-                    <option value="hour">Last hour</option>
-                    <option value="day">Day</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                  </select>
-                </div>
-                <button
-                  className="info_button"
-                  onClick={() => {
-                    setShowTable(true);
-                    setShowingData(data);
-                    setTableData(["humidity"]);
-                  }}
-                >
-                  i
-                </button>
-                <div
-                  onClick={() => {
-                    setShowTable(true);
-                    setTableData(["humidity"]);
-                  }}
-                  className="graph_click"
-                >
-                  <MyChartHandler
-                    data={data}
-                    dataKeys={["humidity"]}
-                    colors={["#8884d8"]}
-                    type = "area"
-                  duration={humidityDuration}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="graph_card">
-              <div className="graph" id="graph1">
-                <div className="graph_details">
-                  <p>CO&#8322; Level</p>
-                  <p className="value">
-                    {data[data.length - 1].CO2.toFixed(2)} ppm
-                  </p>
-                </div>
-                <hr />
-                <div className="sort">
-                  <p>Variation Through :</p>
-                  <select className="dropdown" name="sort" id="sort" onChange={(e)=>setCO2Duration(e.target.value)}>
-                    <option value="hour">Last hour</option>
-                    <option value="day">Day</option>
-                    <option value="week">Week</option>
-                    <option value="month">Month</option>
-                  </select>
-                </div>
-                <button
-                  className="info_button"
-                  onClick={() => {
-                    setShowTable(true);
-                    setShowingData(data);
-                    setTableData(["CO2"]);
-                  }}
-                >
-                  i
-                </button>
-                <div
-                  onClick={() => {
-                    setShowTable(true);
-                    setShowingData(data);
-                    setTableData(["CO2"]);
-                  }}
-                  className="graph_click"
-                >
-                  <MyChartHandler
-                    data={data}
-                    dataKeys={["CO2"]}
-                    colors={["#ff8042"]}
-                    type = "area"
-                  duration={CO2Duration}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="general_info_card">
-              <div className="general_info">
-                <p>General Informations:</p>
-                <div className="general_info_details">
-                  <div className="info_box">
-                    <p className="key">Age of the hive</p>
-                    <p className="value">2 months</p>
-                  </div>
-                  <div className="info_box">
-                    <p className="key">Connection Status</p>
-                    <p className="value">Connected 🟢</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="video_card">
-              <div className="video_container">
-                <button
-                  className="info_button"
-                  onClick={() => {
-                    setShowTable(true);
-                    setShowingData(cameraRecords);
-                    setTableData(["folder_size", "folder_name", "isRetrieved"]);
-                  }}
-                >
-                  i
-                </button>
-                <div className="video">
-                  {selectedCameraRecord && imageUrls.length > 0 ? (
-                    <ImageCarousel imageUrls={imageUrls} />
-                  ) : (
-                    <p>No videos available</p>
-                  )}
-                </div>
-                <div className="vl"></div>
-                <div className="video_details">
-                  <select
-                    name="select-camera-record"
-                    id="camera-record-select"
-                    onChange={(e) => {
-                      const selectedRecord = cameraRecords.find(
-                        (record) => record._id === e.target.value
-                      );
-                      if (selectedRecord) {
-                        setSelectedCameraRecord(selectedRecord);
-                        setImageUrls(selectedRecord.sample_image_urls);
-                      }
-                    }}
-                  >
-                    {cameraRecords.map((cameraRecord) => (
-                      <option
-                        value={cameraRecord._id}
-                        key={cameraRecord._id} // Added a key for better React performance
-                      >
-                        {cameraRecord.createdAtLocal.slice(0, 20)}
-                      </option>
-                    ))}
-                  </select>
-                  <p>Folder Size</p>
-                  <p className="value">
-                    {selectedCameraRecord
-                      ? (
-                          Number(
-                            selectedCameraRecord.folder_size.split(" ")[0]
-                          ) / 1048576
-                        ).toFixed(2) + " MB"
-                      : "N/A"}
-                  </p>
-                  <p>Video Duration</p>
-                  <p className="value">10 min</p>
-                </div>
-              </div>
-            </div>
+              </article>
+            ))}
           </div>
-        </div>
-      ) : (
-        <>
-          <h1>Loading ...</h1>
-        </>
+        )}
+
+        <section className="graphs-camera">
+          <header>
+            <h2>
+              <FontAwesomeIcon icon={faVideo} />
+              Camera records
+            </h2>
+            {cameraRecords.length > 0 && (
+              <select
+                aria-label="Select a camera record"
+                onChange={(e) =>
+                  setSelectedCameraRecord(
+                    cameraRecords.find((r) => r._id === e.target.value) ?? null
+                  )
+                }
+              >
+                {cameraRecords.map((record) => (
+                  <option value={record._id} key={record._id}>
+                    {record.createdAtLocal?.slice(0, 20) ?? "Recording"}
+                  </option>
+                ))}
+              </select>
+            )}
+          </header>
+
+          {selectedCameraRecord?.sample_image_urls?.length ? (
+            <div className="graphs-camera__body">
+              <ImageCarousel imageUrls={selectedCameraRecord.sample_image_urls} />
+              <dl className="graphs-camera__meta">
+                <div>
+                  <dt>Folder size</dt>
+                  <dd>
+                    {(
+                      Number(selectedCameraRecord.folder_size.split(" ")[0]) /
+                      1048576
+                    ).toFixed(2)}{" "}
+                    MB
+                  </dd>
+                </div>
+                <div>
+                  <dt>Duration</dt>
+                  <dd>10 min</dd>
+                </div>
+              </dl>
+            </div>
+          ) : (
+            <p className="graphs-camera__empty">
+              No camera records for this hive.
+            </p>
+          )}
+        </section>
+      </main>
+
+      {tableConfig && (
+        <MetricTableModal
+          metric={tableConfig}
+          data={data}
+          hiveName={beehiveData.name}
+          onClose={() => setTableConfig(null)}
+        />
       )}
     </div>
   );

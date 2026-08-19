@@ -1,76 +1,122 @@
+@import "../tokens";
+
+/*
+Add-beehive dialog. Note the form is inert: AddCard's submit handler only calls
+preventDefault, and the card itself is currently commented out of the dashboard.
+Styled to match so it is not off-theme if it gets wired up.
+*/
+
 body.active-modal {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 
-.modal, .overlay {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
 }
 
 .overlay {
-    background: rgba(49,49,49,0.8);
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 27, 35, 0.55);
+  backdrop-filter: blur(3px);
 }
+
 .modal-content {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    line-height: 1.4;
-    background: #ffffff;
-    padding: 14px 28px;
-    border-radius: 20px;
-    max-width: 600px;
-    min-width: 300px;
+  position: relative;
+  z-index: 1;
+  width: min(26rem, 100%);
+  padding: 1.75rem;
+  font-family: $font;
+  text-align: left;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-hover;
+
+  h2 {
+    margin: 0 0 1.25rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: $ink;
+  }
 }
 
 .hive-inputs {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+}
 
+.hive-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 2.9rem;
+  padding: 0 0.9rem;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-within {
+    border-color: $honey;
+    box-shadow: 0 0 0 3px rgba(247, 148, 29, 0.18);
   }
-  
-  .hive-input{
-    display: flex;
-    align-items: center;
-    margin: auto;
-    width: 300px;
-    height: 40px;
-    background: #f1f1f1;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.351);
-    border-radius: 50px;
-  }
-  
-  .hive-input input{
+
+  input {
     width: 100%;
     height: 100%;
+    font-family: $font;
+    font-size: 0.95rem;
+    text-align: left;
+    color: $ink;
+    background: none;
     border: none;
     outline: none;
-    background: none;
-    font-size: 14px;
-    color: #000000;
-    font-family: 'Raleway', sans-serif;
-    text-align: center;
-  }
 
-  .submit-button {
-    margin-top: 20px;
+    &::placeholder {
+      color: #b3bac4;
+    }
   }
-  
-  .submit-button button {
-    background-color: #253F65;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 10px 50px;
+}
+
+.submit-button {
+  margin-top: 1.5rem;
+
+  button {
+    width: 100%;
+    height: 2.9rem;
+    font-family: $font;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $ink;
+    background: $honey;
     border: none;
-    border-radius: 24px;
+    border-radius: $radius-md;
     cursor: pointer;
-    box-shadow: 0px 6px 23px -6px #253f6575;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: #ffa733;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $ink;
+      outline-offset: 2px;
+    }
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hive-input,
+  .submit-button button {
+    transition: none;
+  }
+}

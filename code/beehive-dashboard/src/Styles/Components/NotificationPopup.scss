@@ -1,75 +1,265 @@
-.notification-popup {
-    position: fixed;
-    top: 60px;
-    right: 12%;
-    width: 200px;
-    height: auto;
-    background-color: rgba(255, 255, 255, 0.718);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow-y: auto;
-    z-index: 999;
-    padding: 20px;
-    backdrop-filter: blur(10px);
-  
-    .notification-popup-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-weight: bold;
-  
-      button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-        color: #333;
-        display: flex;
-        align-items: center;
-      }
-      .close-icon {
-        margin-right: 5px;
-        color: #a90000;
-      }
+@import "../tokens";
+
+.notif {
+  position: relative;
+  font-family: $font;
+  text-align: left;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* ---------- Bell ---------- */
+
+  &__button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1rem;
+    color: $ink-soft;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &.is-active {
+      color: $ink;
+      background: rgba(31, 42, 55, 0.06);
+      border-color: $line;
     }
-  
-    .notification-popup-content {
-      .notification-item {
-        margin-bottom: 15px;
 
-        .notification-close-icon {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            color: #6b6b6b; 
-            margin-left: 5px;
-            transition: color 0.3s ease;
-
-            &:hover {
-                color: #3c3c3c;
-            }
-        }
+    &:focus-visible {
+      outline: 2px solid $honey;
+      outline-offset: 2px;
     }
   }
-  .clear-all-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-    background-color: transparent;
-    border: none;
-    border-radius: 50px;
-    color: #6b6b6b;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
+
+  &__badge {
+    position: absolute;
+    top: -0.15rem;
+    right: -0.15rem;
+    display: grid;
+    place-items: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.28rem;
+    font-size: 0.66rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    background: $danger;
+    border: 2px solid $surface;
+    border-radius: 999px;
+  }
+
+  /* ---------- Dropdown ---------- */
+
+  &__panel {
+    position: absolute;
+    top: calc(100% + 0.65rem);
+    right: 0;
+    z-index: 40;
+    width: min(22rem, calc(100vw - 2rem));
+    background: $surface;
+    border: 1px solid $line;
+    border-radius: $radius-md;
+    box-shadow: $shadow-hover;
+    overflow: hidden;
+    animation: notif-pop 0.16s ease-out;
+  }
+
+  &__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid $line;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $ink;
+
+      span {
+        display: grid;
+        place-items: center;
+        min-width: 1.3rem;
+        height: 1.3rem;
+        padding: 0 0.35rem;
+        font-size: 0.7rem;
+        color: $honey-deep;
+        background: $honey-wash;
+        border-radius: 999px;
+      }
+    }
+
+    button {
+      display: grid;
+      place-items: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      color: $muted;
+      background: none;
+      border: none;
+      border-radius: $radius-sm;
+      cursor: pointer;
+
+      &:hover {
+        color: $ink;
+        background: rgba(31, 42, 55, 0.06);
+      }
+    }
+  }
+
+  &__list {
+    max-height: 20rem;
+    overflow-y: auto;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid #f3ede3;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     &:hover {
-      color: #360f0f;
+      background: #fdfbf7;
     }
 
-    .trash-icon {
-        margin-right: 5px;
+    &-icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.8rem;
+      color: $danger;
+      background: rgba(192, 57, 43, 0.1);
+      border-radius: $radius-sm;
     }
+
+    &-body {
+      flex: 1;
+      min-width: 0;
+
+      p {
+        margin: 0;
+        font-size: 0.84rem;
+        line-height: 1.45;
+        color: $ink;
+      }
+
+      time {
+        display: block;
+        margin-top: 0.2rem;
+        font-size: 0.72rem;
+        color: $muted;
+      }
+    }
+
+    &-clear {
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      font-size: 0.72rem;
+      color: $muted;
+      background: none;
+      border: none;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      transition: color 0.15s ease, background 0.15s ease;
+
+      &:hover {
+        color: $danger;
+        background: rgba(192, 57, 43, 0.1);
+      }
+    }
+  }
+
+  &__empty {
+    padding: 2.25rem 1rem;
+    text-align: center;
+
+    svg {
+      font-size: 1.5rem;
+      color: #cfc6b6;
+    }
+
+    p {
+      margin: 0.65rem 0 0.25rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: $ink;
+    }
+
+    small {
+      font-size: 0.76rem;
+      color: $muted;
+    }
+  }
+
+  &__panel-footer {
+    padding: 0.6rem;
+    border-top: 1px solid $line;
+    background: #fdfbf7;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      width: 100%;
+      height: 2.2rem;
+      font-family: $font;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: $ink-soft;
+      background: none;
+      border: 1px solid $line;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+
+      &:hover {
+        color: $danger;
+        background: rgba(192, 57, 43, 0.06);
+        border-color: rgba(192, 57, 43, 0.3);
+      }
+    }
+  }
 }
+
+@keyframes notif-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notif__panel {
+    animation: none;
+  }
 }

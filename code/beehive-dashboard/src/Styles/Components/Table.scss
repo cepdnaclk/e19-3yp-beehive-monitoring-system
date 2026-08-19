@@ -1,86 +1,62 @@
-.table_container {
-  .data_table {
-    overflow-y: auto;
-    border-radius: 1.8em;
-    border-collapse: collapse;
-    box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.2);
-    font-size: 0.8em;
+@import "../tokens";
 
-    thead tr {
-      color: hsl(0, 0%, 95%);
-      background-color: darken($color: rgb(54, 54, 54), $amount: 2);
-      text-align: left;
-      align-items: center;
-      align-content: center;
+.data_table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $font;
+  font-size: 0.84rem;
+  text-align: left;
+
+  thead th {
+    // Sticky so the header stays put while the readings scroll under it.
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 0.75rem 0 0.5rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: $muted;
+    background: $surface;
+    border-bottom: 1px solid $line;
+    white-space: nowrap;
+
+    &.is-right {
+      text-align: right;
     }
+  }
 
-    th,
-    td {
-      border: 0.5px solid #cccccc3b;
-      padding: 1.2em 0.9em;
-      text-align: left;
-      vertical-align: middle;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  tbody td {
+    padding: 0.6rem 0;
+    color: $ink;
+    border-bottom: 1px solid #f5f0e7;
+    vertical-align: baseline;
 
-    th {
-      text-align: center;
+    &.is-right {
+      text-align: right;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
 
-    tr {
-      th:first-child,
-      td:first-child {
-        padding-left: 2em;
-      }
-
-      th:last-child,
-      td:last-child {
-        padding-right: 2em;
-      }
-
-      th:first-child {
-        border-top-left-radius: 1.8em;
-      }
-
-      th:last-child {
-        border-top-right-radius: 1.8em;
-      }
-
-      td:nth-child(9),
-      td:nth-child(10) {
-        white-space: nowrap;
-      }
-
-      td:nth-child(6) {
-        white-space: nowrap;
-        text-align: center;
-      }
-
-      &:last-child {
-        td:first-child {
-          border-bottom-left-radius: 1.8em;
-        }
-
-        td:last-child {
-          border-bottom-right-radius: 1.8em;
-        }
-      }
+    // Time cell: the clock reads first, the date sits quietly beside it.
+    b {
+      font-weight: 600;
     }
 
-    tbody {
-      tr:nth-child(even) {
-        background-color: #f2f3f3ef;
-      }
-
-      tr {
-        background-color: white;
-      }
-
-      tr:hover {
-        background-color: #e7e9eb;
-      }
+    span {
+      margin-left: 0.45rem;
+      font-size: 0.76rem;
+      color: $muted;
     }
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover td {
+    background: #fdfbf7;
   }
 }

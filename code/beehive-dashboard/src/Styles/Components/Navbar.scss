@@ -1,104 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import "../tokens";
 
 .nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 30px;
-  padding: 0 60px;
-  color: white;
-  border-bottom: 1px solid #fff;
-}
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  font-family: $font;
 
-.nav-logo img {
-  width: 150px;
-}
-
-.nav-menu {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: 'Raleway', sans-serif;
-  gap: 70px;
-  text-decoration: none;
-}
-
-.nav-menu a {
-  color: white;
-  text-decoration: none;
-}
-
-.nav-signin {
-  border-radius: 50px;
-  padding: 10px 30px;
-  background: #fff;
-  transition: background 0.3s ease;
-}
-
-.nav-signin a{
-  color: black;
-}
-
-.nav-signin:hover {
-  background: #d9d9d9;
-  box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.4);
-}
-
-.menu-icon {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .nav-menu ul li:not(:last-child) {
-    margin-right: 30px;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
-}
 
-@media (max-width: 600px) {
-  .menu-icon {
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 78rem;
+    height: 5rem;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+  }
+
+  &__logo img {
     display: block;
-    cursor: pointer;
+    width: 138px;
+    // The logo's wordmark is dark navy, which disappears against the hero
+    // photo, so it is lifted to white here and only here.
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease;
   }
 
-  .nav-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 37px;
-    right: -150px;
-    background-color: #8e8e8e48;
-    width: 150px;
-    height: 0;
-    transition: height 0.5s ease-in-out, right 0.5s ease-in-out;
-    overflow: hidden;
+  &__logo:hover img {
+    transform: translateY(-2px);
   }
 
-  .nav-menu.active {
-    height: 100vh;
-    right: 0; 
+  &__signin {
+    display: inline-flex;
+    align-items: center;
+    height: 2.5rem;
+    padding: 0 1.4rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $honey;
+      outline-offset: 3px;
+    }
   }
 
-  .nav-menu:not(.active) {
-    height: 0;
-    transition: height 0.5s ease-in-out, right 0.5s ease-in-out;
-  }
-
-  .nav-menu ul {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 20px 10px 10px 10px;
-  }
-
-  .nav-signin {
-    margin-top: 50px;
-  }
-
-  .nav-menu ul li {
-    margin: 10px 0;
-    text-align: left;
+  @media (prefers-reduced-motion: reduce) {
+    &__logo img,
+    &__signin {
+      transition: none;
+    }
   }
 }
